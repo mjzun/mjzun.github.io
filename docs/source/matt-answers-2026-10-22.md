@@ -293,3 +293,10 @@ Source: Matt's filled-in "Portfolio Questions" doc (claude.ai artifact 4df098e4)
 **66. How do you edit, and do you shoot RAW?**
 
 > yes shot raw
+
+
+## Files received 2026-10-23
+
+- **STEMPLUG** (answer 17): "Stem plug first week schedule.pdf", a weekly planner — Mon Product (Instagram & TikTok), Tue Testimonials (Instagram & TikTok), Wed Founder spotlight (LinkedIn & TikTok), Thu Event/program (Instagram & TikTok), Fri Partnership (Instagram & LinkedIn), Sat off (repost the poorest-performing post), Sun off.
+- **EdMotion** (answers 26, 28): "competitive-matrices-complete-v5-fixed…html", Matt's full dashboard. Used on the site for the scoring method only (innovation rubric weights, mobility score, research/installation/cost definitions, source types, heatmap bands). Competitor names and figures are not published.
+- **BSA** (answer 53): three photos from the 2024 Big-12 Conference on Black Student Government at Iowa State (delegation group photo, Matt's badge, airport departure).

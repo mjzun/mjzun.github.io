@@ -1,5 +1,5 @@
 ---
-# Case study: the 10-competitor dashboard and comparison heatmap built for EdMotion (track: data). Every number and outcome comes from PORTFOLIO_BRIEF.md "Verified facts", resume_v3.txt, or docs/source/matt-answers-2026-10-22.md (answers 25–28); the personal line is Matt's own words from docs/source/figma_prototype_text.md. One gap stays open in an HTML comment so it never renders on the live page.
+# Case study: the 10-competitor dashboard and comparison heatmap built for EdMotion (track: data). Every number and outcome comes from PORTFOLIO_BRIEF.md "Verified facts", resume_v3.txt, or docs/source/matt-answers-2026-10-22.md (answers 25–28); the scoring method comes from Matt's dashboard file competitive-matrices-complete-v5 (received 2026-10-23; competitor names and figures deliberately left out); the personal line is Matt's own words from docs/source/figma_prototype_text.md.
 title: "EdMotion 10-competitor dashboard and heatmap"
 slug: edmotion-competitor-heatmap
 tracks: ["data"]
@@ -24,7 +24,19 @@ images: []
 
 As an intern at EdMotion, an embodied-learning EdTech startup in Cary, North Carolina, I built a 10-competitor dashboard and a comparison heatmap. Each competitor was scored on five criteria: price, installs, distribution model, technological novelty, and research backing. The heatmap put all ten competitors and all five criteria in a single comparison view.
 
-<!-- TODO(Matt): Upload the file that documents the scoring method for each criterion, where the price and install data came from, and how the five criteria were chosen (answers 26 and 28). Add a short note here from that file once it is in docs/source/. -->
+## How it was scored
+
+The dashboard has four views: research against market reach, innovation against mobility, price against adoption, and a heatmap that puts every company's scores side by side.
+
+- **Innovation** is a 100-point rubric with seven weighted parts: AI and machine learning (25), sensor technology (20), cloud analytics (15), content personalization (15), platform capabilities (10), interaction methods (10), and patents (5).
+- **Mobility** is a 10-point score: 7 for how easily the system moves between rooms, 3 for how many surfaces it can project onto.
+- **Research** counts the peer-reviewed studies and research items found for each product.
+- **Installations** come from vendor and partner listings and sales notes. Where no count was published, it was estimated from reported revenue divided by the per-system price.
+- **System cost** is the first three years of ownership, from vendor and reseller pricing.
+
+Each company's profile also records its distribution channel, taken from reseller and distributor listings. In the heatmap, each score falls into one of five color bands, from Low to Excellent, scaled against the strongest company on that metric. For cost, lower scores better.
+
+Competitor names and their figures stay off this page.
 
 ## Outcome
 

@@ -1,5 +1,5 @@
 ---
-# Case study: STEMPLUG social relaunch (design + presentation tracks). Every number, date, and outcome comes from PORTFOLIO_BRIEF.md "Verified facts" (STEMPLUG entry), docs/source/resume_v3.txt, or Matt's answers 16–18 in docs/source/matt-answers-2026-10-22.md. The one open gap is marked in an HTML comment so nothing unverified renders on the live page.
+# Case study: STEMPLUG social relaunch (design + presentation tracks). Every number, date, and outcome comes from PORTFOLIO_BRIEF.md "Verified facts" (STEMPLUG entry), docs/source/resume_v3.txt, or Matt's answers 16–18 in docs/source/matt-answers-2026-10-22.md, plus his "Stem plug first week schedule" planner (received 2026-10-23).
 title: "STEMPLUG social relaunch"
 slug: stemplug-social-relaunch
 tracks: ["design", "presentation"]
@@ -27,7 +27,17 @@ images: []
 
 STEMPLUG makes books, robotics kits, and hands-on STEM programs for underrepresented youth. When I joined as a remote Marketing and Growth Intern in May 2026, its TikTok account had been dormant for roughly three years. I relaunched the account and now produce an ongoing Instagram and TikTok content series that promotes the books, kits, and programs. Alongside the content, I coordinate logistics and promotion for STEMPLUG's STEM workshops and community events.
 
-<!-- TODO(Matt): upload your "STEMPLUG first week schedule" file. It covers the series formats, how often you post, and what the relaunch video was about; one or two sentences from it go here. -->
+I planned the series as a weekly rhythm, one theme per weekday and the weekend off. This is the first-week schedule from my planner:
+
+| Day | Theme | Platforms |
+| --- | --- | --- |
+| Monday | Product | Instagram & TikTok |
+| Tuesday | Testimonials | Instagram & TikTok |
+| Wednesday | Founder spotlight | LinkedIn & TikTok |
+| Thursday | Event / program | Instagram & TikTok |
+| Friday | Partnership | Instagram & LinkedIn |
+| Saturday | Off — repost the poorest-performing post | — |
+| Sunday | Off | — |
 
 ## Outcome
 

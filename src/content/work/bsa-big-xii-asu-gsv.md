@@ -15,8 +15,17 @@ outcome: "We always raised enough, through fundraising and the president's offic
 # tools is empty on purpose: no source lists software for the BSA work; it was mostly meetings, logistics, and fundraising.
 tools: []
 # images: exported from the old Figma prototype (Design - Project 3, BSA tab). The Guns Up photo subject gave verbal consent when it was taken (answer 52).
-# TODO(Matt): upload photos from the Big XII Black Student Government Delegate role or the 2026 ASU+GSV Summit (answer 53: coming later).
+# Big XII photos: sent by Matt 2026-10-23 from the 2024 conference at Iowa State (the 47th Annual Big-12 Conference on Black Student Government, per his badge). ASU+GSV photos may still come.
 images:
+  - src: "../../assets/work/bsa-big-xii-asu-gsv/big-xii-2024-iowa-state-delegation.jpg"
+    alt: "A group of Texas Tech students in business dress smiling and throwing up the Guns Up hand sign in a wood-paneled conference room at the 2024 Big-12 Conference on Black Student Government."
+    caption: '"PHOTO" TEXAS TECH DELEGATION · BIG-12 CONFERENCE ON BLACK STUDENT GOVERNMENT · IOWA STATE · 2024'
+  - src: "../../assets/work/bsa-big-xii-asu-gsv/big-xii-2024-conference-badge.jpg"
+    alt: "Matt's name badge held up in front of the stage: 47th Annual Big-12 Conference on Black Student Government, Matthew Zuniga, Texas Tech University."
+    caption: '"BADGE" 47TH ANNUAL BIG-12 CONFERENCE ON BLACK STUDENT GOVERNMENT · "THE GREAT EXPRESSIONS: UNEARTHING OUR ROOTS & OWNING OUR TRUTHS" · 2024'
+  - src: "../../assets/work/bsa-big-xii-asu-gsv/big-xii-2024-airport-departure.jpg"
+    alt: "The Texas Tech delegation with backpacks and luggage at an airport security checkpoint, heading to the 2024 Big-12 conference."
+    caption: '"PHOTO" DEPARTING FOR THE BIG-12 CONFERENCE · 2024'
   - src: "../../assets/work/bsa-big-xii-asu-gsv/bsa-officers-group-portrait.jpg"
     alt: "Twelve students in matching red polos with raised-fist logos posed in two rows for an officer group portrait"
     caption: '"GROUP PORTRAIT" OFFICERS · MATCHING RED POLOS · RAISED-FIST LOGO'
