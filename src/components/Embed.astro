@@ -1,0 +1,67 @@
+---
+// Embed.astro — a labelled window that holds a live, interactive piece (like the EdMotion dashboard) in an iframe. Nothing heavy loads until the visitor presses "LOAD LIVE DASHBOARD", so the case-study page stays fast; without JavaScript the button is a plain link that opens the piece full screen.
+interface Props {
+  /** Path of the embedded page in public/, e.g. "/embeds/edmotion-dashboard/". */
+  src: string;
+  /** The window's literal name, shown in quotes, e.g. "DASHBOARD". */
+  title: string;
+  /** One line under the bar, e.g. what was withheld. */
+  note?: string;
+  /** Frame height in px on desktop. */
+  height?: number;
+}
+const { src, title, note, height = 760 } = Astro.props;
+---
+
+<div class="embed" data-embed={src} style={`--embed-h:${height}px`}>
+  <div class="embed__bar">
+    <span class="label fine"><span class="q">{title}</span> <span class="mono">INTERACTIVE</span></span>
+    <a class="mono fine upper embed__full" href={src} target="_blank" rel="noopener"><span class="q">OPEN FULL SCREEN</span> ↗</a>
+  </div>
+  {note && <p class="mono fine upper embed__note">{note}</p>}
+  <div class="embed__stage">
+    <a class="embed__load" href={src} data-embed-load><span class="q">LOAD LIVE DASHBOARD</span> →</a>
+  </div>
+</div>
+
+<script>
+  // Swap the "LOAD" button for the live iframe only when asked, so the dashboard's scripts never slow the first page load.
+  document.querySelectorAll<HTMLElement>('[data-embed]').forEach((box) => {
+    const btn = box.querySelector<HTMLAnchorElement>('[data-embed-load]');
+    const stage = box.querySelector<HTMLElement>('.embed__stage');
+    if (!btn || !stage) return;
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const frame = document.createElement('iframe');
+      frame.src = box.dataset.embed || btn.href;
+      frame.title = (box.querySelector('.embed__bar .q')?.textContent || 'Embedded piece') + ' — interactive';
+      frame.loading = 'eager';
+      stage.replaceChildren(frame);
+      frame.focus();
+    });
+  });
+</script>
+
+<style>
+  .embed { border: 1px solid var(--ink); margin: var(--s-6) 0; }
+  .embed__bar {
+    display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: var(--s-2);
+    padding: var(--s-2) var(--s-3); border-bottom: 1px solid var(--ink);
+  }
+  .embed__full { color: var(--link); }
+  .embed__note { padding: var(--s-2) var(--s-3) 0; }
+  .embed__stage {
+    height: min(var(--embed-h), 80vh);
+    display: grid; place-items: center;
+    background: repeating-linear-gradient(45deg, transparent 0 12px, color-mix(in srgb, var(--ink) 6%, transparent) 12px 24px);
+  }
+  .embed__stage :global(iframe) { width: 100%; height: 100%; border: 0; display: block; background: #fff; }
+  .embed__load {
+    display: inline-flex; align-items: center; gap: var(--s-1);
+    min-height: var(--hit); padding: 0 var(--s-4);
+    background: var(--ink); color: var(--paper); border: 1px solid var(--ink); text-decoration: none;
+    font-family: var(--font-grotesk); font-weight: 700; font-size: var(--fs-label); text-transform: uppercase;
+  }
+  .embed__load:hover, .embed__load:focus-visible { background: var(--paper); color: var(--ink); }
+  @media (max-width: 640px) { .embed__stage { height: 75vh; } }
+</style>

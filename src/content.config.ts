@@ -18,6 +18,8 @@ const work = defineCollection({
     // lead: true puts this piece in the large "LEAD PROJECT" block at the top of the home page (one piece at a time).
     lead: z.boolean().optional(),
     // hero: a looping demo video shown full-width behind the top of the case study (files live in public/).
+    // embed: a live interactive piece (an HTML page in public/) shown in a labelled window that loads on demand.
+    embed: z.object({ src: z.string(), title: z.string(), note: z.string().optional(), height: z.number().optional() }).optional(),
     hero: z.object({ mp4: z.string(), webm: z.string().optional(), poster: z.string(), caption: z.string().optional(), width: z.number().optional(), height: z.number().optional() }).optional(),
     order: z.number(),
     date: z.string(), // "YYYY-MM" end date; may still be a TODO string while Matt fills it in

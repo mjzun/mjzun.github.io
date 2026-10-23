@@ -42,7 +42,7 @@ Home-page line that holds every track (tune wording later):
 - Resolved 2–3 hardware, AV, and network issues per week.
 
 **EdMotion — Intern, Aug 2025 – May 2026**
-- 10-competitor dashboard and comparison heatmap scoring price, installs, distribution model, technological novelty, and research backing; it changed how the company understood distribution relative to price and technological novelty.
+- 8-competitor dashboard and comparison heatmap scoring price, installs, distribution model, technological novelty, and research backing; it changed how the company understood distribution relative to price and technological novelty.
 - Compiled a contact database of 21st Century Community Learning Centers (21st CCLC) program leads in every state; helped open the company's first institutional conversations in North Carolina (count unconfirmed — do not state a number).
 - Sharing: confirm with EdMotion what can be shown publicly; anonymize competitor names if needed.
 

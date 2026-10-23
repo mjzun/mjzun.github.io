@@ -3,7 +3,7 @@ Zun@Ad.UNC.edu  •  linkedin.com/in/mjzun  •  github.com/mjzun  •  Portfoli
 SUMMARY 
 Designer and analyst with an M.A. in Educational Innovation, Technology, and Entrepreneurship (UNC Chapel Hill; High Pass in every 
 course) and a B.A. in Digital Media. Rebuilt a defunct campus program’s visual identity from scratch and produced 60+ pieces for 25–
-30 events at Texas Tech; built the 10-competitor dashboard and heatmap that reshaped an EdTech startup’s read on its market; 
+30 events at Texas Tech; built the 8-competitor dashboard and heatmap that reshaped an EdTech startup’s read on its market; 
 replicated a published AI-adoption study in Python. Represented 11,553 graduate and professional students as Student Government 
 Vice President and served as a graduate voice on UNC’s Provost’s Generative AI Committee. 
 EDUCATION 
@@ -29,7 +29,7 @@ UNC School of Education & Kenan-Flagler Business School  |  Chapel Hill, NC
 organic visitors. 
 Intern Aug 2025 – May 2026 
 EdMotion  |  Cary, NC 
-• Built a 10-competitor dashboard and comparison heatmap scoring price, installs, distribution model, technological novelty, and 
+• Built an 8-competitor dashboard and comparison heatmap scoring price, installs, distribution model, technological novelty, and 
 research backing — reshaping how the CEO understood the embodied-learning market’s distribution and pricing. 
 • Compiled a contact database of 21st Century Community Learning Centers (21st CCLC) program leads in every state, and helped 
 open the company’s first institutional conversations in North Carolina. 
