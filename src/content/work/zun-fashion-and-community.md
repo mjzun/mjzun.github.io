@@ -1,19 +1,18 @@
 ---
-# Case study: ZUN (Matt's own streetwear brand) and modeling for Lubbock designers. Personal project — the story is Matt's own words from docs/source/figma_prototype_text.md (Innovation → Fashion tab). PORTFOLIO_BRIEF.md "Verified facts" (the only allowed source for numbers, dates, and outcomes) and the resume hold nothing on ZUN, so every date, count, and outcome on this page is a TODO(Matt) until it is added to the brief.
-# TODO(Matt): confirm you want this page at all. ZUN / fashion is not one of the 12 case studies in PORTFOLIO_BRIEF.md "Case studies to build", and the brief's Definition of done wants outcome numbers from Verified facts on every case study — this page has none. If you don't want it live, rename the file to _zun-fashion-and-community.md so Astro leaves it out of the Work list.
+# Case study: ZUN (Matt's own streetwear brand), modeling for local designers, and the Lubbock creatives group. Personal project. Sources: Matt's answers 54-58 in docs/source/matt-answers-2026-10-22.md and his old-portfolio words in docs/source/figma_prototype_text.md (Innovation -> Fashion tab).
 title: "ZUN, fashion, and the Lubbock creative community"
 slug: zun-fashion-and-community
 tracks: ["design"]
 featured: false
 order: 13
-# date: no source in PORTFOLIO_BRIEF.md gives a start or end date for ZUN. (The old Figma portfolio says "in development since 2021", but the brief does not verify that.)
-date: "TODO(Matt): YYYY-MM — end month if ZUN has ended, or say ongoing; the Work page sorts by this"
-timeline: "TODO(Matt): date range — no start or end date for ZUN is in the brief's Verified facts; confirm the start year, add it to the brief, then fill this in"
-role: "Founder of ZUN; model for local Lubbock designers. TODO(Matt): confirm whether to add 'co-founder of a Lubbock creatives group' — the old portfolio says you co-founded one with Chi, but the brief does not verify it"
+# date: Matt's answer 55 names 2021 (ideas), 2023 (artwork and samples) and 2024 (more pieces); he did not say whether ZUN is ongoing.
+date: "2024"
+timeline: "2021 – 2024"
+role: "Founder of ZUN; model for Polo and local designers; co-founder of a Lubbock creatives group"
 audience: "Lubbock's small, tight-knit community of designers and creatives of all kinds, and the people who interact with the ZUN brand"
-constraint: "TODO(Matt): what shapes the work? No source states a constraint — time alongside school and design jobs, budget, or working solo versus with other creatives?"
-outcome: "TODO(Matt): one line with a number from PORTFOLIO_BRIEF.md Verified facts — none exists for ZUN today; add to the brief first (pieces made or sold, shows walked, creatives-group member count), then write it here"
-tools: [] # TODO(Matt): no source ties any tool to ZUN. Which do you use for ZUN designs and shoots? Fill this list and the Tools section below.
+constraint: "A personal brand built in stages: first ideas in 2021, artwork and samples in 2023, more in 2024"
+outcome: "Walked in a handful of shows for Polo and local designers, and co-founded a Lubbock creatives group with 100+ members"
+tools: ["Adobe Creative Suite", "Craft-store materials"]
 # images: from the old Figma portfolio's Fashion tab (Design - Project 1), strongest first.
 images:
   - src: "../../assets/work/zun-fashion-and-community/runway-lineup-downtown-lubbock.jpg"
@@ -53,25 +52,23 @@ images:
 
 ## What I made
 
-ZUN is my brand. Every creative idea I have is tied to it in some way, even when it is not fully fleshed out. Right now it is mainly a streetwear brand; over time I want it to become a gallery, clothing, and a corner for culture.
+ZUN is my brand. It has been in development since 2021. Every creative idea I have is tied to it in some way, even when it is not fully fleshed out. Right now it is mainly a streetwear brand; over time I want it to become a gallery, clothing, and a corner for culture.
 
-TODO(Matt): when did ZUN start? The old portfolio says "in development since 2021", but that year is not in PORTFOLIO_BRIEF.md Verified facts. Add it to the brief, then restore the sentence "It has been in development since [year]."
+The first ideas came in 2021. I created artwork and samples in 2023, and made more in 2024.
 
 The name comes from my last name, Zuniga, which I only used to share with my mother until she got married and changed hers. I put ZUN on everything as a way to build a "family" among the people who interact with the brand, and to keep that legacy alive.
 
-Alongside the brand, I model for local designers. Lubbock has a small but tight-knit community of designers and creatives of all kinds that gave me a sense of true family in my home away from home.
+Alongside the brand, I model for designers. Lubbock has a small but tight-knit community of designers and creatives of all kinds that gave me a sense of true family in my home away from home.
 
-TODO(Matt): the old portfolio says you and your close friend Chi co-founded a creatives group in Lubbock with 100+ members. Neither the group nor the member count is in the brief's Verified facts. Confirm both (and whether Chi is fine being named), add them to the brief, then restore the sentence here.
+My close friend Chi and I co-founded a creatives group in Lubbock with over 100 members of the community. We talk every day about the projects and opportunities we are part of, to boost productivity.
 
 Downtown Lubbock also hosts First Friday Art Trail, a monthly gathering of creatives and business owners from all over the city: fashion shows, live music, metal working.
 
 ## Outcome
 
-TODO(Matt): this section needs outcomes with numbers from PORTFOLIO_BRIEF.md Verified facts, and none exist for ZUN yet. Add to the brief, then write them here:
-- Your first show — the old portfolio lists "May 2024 - Key Johnson" with no detail. What was the date, what kind of show was it, what was it called, and what was Key Johnson's role (designer, host, organizer)?
-- How many ZUN pieces have you made or sold?
-- Have you shown ZUN or modeled at First Friday Art Trail? The old portfolio describes FFAT but does not say you took part.
-- The creatives group: confirm you co-founded it and its member count.
+- I walked in a handful of shows for Polo and for local designers. My first show was in May 2024.
+- Chi and I co-founded a Lubbock creatives group with over 100 members.
+- I created ZUN artwork and samples in 2023, and more pieces in 2024.
 
 ## Process
 
@@ -79,4 +76,4 @@ Virgil Abloh is my inspiration in all that I try to create. He applied himself t
 
 ## Tools
 
-TODO(Matt): which tools do you use for ZUN designs and shoots? No source names any.
+I designed ZUN in Adobe Creative Suite and built pieces with materials from craft stores.

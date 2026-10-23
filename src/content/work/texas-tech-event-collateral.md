@@ -1,5 +1,5 @@
 ---
-# Case study page: the Texas Tech event collateral system (60+ pieces, 25–30 events, three units). Frontmatter follows docs/PLAN.md; every number comes from PORTFOLIO_BRIEF.md "Verified facts" or resume_v3.txt; the personal lines are Matt's own words from docs/source/figma_prototype_text.md; gaps are marked TODO(Matt) inside HTML comments so they never render on the live page.
+# Case study page: the Texas Tech event collateral system (60+ pieces, 25–30 events, three units). Frontmatter follows docs/PLAN.md; every number comes from PORTFOLIO_BRIEF.md "Verified facts" or resume_v3.txt; the personal lines are Matt's own words from docs/source/figma_prototype_text.md; Process, tools, and the template-system lines come from Matt's answers 12–15 in docs/source/matt-answers-2026-10-22.md.
 title: "Texas Tech event collateral system — 60+ pieces for 25–30 events"
 slug: texas-tech-event-collateral
 tracks: ["design"]
@@ -9,10 +9,10 @@ date: "2025-07"
 timeline: "Jan 2024 – Jul 2025"
 role: "Visual Identity and Brand Coordinator, Intercultural Education & Engagement, Texas Tech University"
 audience: "Texas Tech students; branding also had to work for departments, student organizations, and external partners"
-constraint: "25–30 events across three units; branding had to stay consistent across departments, student organizations, and external partners"
+constraint: "25–30 events across three units; branding had to stay consistent across departments, student organizations, and external partners, within strict higher-ed branding and communication guidelines"
 outcome: "60+ print and digital pieces for 25–30 events across three units; the full 2025–26 academic-year event flyer set pre-built before leaving the role"
 tools: ["Canva", "Figma", "Adobe Illustrator (basic)", "Adobe Express", "Adobe Acrobat", "Adobe Premiere", "OBS", "Blender"]
-# TODO(Matt): 22 Figma exports are placed below (strongest first). Still wanted for this page (phase 2):
+# 22 Figma exports are placed below (strongest first). Still wanted for this page (phase 2):
 #   1. One flyer per unit clearly marked Campus Access & Engagement or Raider Education (none of the placed pieces is labelled with those units)
 #   2. One poster or event-signage print piece, to show print vs. digital formats
 #   3. The 2025–26 academic-year flyer set laid out as a single image (proof of the set built ahead)
@@ -90,28 +90,29 @@ images:
 
 As Visual Identity and Brand Coordinator for Intercultural Education & Engagement at Texas Tech, I designed 60+ print and digital pieces for 25–30 events across three units: Campus Access & Engagement, the Student Enrichment Center, and Raider Education. The work covered flyers, posters, brochures, social graphics, event signage, presentations, videos, and merchandise.
 
-My job was to create marketing materials that reel students in and establish community. The designs covered everything from cooking classes and film screenings to professional development events.
+My job was to create marketing materials that reel students in and establish community.
 
-<!-- TODO(Matt): once the phase-2 images land in the `images` list above, restore your old-portfolio line here: "Here you can find most of the designs I made for the department over the year ... so hopefully some of them catch your eye." It was removed because the page currently shows no images. -->
+Here you can find most of the designs I have made for the department over the year. You can find everything from cooking classes, film screenings, and professional development events so please take a look and hopefully some of them catch your eye.
 
-I built the collateral around a shared template system and kept branding consistent across departments, student organizations, and external partners.
+I built the collateral as a template system. I made the entire design language for Raider Education. I also solidified the branding on @sec_ttu.
 
-<!-- TODO(Matt): confirm "shared template system" is accurate — the only sources are your case-study outline in PORTFOLIO_BRIEF.md ("template system") and the resume skill "brand identity systems and templates". If it holds: how many templates were in the system, what did they share (type, color, grid, logo lockups), and did each unit have its own variant? -->
+I followed strict branding and communication guidelines for higher ed. I kept the branding consistent across departments, student organizations, and external partners.
 
 ## Outcome
 
 - 60+ print and digital pieces for 25–30 events across three units.
+- The full design language for Raider Education, and consistent branding on @sec_ttu.
 - Branding kept consistent across departments, student organizations, and external partners.
 - Before leaving the role, I pre-built the full 2025–26 academic-year event flyer set.
 
-<!-- TODO(Matt): are there attendance, reach, or reuse numbers for these events? None are in the brief, so none are claimed here. -->
-
 ## Process
 
-<!-- TODO(Matt): describe how a piece moved from a unit's event request to a finished flyer — who briefed you, how approvals worked, and how you scheduled the 2025–26 set ahead of time. No source covers this; the section stays empty until you answer, or delete the heading. -->
+At the start of each year, every student assistant submitted an event idea. The assistant director, the director, and I picked a date for each one.
+
+Then we worked out the logistics, like the budget for food and prizes. Once an event was confirmed, I made its flyer.
+
+I completed the flyers in calendar order. That is how I built the 2025–26 set ahead of time.
 
 ## Tools
 
-Adobe Premiere, Illustrator (basic), Express, and Acrobat; Canva; Figma; Blender; OBS.
-
-<!-- TODO(Matt): which tools did the bulk of the flyer work, and which were used only for video (Premiere, OBS) or 3D (Blender)? -->
+Canva did most of the flyer work. The wider toolkit for the role also included Figma; Adobe Premiere, Illustrator (basic), Express, and Acrobat; Blender; and OBS.

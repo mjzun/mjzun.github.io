@@ -1,5 +1,5 @@
 ---
-# Case study: five AI-built web apps shipped as a Lovable Ambassador, March 2026 cohort (track: ai). Every number and date comes from PORTFOLIO_BRIEF.md "Verified facts" or resume_v3.txt; the personal voice is Matt's own words from docs/source/figma_prototype_text.md; gaps are marked TODO(Matt).
+# Case study: five AI-built web apps shipped as a Lovable Ambassador, March 2026 cohort (track: ai). Every number and date comes from PORTFOLIO_BRIEF.md "Verified facts" or resume_v3.txt; the personal voice is Matt's own words from docs/source/figma_prototype_text.md and docs/source/matt-answers-2026-10-22.md (answers 31–34). Beta features are under NDA, so none are named.
 title: "Five AI-built web apps as a Lovable Ambassador"
 slug: lovable-apps
 tracks: ["ai"]
@@ -13,12 +13,12 @@ audience: "Students and teachers: group projects, middle-school wave physics, an
 constraint: "Beta-testing new platform features while shipping five apps inside the Mar – May 2026 cohort window"
 outcome: "Five AI-built web apps shipped; 110+ organic visitors; beta-tested new Lovable platform features"
 tools: ["Lovable"]
-# Live apps, most visited first (Matt, 2026-09-14; no per-app visitor numbers).
+# Live apps, most visited first (Matt, 2026-09-14). Scorecard view count and Mark Cuban Foundation from Matt's answer 33 (2026-10-22).
 links:
   - kind: "LIVE APP"
     label: "LLM Math Standards Evaluation Scorecard"
     url: "https://llmmathsec.lovable.app"
-    note: "Most visited of the five"
+    note: "Most visited of the five, past 100 views. Made for the Mark Cuban Foundation."
   - kind: "LIVE APP"
     label: "DoYourWork"
     url: "https://doyourwork.lovable.app"
@@ -26,7 +26,7 @@ links:
   - kind: "LIVE APP"
     label: "Wave Weaver"
     url: "https://looped584.lovable.app"
-    note: "Wave physics problems for middle school"
+    note: "My first app. Wave physics problems for middle school"
   - kind: "LIVE APP"
     label: "SchemaScope"
     url: "https://schemascope.lovable.app"
@@ -64,15 +64,11 @@ I was selected for the Lovable Ambassador March 2026 cohort, run through the UNC
 - **SchemaScope** — a learning analytics prototype for analogical transfer: students compare two stories and describe how they are alike. [schemascope.lovable.app](https://schemascope.lovable.app)
 - **Readscape** — a metacognitive reading lab for upper-elementary students that builds a passage to fit the reader. [reading-lab.lovable.app](https://reading-lab.lovable.app)
 
-TODO(Matt): Which beta features did you test, and what feedback did you send back to the Lovable team?
-
 ## Outcome
 
 The five apps drew 110+ organic visitors. All five shipped within the cohort window, alongside beta-testing new platform features for Lovable.
 
-The most visited of the five is the LLM Math Standards Evaluation Scorecard.
-
-TODO(Matt): Is there an analytics view that can be shown publicly?
+The most visited of the five is the LLM Math Standards Evaluation Scorecard. I made it for the Mark Cuban Foundation, and it passed 100 views. The visitor numbers are all public.
 
 ## Process
 
@@ -80,10 +76,10 @@ Most of my innovation work comes from mediums I taught myself. I constantly prac
 
 People seem to think the STEM fields and art are separate, but that could not be further from the truth. They are at their best when paired together, and that is the point I try to pursue in my technical endeavors.
 
-TODO(Matt): Did that pairing of design and engineering show up in these five apps, and how?
+On Lovable, every app started with an idea. I iterated on it until it either broke or got too bloated. Then I trimmed it back. It was a constant cycle of growth, then trimming.
 
-TODO(Matt): A short note on how you actually worked on Lovable day to day — your prompting approach, what a typical build loop looked like, what you edited by hand, and which app you shipped first.
+The first app I shipped was Wave Weaver, at [looped584.lovable.app](https://looped584.lovable.app).
 
 ## Tools
 
-Lovable. TODO(Matt): confirm whether the five apps also relied on prompt engineering, Claude Code, GitHub, or hand-written HTML (all listed on your resume) so they can be added to the tools list.
+Lovable. All five apps were built in Lovable alone, with no Claude Code, no GitHub, and no hand-written HTML.

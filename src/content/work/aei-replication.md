@@ -27,9 +27,9 @@ images: []
 
 An independent, public replication of the Anthropic Economic Index, extended with an education-level (O*NET Job Zone) breakdown of Claude.ai usage.
 
-First I replicated the Index's own finding that the top 10 tasks account for ~21.1% of Claude.ai conversations. Then I mapped 3,514 task-level usage shares onto 923 O*NET occupations and their Job Zones.
+O*NET Job Zones sort occupations into five tiers by the education, training, and experience they need, from Zone 1 (little or none) to Zone 5 (extensive, usually a graduate degree).
 
-TODO(Matt): do you want a one-line plain-English gloss of what an O*NET Job Zone is here (e.g. that it groups occupations by the education, experience, and training they require)? No source file describes Job Zones, so confirm the wording before it goes live.
+First I replicated the Index's own finding that the top 10 tasks account for ~21.1% of Claude.ai conversations. Then I mapped 3,514 task-level usage shares onto 923 O*NET occupations and their Job Zones.
 
 The notebook, writeup, and code are on GitHub: [github.com/mjzun/aei-education-analysis](https://github.com/mjzun/aei-education-analysis).
 
@@ -46,8 +46,6 @@ The notebook, writeup, and code are on GitHub: [github.com/mjzun/aei-education-a
 I started by reproducing a published number before adding anything of my own, so the extension would rest on a result I could trust. The Job Zone mapping came next: joining task-level usage shares to occupations, then to the Zone each occupation belongs to, and comparing each Zone's share of usage against its share of occupations.
 
 People seem to have this idea that the STEM fields and art are separate, but that cannot be further from the truth. In fact they are at their best when paired together. That's the point I try to pursue in my technical endeavors.
-
-TODO(Matt): is there a one-line takeaway you want on the repo link?
 
 ## Tools
 

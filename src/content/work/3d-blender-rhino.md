@@ -1,21 +1,18 @@
 ---
-# Case study: self-taught 3D work in Blender and Rhino (track: design). Published once real renders and the Rhino screenshot were placed from the old Figma prototype's "3D & AI" tab (figma_export/figma_images/originals). The TODO(Matt) notes below are still open. Facts come from PORTFOLIO_BRIEF.md "Verified facts" and docs/source/resume_v3.txt; the personal story is Matt's own words from docs/source/figma_prototype_text.md (3D Tech & AI tab).
+# Case study: self-taught 3D work in Blender and Rhino (track: design). Published once real renders and the Rhino screenshot were placed from the old Figma prototype's "3D & AI" tab (figma_export/figma_images/originals). Dates come from Matt's answers 59–60 (docs/source/matt-answers-2026-10-22.md): Rhino in 2022, Blender from 2024, and no 3D work shipped in a Texas Tech piece; the personal story is Matt's own words from docs/source/figma_prototype_text.md (3D Tech & AI tab).
 title: "3D work in Blender and Rhino"
 slug: 3d-blender-rhino
 tracks: ["design"]
 featured: false
 order: 14
-# TODO(Matt): date — no source gives an end date for the Blender or Rhino work (Blender is listed among the Texas Tech tools, Jan 2024 – Jul 2025, but that is not a date for this project). Left blank on purpose so no invented month renders or sorts as a fact; fill in "YYYY-MM", or tell me if this is ongoing and how the Work page should sort it.
-date: ""
-# TODO(Matt): timeline — schema format is a date-range string like "Jan 2024 – Jul 2025". No source says when the Rhino architecture stint in undergrad was or when you started using Blender. Left blank on purpose; fill in the range (or "… – present").
-timeline: ""
+date: "2024"
+timeline: "2022 – 2024"
 role: "Self-taught 3D modeler and animator — personal and creative projects"
 audience: "Personal experiments and creative projects; some applied in the field, some recreational"
-constraint: "Caught up at home with a second-year student roommate during a short stint in architecture classes; Blender self-taught in free time"
-outcome: "Still retain and experiment with Rhino after leaving architecture; Blender is one of the tools listed for the Texas Tech role (Jan 2024 – Jul 2025)"
+constraint: "Caught up at home with a second-year student roommate during a short stint in undergrad architecture classes in 2022; Blender self-taught in free time from 2024"
+outcome: "Still retain and experiment with Rhino after leaving architecture; self-taught in Blender since 2024; no 3D work shipped in a Texas Tech piece"
 tools: ["Blender", "Rhino"]
 # Still wanted (optional): the Rhino three-step progression screenshots (Step 1 "Beams and Flooring", Step 2 "Walls and extra structure", Step 3 "Glass"). Only once all three are added, add this sentence to the end of the Rhino paragraph: "The model shown here was built in three steps: beams and flooring, then walls and extra structure, then glass."
-# TODO(Matt): did any 3D work ship inside a Texas Tech piece? No source says so; do not claim it unless confirmed.
 images:
   - src: "../../assets/work/3d-blender-rhino/blender-red-cube-sphere-render.png"
     alt: "3D render of a red sphere built from cubes that scatter apart toward the right, on a black background"
@@ -38,13 +35,13 @@ images:
 
 Most of my innovation work comes from mediums I taught myself. I practice with new tools and ideas in my free time to build new skills; some I can apply in the field and some are recreation. Either way, this page is a small museum of that work.
 
-**Blender.** I use Blender mainly for 3D animations of creative projects. The software is simple and user friendly, which lets me focus on the details and make something as organic as the shape allows. The best part is that 3D can enhance the experience of a software application: modeling and animation let a user form a deeper connection with a website or app.
+**Blender.** I started using Blender in 2024. I use it mainly for 3D animations of creative projects. The software is simple and user friendly, which lets me focus on the details and make something as organic as the shape allows. The best part is that 3D can enhance the experience of a software application: modeling and animation let a user form a deeper connection with a website or app.
 
-**Rhino.** In undergrad I had a short stint taking architecture classes after being inspired by my roommate. He was a second-year student at the time, and he worked with me at home to catch me up in Rhino, their main 3D software. I did not continue to pursue architecture, but I still retain the knowledge and experiment with the software.
+**Rhino.** In 2022, during undergrad, I had a short stint taking architecture classes after being inspired by my roommate. He was a second-year student at the time, and he worked with me at home to catch me up in Rhino, their main 3D software. I did not continue to pursue architecture, but I still retain the knowledge and experiment with the software.
 
 ## Outcome
 
-Rhino truly taught me to trust the process. Blender is one of the tools I used as Visual Identity and Brand Coordinator at Texas Tech (Jan 2024 – Jul 2025).
+Rhino truly taught me to trust the process. None of this 3D work shipped in a Texas Tech piece. It is practice I do in my free time to build new skills.
 
 ## Process
 

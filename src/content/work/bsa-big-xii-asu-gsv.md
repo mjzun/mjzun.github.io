@@ -1,27 +1,21 @@
 ---
-# Case study: Texas Tech Black Student Association leadership, Big XII Black Student Government delegate role, and the ASU+GSV Summit Scholarship (track: leadership). Every date and role comes from PORTFOLIO_BRIEF.md "Verified facts" or resume_v3.txt; the personal voice is Matt's own words from docs/source/figma_prototype_text.md; gaps are marked TODO(Matt).
+# Case study: Texas Tech Black Student Association leadership, Big XII Black Student Government delegate role, and the ASU+GSV Summit Scholarship (track: leadership). Roles and years come from PORTFOLIO_BRIEF.md "Verified facts" and resume_v3.txt; details come from Matt's answers 45–53 in docs/source/matt-answers-2026-10-22.md; the opening line is Matt's own words from docs/source/figma_prototype_text.md.
 title: "Texas Tech BSA, Big XII delegate, ASU+GSV Summit scholar"
 slug: bsa-big-xii-asu-gsv
 tracks: ["leadership"]
 featured: false
 order: 12
-# Only the year 2026 is verified for the ASU+GSV Summit Scholarship (PORTFOLIO_BRIEF.md line 66, resume_v3.txt line 79). "2026-01" is a schema-valid placeholder (right year, earliest month) so date sorting works; it is not a claim.
-# TODO(Matt): replace with the real end month of the ASU+GSV Summit Scholarship as YYYY-MM.
-date: "2026-01"
+# Display text only; sorting uses "order". Only the year of the ASU+GSV Summit is known (the scholarship was a sponsored ticket, not a term with an end month).
+date: "2026"
 timeline: "2023 – 2026"
 role: "Vice President (2023–2024) and Graduate Advisor (2025), Texas Tech Black Student Association; Big XII Black Student Government Delegate (2023–2025); ASU+GSV Summit Scholarship recipient (2026)"
-# audience and constraint are left empty on purpose: no source (brief, resume, Figma text) says who the BSA work served or what shaped it. Empty strings render as nothing instead of a TODO sentence on the live page.
-# TODO(Matt): audience — who did this work serve (BSA members at Texas Tech, the wider student body, other Big XII delegates)?
-# TODO(Matt): constraint — what shaped this work (for example holding these roles alongside the brand coordinator job and classes)?
-audience: ""
-constraint: ""
-outcome: "Vice President (2023–2024) and Graduate Advisor (2025), Texas Tech Black Student Association; Big XII Black Student Government Delegate (2023–2025); ASU+GSV Summit Scholarship (2026)"
-# tools is empty on purpose: no source lists tools for the BSA work. TODO(Matt): which tools did you use for BSA work (event graphics, meetings, communication)?
+audience: "Texas Tech BSA members, the wider student body, and other Big XII delegates"
+constraint: "Texas DEI laws were changing in 2022–2023, so I led meetings with other Big XII schools, such as UT and Houston, on how Texas Tech was navigating the changes"
+outcome: "We always raised enough, through fundraising and the president's office, to cover transportation to Big XII conferences at Kansas State, Iowa State, and Oklahoma State"
+# tools is empty on purpose: no source lists software for the BSA work; it was mostly meetings, logistics, and fundraising.
 tools: []
-# images: exported from the old Figma prototype (Design - Project 3, BSA tab). Group photos: confirm permission from the people pictured.
-# TODO(Matt): confirm who is with you in the Guns Up photo and that he consents before captioning further.
-# TODO(Matt): one photo or document from the Big XII Black Student Government Delegate role, if any exists (no source says what the role involved).
-# TODO(Matt): the ASU+GSV Summit Scholarship confirmation, or a photo from the 2026 Summit.
+# images: exported from the old Figma prototype (Design - Project 3, BSA tab). The Guns Up photo subject gave verbal consent when it was taken (answer 52).
+# TODO(Matt): upload photos from the Big XII Black Student Government Delegate role or the 2026 ASU+GSV Summit (answer 53: coming later).
 images:
   - src: "../../assets/work/bsa-big-xii-asu-gsv/bsa-officers-group-portrait.jpg"
     alt: "Twelve students in matching red polos with raised-fist logos posed in two rows for an officer group portrait"
@@ -55,27 +49,29 @@ Everyday I strive to learn how to elevate my community better through art, techn
 
 I served as Vice President of the Texas Tech Black Student Association (2023–2024) and, after graduating in December 2024, as its Graduate Advisor (2025). Alongside that, I was a Big XII Black Student Government Delegate (2023–2025).
 
-In 2026 I received an ASU+GSV Summit Scholarship.
+As Vice President, my day to day was keeping the other executive board members on track. I worked out logistics on the back end and fundraised. I also met with campus leaders, including deans, the provost, and the university president.
 
-TODO(Matt): the old portfolio had a BSA tab, but its text was not captured. What did you write there, and what did the Vice President role involve day to day (events, general meetings, recruiting, design work)?
+The work served BSA members, the wider student body, and other Big XII delegates. Texas DEI laws were changing in 2022–2023. I led meetings with other Big XII schools, such as UT and Houston, on how Texas Tech was navigating the changes.
+
+In 2026 I received an ASU+GSV Summit Scholarship: a sponsored ticket to the Summit, valued at about $5,000.
 
 ## Outcome
 
+- We always raised enough to cover transportation to the Big XII conferences at Kansas State, Iowa State, and Oklahoma State.
+- That money came through our own fundraising and through the university president's office.
 - Vice President (2023–2024), Texas Tech Black Student Association.
 - Graduate Advisor (2025), Texas Tech Black Student Association.
 - Big XII Black Student Government Delegate (2023–2025).
 - ASU+GSV Summit Scholarship recipient (2026).
 
-TODO(Matt): were there measurable results from the BSA years (membership, events held, funds raised)? None are in the brief, so nothing is claimed here.
-
 ## Process
 
-TODO(Matt): what did the Big XII Black Student Government Delegate role involve (what you represented, and what you brought back to the Texas Tech BSA)?
+As a Big XII delegate, I attended the conferences and voted on bills.
 
-TODO(Matt): what did the Graduate Advisor role involve in 2025, and how did it connect to your Vice President year?
+As Graduate Advisor in 2025, I supervised the whole trip. I coordinated everyone and kept them safe as we traveled across state lines.
 
-TODO(Matt): what did you do at the ASU+GSV Summit, and how does the scholarship relate to your M.A. in Educational Innovation, Technology, and Entrepreneurship, if at all?
+At the 2026 ASU+GSV Summit, I attended workshops and events. I networked with attendees and with speakers from Anthropic and Meta.
 
 ## Tools
 
-TODO(Matt): list the tools you relied on for BSA work (event graphics, meetings, and communication).
+No special software here. This work ran on meetings, logistics, and fundraising.

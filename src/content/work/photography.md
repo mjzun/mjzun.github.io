@@ -5,12 +5,12 @@ slug: photography
 tracks: ["design"]
 featured: false
 order: 15
-date: "TODO(Matt): YYYY-MM of the newest photo in the series — no source gives a date for any of the photos"
-timeline: "TODO(Matt): first month – last month you shot these (or 'present') — no source gives dates for the photos"
-role: "Photographer — my own photos"
+date: "2023"
+timeline: "2023"
+role: "Photographer — some shots for myself, some for a class"
 audience: "Visitors to my portfolio"
 constraint: "Shot on a Canon EOS Rebel T7i with the EF-S 18–135mm f/3.5–5.6 IS STM, the gear listed on the old portfolio"
-outcome: "A photo series across nature, architecture, still life, and portraits, carried over from the old Figma portfolio. TODO(Matt): no number for this work exists in PORTFOLIO_BRIEF.md 'Verified facts' — how many photos are in the series, and has any been shown, printed, or used?"
+outcome: "A 9-photo series shot in Lubbock in 2023 across nature, architecture, still life, and portraits. None has been shown or printed yet."
 tools: ["Canon EOS Rebel T7i", "EF-S 18–135mm f/3.5–5.6 IS STM"]
 images:
   - src: "../../assets/work/photography/carved-wooden-mask-still-life.jpg"
@@ -43,8 +43,6 @@ images:
     caption: '"PHOTOGRAPH" BOOT PRINTS IN SNOW'
 ---
 
-<!-- TODO(Matt): confirm you want this page at all. Photography is not one of the 12 case studies in PORTFOLIO_BRIEF.md "Case studies to build" (Design lists only Raider Education, Texas Tech event collateral, STEMPLUG), and the brief's Definition of done wants outcome numbers on every case study — this page has none. If you don't want it live, rename the file to _photography.md so Astro leaves it out of the Work list. -->
-
 ## What I made
 
 From my old portfolio, in my own words:
@@ -53,26 +51,18 @@ From my old portfolio, in my own words:
 
 This page is the photo series carried over from my old portfolio, where it sat under "My photos", apart from the department design work: nature, architecture, still life, and portraits. A snake-plant close-up, winter trees, a campus rooftop in snow, chess pieces, a portrait in an orange durag.
 
-<!-- TODO(Matt): were these shot for yourself, or for a client or the department? No source says either way; the old portfolio only files them under "My photos", separately from Work Designs. -->
+I took these in Lubbock in 2023. Some I shot for myself and some I shot for a class.
 
 ## Outcome
 
-The series sits alongside the client work on this site. No number for this work exists in the brief's Verified facts, so none is claimed here.
-
-<!-- TODO(Matt): roughly how many photos are in the series, and where were they shot? -->
-
-<!-- TODO(Matt): has any of this work been shown, printed, or used in a flyer or social post you designed? If so, which pieces? -->
+The series is 9 photos, all shot in Lubbock. None of them has been shown, printed, or used in my designs yet.
 
 ## Process
 
 The subjects are the things around me: a plant, a chess set, a rooftop after snow, a person in an orange durag.
 
-<!-- TODO(Matt): is the T7i + 18–135mm the only gear you shoot with? The old portfolio lists it but does not say it is the only setup. -->
-
-<!-- TODO(Matt): how do you edit (Lightroom, the camera's JPGs, something else), and do you shoot RAW? -->
+I shoot in RAW.
 
 ## Tools
 
-Canon EOS Rebel T7i with the EF-S 18–135mm f/3.5–5.6 IS STM lens.
-
-<!-- TODO(Matt): editing tools, if any — see the Process question above. -->
+Canon EOS Rebel T7i with the EF-S 18–135mm f/3.5–5.6 IS STM lens, the gear listed on my old portfolio.
