@@ -1,0 +1,83 @@
+---
+// CaseRow.astro — one inventory row: number, an "IMAGE" well (or the first image as a WebP thumbnail with its measured file facts), the object name in straight quotes, the c/o line, the date (or "UNDATED"), the track labels, an "IN PROGRESS" mark on unfinished pieces, the orange tag, then the one-line "OUTCOME" caption for the tourist and a "NOTES" details block for the purist.
+import { answered, dateOf, frontmatterTodos, hasTodo, isTodo, orgOf, type Work } from '../lib/case';
+import { Image } from 'astro:assets';
+import { THUMB_WIDTHS, webpFacts, widthsFor } from '../lib/image';
+
+interface Props {
+  entry: Work;
+  /** Two-digit position in the inventory, e.g. "07". */
+  number: string;
+  /** The first row on a page loads its image eagerly. */
+  eager?: boolean;
+  /** Heading level for the object name: "h3" under an h2 on the home page, "h2" under the h1 on /work/. */
+  level?: 'h2' | 'h3';
+  /** The month the site was built, "YYYY-MM"; a piece dated this month wears the "NEW" tag. */
+  buildMonth?: string;
+}
+
+const { entry, number, eager = false, level = 'h3', buildMonth = '' } = Astro.props;
+const Tag = level;
+const { title, tracks, featured, images, audience, constraint, outcome, tools } = entry.data;
+const cover = images[0];
+const facts = cover ? await webpFacts(cover.src, THUMB_WIDTHS) : null;
+const href = `/work/${entry.id}/`;
+// The object name is the part before an em dash; the rest is detail for the page itself.
+const name = title.split(' — ')[0];
+const date = dateOf(entry);
+const wip = hasTodo(entry);
+const todos = frontmatterTodos(entry);
+const toolsLine = tools.length && !tools.some(isTodo) ? tools.join(', ') : '—';
+// The orange tag: "NEW" · date on a piece dated this month; "FEATURED" on the rest of the featured set. Never "NEW" on an old piece.
+const isNew = date !== '—' && date === buildMonth;
+---
+
+<li class:list={['row', { 'row--wip': wip }]} data-tracks={tracks.join(' ')}>
+  <span class="n">{number}</span>
+  <div class="img">
+    <div class="well" role={cover ? undefined : 'img'} aria-label={cover ? undefined : `${name}, image to come`}>
+      {cover ? (
+        <Image
+          src={cover.src}
+          alt={cover.alt}
+          title={cover.alt}
+          format="webp"
+          width={facts?.width}
+          height={facts?.height}
+          widths={widthsFor(cover.src, THUMB_WIDTHS)}
+          sizes="(min-width: 720px) 120px, 100vw"
+          loading={eager ? 'eager' : 'lazy'}
+          decoding="async"
+        />
+      ) : <span class="q">IMAGE</span>}
+    </div>
+    {cover && facts && <span class="mono fine upper img-cap"><span class="q">IMAGE</span> {facts.line}</span>}
+  </div>
+  <div class="name">
+    <Tag class="object"><a href={href}><span class="q">{name}</span></a></Tag>
+    <p class="co"><span class="co-mark">c/o</span> {orgOf(entry)}</p>
+  </div>
+  <div class="meta">
+    <span class="date">{date === '—' ? <span class="q">UNDATED</span> : date}</span>
+    <span>{tracks.map((t) => <a class="track" href={`/work/?track=${t}`}>{t}</a>)}</span>
+    {wip && <span class="wip mono fine upper"><span class="q">IN PROGRESS</span></span>}
+    {isNew ? <span class="tag"><span class="q">NEW</span> · {date}</span> : featured && <span class="tag"><span class="q">FEATURED</span></span>}
+  </div>
+  <!-- one line for the tourist, a block for the purist -->
+  <div class="more">
+    <p class="caption prose"><span class="label fine"><span class="q">OUTCOME</span></span> {answered(outcome)}</p>
+    <details class="notes notes--row">
+      <summary>
+        <span class="label fine"><span class="q">NOTES</span></span>
+        <span class="mono fine upper">FOR THE PURIST</span>
+      </summary>
+      <dl class="definition">
+        <div><dt><span class="q">AUDIENCE</span></dt><dd> — {answered(audience)}</dd></div>
+        <div><dt><span class="q">CONSTRAINT</span></dt><dd> — {answered(constraint)}</dd></div>
+        <div><dt><span class="q">TOOLS</span></dt><dd> — {toolsLine}</dd></div>
+        <div><dt><span class="q">TRACKS</span></dt><dd> — {tracks.map((t) => <a class="track" href={`/work/?track=${t}`}>{t}</a>)}</dd></div>
+      </dl>
+      {todos.map((t) => <p class="note-to-self"><span class="q">{t.key}</span> · {t.text}</p>)}
+    </details>
+  </div>
+</li>

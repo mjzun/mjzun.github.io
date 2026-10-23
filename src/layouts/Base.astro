@@ -1,0 +1,200 @@
+---
+// Base.astro — the page shell every page uses: <head> (title written as the mark, "PAGE" c/o MATTHEW JAY ZUNIGA™, fonts, styles), the skip link and the floating glass "NAVIGATION" window (first in tab order), the masthead with the client-side "VISITOR" line and the "SHOW GRID" button, the page content, the full-bleed hazard band, the receipt footer (with the page's measured HTML / CSS / JS weight), and the page's inline JavaScript.
+import '../styles/global.css';
+import { getCollection } from 'astro:content';
+import site from '../content/site.json';
+import Glass from '../components/Glass.astro';
+
+interface Props {
+  /** The page's literal name, in caps, e.g. "WORK"; it is printed in straight quotes in the tab title. */
+  title: string;
+  /** Who the page is c/o. Default: Matt's own mark; case studies pass the organisation the work was made for. */
+  co?: string;
+  description?: string;
+  /** Extra inline JavaScript a page needs (as a string), so the footer can count its bytes honestly. */
+  scripts?: string[];
+}
+
+const mark = `${site.name.toUpperCase()}™`;
+const { title, co = mark, description = site.positioning, scripts = [] } = Astro.props;
+
+// The tab title is the mark itself, as the 2019 archive did: "PORTFOLIO" c/o MATTHEW JAY ZUNIGA™
+const fullTitle = `"${title}" c/o ${co}`;
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const currentPath = Astro.url.pathname;
+const total = (await getCollection('work')).length;
+
+// The five site-wide destinations inside the "NAVIGATION" window.
+const navLinks = [
+  { label: 'WORK', href: '/work/' },
+  { label: 'ABOUT', href: '/about/' },
+  { label: 'HOW TO', href: '/how-to/' },
+  { label: 'CONTACT', href: '/contact/' },
+  { label: 'RESUME', href: site.resume, note: 'PDF ↗' },
+];
+const isHere = (href: string) => href !== site.resume && (href === '/' ? currentPath === '/' : currentPath.startsWith(href));
+
+// Build-time facts for the receipt. The date is the moment `npm run build` ran.
+const lastBuild = new Date().toISOString().slice(0, 10);
+
+// The "VISITOR" line: local time, viewport, colour scheme. Computed in the browser, no network.
+const visitorJs = `(function(){var el=document.getElementById('visitor');if(!el)return;var t=el.querySelector('[data-time]'),v=el.querySelector('[data-vp]'),s=el.querySelector('[data-scheme]');function pad(n){return n<10?'0'+n:''+n}function time(){var d=new Date();t.textContent=pad(d.getHours())+':'+pad(d.getMinutes())}function size(){v.textContent=window.innerWidth+'\\u00d7'+window.innerHeight}var mq=window.matchMedia('(prefers-color-scheme: dark)');function scheme(){s.textContent=mq.matches?'DARK':'LIGHT'}time();size();scheme();setInterval(time,30000);window.addEventListener('resize',size);if(mq.addEventListener)mq.addEventListener('change',scheme);else if(mq.addListener)mq.addListener(scheme);})();`;
+
+// The "SHOW GRID" toggle: outlines every layout region. Also the G key. Remembered per visitor, if storage allows.
+const gridJs = `(function(){var b=document.getElementById('grid-toggle');if(!b)return;var on=false;try{on=localStorage.getItem('grid')==='1'}catch(e){}function set(v){on=v;document.body.classList.toggle('show-grid',v);b.setAttribute('aria-pressed',String(v));b.querySelector('.q').textContent=v?'HIDE GRID':'SHOW GRID';try{localStorage.setItem('grid',v?'1':'0')}catch(e){}}set(on);b.addEventListener('click',function(){set(!on)});window.addEventListener('keydown',function(e){var tag=(document.activeElement&&document.activeElement.tagName)||'';if(e.key==='g'&&!e.metaKey&&!e.ctrlKey&&!e.altKey&&!/INPUT|TEXTAREA|SELECT/.test(tag))set(!on)});})();`;
+
+const allJs = [visitorJs, gridJs, ...scripts];
+const jsKb = (Buffer.byteLength(allJs.join('\n'), 'utf8') / 1024).toFixed(1);
+// HTML and CSS are weighed after the build by the page-weight step in astro.config.mjs, which swaps these placeholders for the measured numbers. In the dev server they read "—".
+const htmlKb = import.meta.env.PROD ? '__HTML_KB__' : '—';
+const cssKb = import.meta.env.PROD ? '__CSS_KB__' : '—';
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content={site.name} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+
+    <!-- three voices, only the weights used: Inter Tight 400/700/800 (plus a real 400 italic for any <em> in prose), IBM Plex Mono 400/700 upright only, Bodoni Moda italic 400 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,400;0,700;0,800;1,400&family=IBM+Plex+Mono:wght@400;700&family=Bodoni+Moda:ital,opsz,wght@1,6..96,400&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+
+    <!-- the floating "NAVIGATION" window: the only persistent navigation. It sits here, first in tab order; position: fixed puts it bottom-left on screen. -->
+    <Glass title="NAVIGATION" as="nav" class="dock" id="dock" aria-label="Navigation" data-region="NAVIGATION">
+      <ul class="dock__list" role="list">
+        {
+          navLinks.map((l) => {
+            const here = isHere(l.href);
+            return (
+              <li>
+                <a href={l.href} aria-current={here ? 'page' : undefined}>
+                  <span class="q">{l.label}</span>
+                  {l.note && <span class="note">{l.note}</span>}
+                  {here && <span class="here here--long">← <span class="q">YOU ARE HERE</span></span>}
+                  {here && <span class="here here--short">← <span class="q">HERE</span></span>}
+                </a>
+              </li>
+            );
+          })
+        }
+      </ul>
+    </Glass>
+
+    <div class="page">
+      <!-- masthead: the label, the visitor, the grid switch -->
+      <header class="masthead" data-region="MASTHEAD">
+        <p class="label masthead__name">
+          <a href="/"><span class="q">PORTFOLIO</span></a> <span class="co-mark">c/o</span> {site.name.toUpperCase()}<sup>™</sup>
+        </p>
+        <p class="mono fine upper visitor" id="visitor">
+          <span class="q">VISITOR</span> · <span data-time>--:--</span> · <span data-vp>—</span> · <span data-scheme>—</span>
+        </p>
+        <button class="label fine grid-toggle" id="grid-toggle" type="button" aria-pressed="false" title="Outline every layout region (G)">
+          <span class="q">SHOW GRID</span>
+        </button>
+      </header>
+
+      <main id="main" tabindex="-1" data-region="MAIN">
+        <slot />
+      </main>
+    </div>
+
+    <!-- footer: a full-bleed hazard band (a divider, never a bounded block), then the receipt -->
+    <div class="hazard hazard--bleed" aria-hidden="true"></div>
+    <footer class="page site-footer" data-region="FOOTER">
+      <ol class="receipt" role="list">
+        <li><span><span class="q">PORTFOLIO</span></span><span>{total} ITEMS</span></li>
+        <li><span><span class="co-mark">c/o</span></span><span>{site.name}<sup>™</sup></span></li>
+        <li><span>MADE IN</span><span>{site.place}</span></li>
+        <li><span><span class="co-mark">c.</span></span><span>{site.year}</span></li>
+        <li><span>VER.</span><span>{site.version}</span></li>
+        <li><span>LAST BUILD</span><span><time datetime={lastBuild}>{lastBuild}</time></span></li>
+        <li><span>WEIGHT</span><span>HTML {htmlKb} KB / CSS {cssKb} KB / JS {jsKb} KB</span></li>
+        <li><span>TYPE</span><span><span class="co-mark">c/o</span> GOOGLE FONTS</span></li>
+        <li><span>INFLUENCE</span><span>VIRGIL ABLOH (METHOD, NOT MARKS)</span></li>
+        <li><span>SOURCE</span><span><a href={site.links.repo}>github.com/mjzun/mjzun.github.io</a></span></li>
+        <li class="total"><span>MATTHEW JAY ZUNIGA<sup>™</sup></span><span><a href={site.links.email}>{site.email}</a></span></li>
+      </ol>
+    </footer>
+
+    {allJs.map((js) => <script is:inline set:html={js} />)}
+  </body>
+</html>
+
+<style>
+  main:focus { outline: none; }
+
+  /* masthead: one row that wraps; label left, visitor middle, switch right */
+  .masthead {
+    display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-2) var(--s-5);
+    padding-block: var(--s-3);
+    border-bottom: var(--rule);
+  }
+  .masthead__name a { color: var(--ink); text-decoration: none; display: inline-block; padding-block: 14px; margin-block: -14px; }
+  .masthead__name a:hover { text-decoration: underline; }
+  .visitor { margin-left: auto; }
+  .grid-toggle { border: var(--rule); padding: var(--s-1) var(--s-3); min-height: 44px; }
+  .grid-toggle:hover, .grid-toggle[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
+  @media (max-width: 639px) {
+    .visitor { margin-left: 0; width: 100%; order: 3; }
+  }
+
+  /* the footer band runs edge to edge: it cancels the body's side padding */
+  .hazard--bleed { margin-top: var(--section); margin-inline: calc(-1 * var(--gutter)); }
+  .site-footer .receipt { margin-top: var(--s-5); }
+
+  /* the dock: fixed bottom-left, a row of links that wraps */
+  .dock {
+    position: fixed;
+    left: var(--gutter); bottom: calc(var(--gutter) + env(safe-area-inset-bottom));
+    max-width: calc(100% - 2 * var(--gutter));
+    z-index: var(--z-dock);
+  }
+  .dock__list { list-style: none; display: flex; flex-wrap: wrap; gap: var(--s-1); }
+  .dock a {
+    position: relative; isolation: isolate;
+    display: inline-flex; align-items: center; gap: var(--s-2);
+    min-height: 44px; padding: 0 var(--s-3);
+    font-family: var(--font-grotesk); font-weight: 700; font-size: var(--fs-fine);
+    letter-spacing: var(--track-label); text-transform: uppercase;
+    color: var(--ink); text-decoration: none; white-space: nowrap;
+  }
+  .dock a .note, .dock a .here { font-family: var(--font-mono); font-weight: 400; }
+  .dock a .here--short { display: none; }
+  .dock a[aria-current="page"] { text-decoration: underline; text-underline-offset: 0.2em; }
+  .dock a:hover, .dock a:focus-visible { background: var(--ink); color: var(--paper); }
+  /* the focus ring on the dock is the hazard stripe itself: a 6px striped frame drawn behind the ink fill */
+  .dock a:focus-visible { outline: none; }
+  .dock a:focus-visible::after { content: ""; position: absolute; inset: -6px; background: var(--hazard); z-index: -1; }
+  /* phones: one row that scrolls sideways, shorter links, and the short ← "HERE" label instead of "YOU ARE HERE" — the dock must not eat the screen */
+  @media (max-width: 639px) {
+    .dock a .here--long { display: none; }
+    .dock a .here--short { display: inline; }
+    .dock { left: var(--gutter); right: var(--gutter); max-width: none; }
+    .dock__list { flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+    .dock__list::-webkit-scrollbar { display: none; }
+    .dock a { min-height: 40px; padding: 0 var(--s-2); }
+  }
+</style>

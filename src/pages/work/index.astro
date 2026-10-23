@@ -1,0 +1,68 @@
+---
+// work/index.astro — the full inventory with the "FILTERS" glass window, the five track definitions (the active one shows on a filtered view), and an "OPEN ALL" / "CLOSE ALL" switch for the "NOTES" blocks. The filter lives in the URL (/work/?track=design) so a filtered view can be shared; with JavaScript off, every row shows and the chips still work as plain links.
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import CaseRow from '../../components/CaseRow.astro';
+import Definition from '../../components/Definition.astro';
+import TrackChips from '../../components/TrackChips.astro';
+import site from '../../content/site.json';
+import { pad, sortWork } from '../../lib/case';
+import { openAllJs } from '../../lib/scripts';
+
+const all = sortWork(await getCollection('work'));
+const total = pad(all.length);
+const buildMonth = new Date().toISOString().slice(0, 7);
+
+const counts: Record<string, number> = { all: all.length };
+for (const t of site.tracks) counts[t.key] = all.filter((e) => e.data.tracks.includes(t.key as any)).length;
+
+// The valid track keys come from site.json at build time, so a new track can never be missed here.
+const valid = JSON.stringify(site.tracks.map((t) => t.key));
+
+// Track filter. Chips are plain links to /work/?track=x, so they work without JavaScript.
+// With JavaScript on: read ?track= from the URL, show matching rows and that track's definition, mark the active chip,
+// and rewrite the URL in place when a chip is clicked so the filtered view stays shareable.
+// An unknown ?track= value shows the "EMPTY" line instead of quietly showing everything.
+const filterJs = `(function(){var chips=document.querySelectorAll('.chip[data-track]');var rows=document.querySelectorAll('#inventory .row');var defs=document.querySelectorAll('.track-def');var shown=document.getElementById('shown');var empty=document.getElementById('empty');var valid=${valid};function pad(n){return n<10?'0'+n:String(n)}function apply(track){var known=track==='all'||valid.indexOf(track)>-1;var n=0;rows.forEach(function(row){var match=known&&(track==='all'||row.getAttribute('data-tracks').split(' ').indexOf(track)>-1);row.hidden=!match;if(match)n++});chips.forEach(function(chip){if(known&&chip.getAttribute('data-track')===track)chip.setAttribute('aria-current','true');else chip.removeAttribute('aria-current')});defs.forEach(function(d){d.hidden=d.getAttribute('data-track')!==track});shown.textContent=pad(n);empty.hidden=n>0;return known?track:null}apply(new URLSearchParams(window.location.search).get('track')||'all');chips.forEach(function(chip){chip.addEventListener('click',function(e){if(e.metaKey||e.ctrlKey||e.shiftKey||e.altKey||e.button!==0)return;e.preventDefault();var track=apply(chip.getAttribute('data-track'));if(track)history.replaceState(null,'',track==='all'?'/work/':'/work/?track='+track)})});window.addEventListener('popstate',function(){apply(new URLSearchParams(window.location.search).get('track')||'all')});})();`;
+---
+
+<Base
+  title="WORK"
+  description="Every case study by Matthew Jay Zuniga, filterable by track: design, presentation, data, AI, and leadership."
+  scripts={[filterJs, openAllJs]}
+>
+  <section class="region" id="work" aria-labelledby="h-work" data-region="INVENTORY">
+    <div class="region-head">
+      <span class="mono">A.</span>
+      <h1 class="label" id="h-work"><span class="q">WORK</span></h1>
+      <button class="label fine toggle-all" type="button" data-open-all="work" aria-pressed="false" hidden><span class="q">OPEN ALL</span></button>
+      <p class="count mono fine upper" aria-live="polite">SHOWING <b id="shown">{total}</b> OF {total}</p>
+    </div>
+
+    <div class="filters">
+      <TrackChips counts={counts} />
+      <noscript><p class="mono fine upper nojs">FILTERING NEEDS JAVASCRIPT · EVERY ITEM IS SHOWN</p></noscript>
+    </div>
+
+    <!-- the definition of the active track; with JavaScript off all five show, which is the whole glossary -->
+    <div class="track-defs">
+      {site.tracks.map((t) => <Definition track={t.key} class="track-def" data-track={t.key} />)}
+    </div>
+
+    <p class="mono fine upper empty" id="empty" hidden><span class="q">EMPTY</span> · 00 ITEMS · <a href="/work/"><span class="q">ALL</span> →</a></p>
+
+    <ol class="inventory" id="inventory" role="list">
+      {all.map((entry, i) => <CaseRow entry={entry} number={pad(i + 1)} eager={i === 0} level="h2" buildMonth={buildMonth} />)}
+    </ol>
+  </section>
+</Base>
+
+<style>
+  .filters { margin-bottom: var(--s-5); }
+  .nojs { margin-top: var(--s-2); }
+  .track-defs { margin-bottom: var(--s-5); }
+  .track-defs:empty { display: none; }
+  .track-def[hidden] { display: none; }
+  .inventory { list-style: none; }
+  .empty { margin-bottom: var(--s-4); }
+</style>

@@ -1,0 +1,196 @@
+---
+// Notebook.astro — prints a whole Jupyter notebook as a labelled "readymade document": a plain paper "NOTEBOOK" toolbar (not glass: glass is for the dock, "FILTERS" and lightboxes only) (hide/show code, cell count, GitHub, download) and every cell tagged "MARKDOWN", "IN" [n] or "OUT" [n]. Built at build time; no JavaScript needed to read it.
+import { loadNotebook, notebookJs, COLLAPSE_LINES } from '../lib/notebook';
+
+interface Props {
+  /** The .ipynb file, relative to the project root, e.g. "src/content/notebooks/aei_education_analysis.ipynb". A copy with the same file name must sit in public/notebooks/ for the download link. */
+  path: string;
+  /** The notebook's GitHub repository (or file) URL, for "VIEW ON GITHUB". */
+  repo: string;
+  /** Optional alt text per chart output, keyed by the cell's execution count, e.g. { 16: "Bar chart: …" }. Write it only from the notebook's own text. */
+  alts?: Record<string, string>;
+}
+
+const { path, repo, alts = {} } = Astro.props;
+const nb = loadNotebook(path);
+// Chart outputs are numbered 01, 02 … in notebook order, like gallery images.
+const imageNo = new Map<object, number>();
+nb.cells.forEach((c) => c.type === 'code' && c.outputs.forEach((o) => o.kind === 'image' && imageNo.set(o, imageNo.size + 1)));
+const download = `/notebooks/${nb.fileName}`;
+const pad = (n: number) => String(n).padStart(2, '0');
+const total = pad(nb.counts.cells);
+const bracket = (n: number | null) => `[${n ?? ' '}]`;
+const typeWord = { text: 'TEXT', table: 'TABLE', image: 'IMAGE', error: 'ERROR' } as const;
+---
+
+<section class="nb" data-nb aria-label="Jupyter notebook">
+  <div class="nb__toolbar">
+    <div class="nb__bar">
+      <span class="label fine"><span class="q">NOTEBOOK</span></span>
+      <span class="mono fine upper">{nb.fileName} · {nb.kb} KB</span>
+    </div>
+    <div class="nb__tools">
+      <button type="button" class="nb__btn" data-nb-toggle hidden><span class="q">HIDE CODE</span></button>
+      <span class="mono fine upper nb__count"><span class="q">CELLS</span> {total} · <span class="q">CODE</span> {pad(nb.counts.code)} · <span class="q">MARKDOWN</span> {pad(nb.counts.markdown)}</span>
+      <a class="nb__btn" href={repo} rel="noopener"><span class="q">VIEW ON GITHUB</span> ↗</a>
+      <a class="nb__btn" href={download} download={nb.fileName}><span class="q">DOWNLOAD .IPYNB</span></a>
+    </div>
+  </div>
+
+  <ol class="nb__cells">
+    {nb.cells.map((cell) => (
+      <li class={`nb__cell nb__cell--${cell.type}${cell.type === 'code' && !cell.outputs.length ? ' nb__cell--no-out' : ''}`}>
+        {cell.type === 'markdown' && (
+          <>
+            <p class="nb__label"><span class="q">MARKDOWN</span><span class="nb__n">{pad(cell.number)}/{total}</span></p>
+            <div class="nb__md" set:html={cell.html} />
+          </>
+        )}
+
+        {cell.type === 'raw' && (
+          <>
+            <p class="nb__label"><span class="q">RAW</span><span class="nb__n">{pad(cell.number)}/{total}</span></p>
+            <pre class="nb__pre"><code>{cell.source}</code></pre>
+          </>
+        )}
+
+        {cell.type === 'code' && (
+          <>
+            <div class="nb__in">
+              <p class="nb__label"><span class="q">IN</span> {bracket(cell.count)} <span class="nb__meta">· {nb.language.toUpperCase()} · {cell.lines} {cell.lines === 1 ? 'LINE' : 'LINES'}</span><span class="nb__n">{pad(cell.number)}/{total}</span></p>
+              <pre class="nb__pre nb__code" tabindex="0"><code>{cell.source}</code></pre>
+            </div>
+            {cell.outputs.map((out) => {
+              const label = (
+                <p class="nb__label"><span class="q">OUT</span> {bracket(cell.count)} <span class="nb__meta">· {typeWord[out.kind]}</span></p>
+              );
+              if (out.kind === 'image') {
+                return (
+                  <div class="nb__out">
+                    {label}
+                    <figure class="nb__figure">
+                      <img src={out.src} alt={alts[String(cell.count)] ?? out.alt} width={out.width} height={out.height} loading="lazy" decoding="async" />
+                      <figcaption class="mono fine upper"><span class="q">IMAGE</span> {pad(imageNo.get(out) ?? 0)} · <span class="q">OUT</span> {bracket(cell.count)} · {out.width && out.height ? `${out.width}×${out.height} · ` : ''}{out.format} · {out.kb} KB{out.heading ? ` · ${out.heading}` : ''}</figcaption>
+                    </figure>
+                  </div>
+                );
+              }
+              const body =
+                out.kind === 'table' ? (
+                  <div class="nb__table" tabindex="0" set:html={out.html} />
+                ) : out.kind === 'error' ? (
+                  <div class="nb__error">
+                    <div class="hazard"><span class="hazard__chip label q">ERROR</span></div>
+                    <pre class="nb__pre" tabindex="0"><code>{out.text}</code></pre>
+                  </div>
+                ) : (
+                  <pre class="nb__pre nb__stream" tabindex="0"><code>{out.text}</code></pre>
+                );
+              return (
+                <div class="nb__out">
+                  {label}
+                  {out.lines > COLLAPSE_LINES ? (
+                    <details class="nb__more">
+                      <summary class="label fine"><span class="q">OUTPUT</span> · {out.lines} LINES</summary>
+                      {body}
+                    </details>
+                  ) : (
+                    body
+                  )}
+                </div>
+              );
+            })}
+          </>
+        )}
+      </li>
+    ))}
+  </ol>
+</section>
+
+<script is:inline set:html={notebookJs} />
+
+<style is:global>
+  /* Notebook.astro — all rules scoped under .nb; markdown and pandas tables arrive as HTML strings, so these are global. */
+  .nb { min-width: 0; }
+  /* the toolbar: a plain paper bar with a 1px frame and a quoted title row, no blur */
+  .nb__toolbar { position: sticky; top: 0; z-index: 2; border: var(--rule); background: var(--paper); color: var(--ink); }
+  .nb__bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0 var(--s-3); border-bottom: var(--rule); padding: var(--s-1) var(--s-2); line-height: 1.4; }
+  .nb__bar > * { min-width: 0; overflow-wrap: anywhere; }   /* the long file name wraps at 400px instead of pushing the page wider */
+  .nb__tools { padding: var(--s-2); display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-2) var(--s-3); }
+  .nb__count { margin-right: auto; }
+  .nb__btn {
+    display: inline-flex; align-items: center; gap: 0.4ch;
+    min-height: var(--hit); padding: 0 var(--s-3);
+    border: var(--rule); background: var(--paper); color: var(--ink);
+    font-family: var(--font-grotesk); font-weight: 700; font-size: var(--fs-fine);
+    letter-spacing: var(--track-label); text-transform: uppercase; text-decoration: none;
+  }
+  .nb__btn:hover { background: var(--ink); color: var(--paper); text-decoration: none; }
+  .nb__btn[hidden] { display: none; }
+
+  .nb__cells { list-style: none; margin-top: var(--s-4); }
+  .nb__cell { border-top: var(--rule); padding-block: var(--s-3) var(--s-5); min-width: 0; }
+  .nb__cells > .nb__cell:last-child { border-bottom: var(--rule); }
+
+  .nb__label {
+    display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 0.6ch;
+    font-family: var(--font-mono); font-size: var(--fs-fine); font-weight: 700;
+    text-transform: uppercase; line-height: var(--lh-mono); margin-bottom: var(--s-2);
+  }
+  .nb__meta { font-weight: 400; }
+  .nb__n { margin-left: auto; font-weight: 400; }
+
+  .nb__out { margin-top: var(--s-4); min-width: 0; }
+
+  /* code and text output: mono, framed, scrolls sideways inside its own box, never the page */
+  .nb__pre {
+    margin: 0; max-width: 100%; overflow-x: auto;
+    border: var(--rule); padding: var(--s-3);
+    font-family: var(--font-mono); font-size: var(--fs-fine); line-height: var(--lh-mono);
+    white-space: pre; tab-size: 4;
+  }
+  .nb__pre code { font: inherit; }
+  .nb__stream { border-style: dotted; }
+
+  /* markdown cells: prose */
+  .nb__md { max-width: var(--measure); font-size: var(--fs-body); line-height: var(--lh-body); overflow-wrap: anywhere; }
+  .nb__md > * + * { margin-top: 1em; }
+  /* headings inside a notebook are labels, set like .prose h2: 14px, 700, uppercase, in straight quotes, a rule above */
+  .nb__md h1, .nb__md h2, .nb__md h3, .nb__md h4, .nb__md h5, .nb__md h6 {
+    font-family: var(--font-grotesk); font-size: var(--fs-label); font-weight: 700; line-height: var(--lh-label);
+    letter-spacing: var(--track-label); text-transform: uppercase;
+    border-top: var(--rule); padding-top: var(--s-3); margin-top: 1.4em;
+  }
+  .nb__md :is(h1, h2, h3, h4, h5, h6)::before, .nb__md :is(h1, h2, h3, h4, h5, h6)::after { content: "\0022" / ""; }
+  .nb__md > :first-child { margin-top: 0; }
+  .nb__md ul, .nb__md ol { padding-left: 1.2em; }
+  .nb__md li + li { margin-top: 0.4em; }
+  .nb__md blockquote { border-left: var(--rule); padding-left: var(--s-4); }
+  .nb__md hr { border: 0; border-top: var(--rule); }
+  .nb__md code { font-family: var(--font-mono); font-size: 0.88em; }
+  .nb__md pre { border: var(--rule); padding: var(--s-3); overflow-x: auto; font-size: var(--fs-fine); }
+  .nb__md table { display: block; max-width: 100%; overflow-x: auto; }
+
+  /* tables (markdown and pandas): 1px black rules, scroll inside their own box */
+  .nb__table { max-width: 100%; overflow-x: auto; }
+  .nb__md table, .nb__table table { border-collapse: collapse; font-family: var(--font-mono); font-size: var(--fs-fine); line-height: 1.4; }
+  .nb__md th, .nb__md td, .nb__table th, .nb__table td { border: var(--rule); padding: var(--s-1) var(--s-2); text-align: left; vertical-align: top; }
+  .nb__table td { text-align: right; white-space: nowrap; }
+  .nb__md th, .nb__table thead th { font-weight: 700; }
+  .nb__table tbody th { font-weight: 400; }
+
+  .nb__figure { border: var(--rule); margin: 0; }
+  .nb__figure img { width: 100%; height: auto; background: var(--white); }
+  .nb__figure figcaption { border-top: var(--rule); padding: var(--s-2); overflow-wrap: anywhere; }
+
+  .nb__error { border: var(--rule); }
+  .nb__error .nb__pre { border: 0; }
+
+  .nb__more > summary { cursor: pointer; min-height: var(--hit); display: flex; align-items: center; border: var(--rule); padding: 0 var(--s-3); text-transform: uppercase; }
+  .nb__more > summary:hover { background: var(--ink); color: var(--paper); }
+  .nb__more[open] > summary { border-bottom: 0; }
+
+  /* tourist view: code inputs hidden; cells that only held code disappear */
+  .nb--hide-code .nb__in, .nb--hide-code .nb__cell--no-out { display: none; }
+  .nb--hide-code .nb__cell--code .nb__out:first-of-type { margin-top: 0; }
+</style>

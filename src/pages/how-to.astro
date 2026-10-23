@@ -1,0 +1,107 @@
+---
+// how-to.astro — how this site is built, given away in numbered "HOW TO" steps: Astro, one Markdown file per case study, the Figma export script, GitHub Pages, and where the source lives.
+import Base from '../layouts/Base.astro';
+import site from '../content/site.json';
+
+const steps = [
+  {
+    title: 'HOW TO WRITE THE BRIEF',
+    text: 'Start with one plain-text file, PORTFOLIO_BRIEF.md, that lists every verified fact: roles, dates, counts. Every number on this site must trace back to that list. If a fact is not there, the page says so instead of inventing one.',
+  },
+  {
+    title: 'HOW TO INSTALL THE TOOLS',
+    text: 'Install Node.js, then run npm install once inside the project folder. That pulls in Astro, the static-site framework, and nothing else. There is no database and no server to manage.',
+  },
+  {
+    title: 'HOW TO RUN IT LOCALLY',
+    text: 'Run npm run dev and open http://localhost:4321. Every saved file refreshes the page. Close the terminal and the site is gone; nothing is published until you build and push.',
+  },
+  {
+    title: 'HOW TO ADD A CASE STUDY',
+    text: 'Add one Markdown file to src/content/work/. The top of the file holds fixed fields (title, tracks, featured, order, date, timeline, role, audience, constraint, outcome, tools, images); the body holds the story. The file name becomes the URL.',
+  },
+  {
+    title: 'HOW TO TAG AND FILTER',
+    text: 'Every case study carries one or more of five tracks: design, presentation, data, ai, leadership. The Work page reads ?track= from the address bar, so /work/?track=data is a link you can send to one employer.',
+  },
+  {
+    title: 'HOW TO LEAVE A NOTE TO SELF',
+    text: 'Write TODO(Matt) at the start of a paragraph and the site prints it as a mono "NOTE TO SELF" line instead of broken copy. Any page that still has one wears a striped "WORK IN PROGRESS" band. Unfinished, but honest.',
+  },
+  {
+    title: 'HOW TO EXPORT FROM FIGMA',
+    text: 'The old portfolio lived in Figma. scripts/figma_export.py, with a personal access token, pulls every image and text layer out of that file into a folder, so nothing has to be rebuilt by hand.',
+  },
+  {
+    title: 'HOW TO LABEL THE OBVIOUS',
+    text: 'The look is browser defaults edited about three percent: white paper, black ink, one 1px rule, uppercase labels in straight quotes, mono for anything that reads like a receipt. All of it lives in two files, src/styles/tokens.css and src/styles/global.css.',
+  },
+  {
+    title: 'HOW TO SHOW THE GRID',
+    text: 'Press the "SHOW GRID" button in the masthead, or the G key, and every layout region gets an outline and its name. Nothing is hidden; the construction is part of the design.',
+  },
+  {
+    title: 'HOW TO BUILD',
+    text: 'Run npm run build. Astro turns every Markdown file and page template into plain HTML in a dist/ folder. The footer receipt prints the build date and the page\'s JavaScript weight from that run.',
+  },
+  {
+    title: 'HOW TO DEPLOY',
+    text: 'The repository is named exactly mjzun.github.io, so GitHub Pages serves it at the root URL for free. A GitHub Actions workflow rebuilds and publishes on every push to main. A custom domain later is one CNAME file.',
+  },
+  {
+    title: 'HOW TO REUSE THIS',
+    text: 'Clone the repository, replace the files in src/content/work/ with your own case studies and src/content/site.json with your own facts, then run npm run build. The method is public; the facts have to be yours.',
+  },
+];
+---
+
+<Base title="HOW TO" description="How mjzun.github.io is built: Astro, one Markdown file per case study, a Figma export script, and GitHub Pages. Source linked.">
+  <section class="region howto" aria-labelledby="h-howto" data-region="HOW TO">
+    <div class="region-head">
+      <span class="mono">F.</span>
+      <h1 class="label" id="h-howto"><span class="q">HOW TO</span></h1>
+      <span class="count mono fine upper">{steps.length} STEPS · <a href={site.links.repo}>SOURCE ↗</a></span>
+    </div>
+
+    <p class="prose intro">How this site is built, step by step, so anyone can build their own. The whole thing is plain files: Markdown for the words, Astro for the templates, GitHub Pages for the hosting.</p>
+
+    <ol class="steps" role="list">
+      {
+        steps.map((s, i) => (
+          <li>
+            <span class="mono n">{String(i + 1).padStart(2, '0')}.</span>
+            <div>
+              <h2 class="label step-title"><span class="q">{s.title}</span></h2>
+              <p class="prose">{s.text}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+
+    <div class="region-head stack-head">
+      <h2 class="label" id="h-stack"><span class="q">STACK</span></h2>
+    </div>
+    <ol class="receipt stack" role="list" aria-labelledby="h-stack">
+      <li><span>FRAMEWORK</span><span>ASTRO</span></li>
+      <li><span>CONTENT</span><span>MARKDOWN, ONE FILE PER CASE STUDY</span></li>
+      <li><span>STYLES</span><span>TWO CSS FILES, NO FRAMEWORK</span></li>
+      <li><span>SCRIPTS</span><span>FIGMA_EXPORT.PY</span></li>
+      <li><span>HOSTING</span><span>GITHUB PAGES</span></li>
+      <li class="total"><span>SOURCE</span><span><a href={site.links.repo}>github.com/mjzun/mjzun.github.io ↗</a></span></li>
+    </ol>
+  </section>
+</Base>
+
+<style>
+  .howto { border-top: 0; }
+  .intro { margin-bottom: var(--s-6); }
+  .steps { list-style: none; }
+  .steps li {
+    display: grid; grid-template-columns: 4ch 1fr; gap: var(--s-3) var(--s-4);
+    padding: var(--s-4) 0; border-top: var(--rule);
+  }
+  .steps li:last-child { border-bottom: var(--rule); }
+  .step-title { margin-bottom: var(--s-3); }
+  .stack-head { margin-top: var(--s-7); }
+</style>

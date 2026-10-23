@@ -1,0 +1,94 @@
+---
+// about.astro — the A–Z of definitions (in mono, from site.json, each with a provenance tag), the bio paragraphs, and the resume as a receipt block linking the PDF.
+import fs from 'node:fs';
+import path from 'node:path';
+import Base from '../layouts/Base.astro';
+import site from '../content/site.json';
+
+const paragraphs = site.bio.split('\n\n');
+const defs = [...site.definitions].sort((a, b) => a.term.localeCompare(b.term));
+
+/** "CHAPEL HILL, NC" → "chapel-hill-nc": the id each entry gets, so a See: link can point at it. */
+const slug = (term: string) => term.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+
+/** Where a See: cross-reference goes: the entry on this page if one exists, else that entry's own page, else nowhere (rendered as plain text). */
+const seeHref = (see: string) => {
+  const target = defs.find((d) => d.term === see);
+  if (target) return `#${slug(target.term)}`;
+  return undefined;
+};
+
+// Resume facts read from the file itself at build time.
+let resumeKb = '';
+try {
+  resumeKb = `${Math.round(fs.statSync(path.join(process.cwd(), 'public', site.resume)).size / 1024)} KB`;
+} catch {
+  resumeKb = '—';
+}
+---
+
+<Base title="ABOUT" description={paragraphs[0]}>
+  <section class="region about" aria-labelledby="h-about" data-region="ABOUT">
+    <div class="region-head">
+      <span class="mono">C.</span>
+      <h1 class="label" id="h-about"><span class="q">ABOUT</span></h1>
+      <span class="count mono fine upper"><span class="co-mark">c/o</span> {site.name}<sup>™</sup></span>
+    </div>
+
+    <!-- the A–Z -->
+    <p class="label fine az-head"><span class="q">ABOUT</span> · {defs.length} TERMS · A–Z</p>
+    <dl class="definition az">
+      {
+        defs.map((d) => {
+          const href = d.see ? seeHref(d.see) : undefined;
+          return (
+            <div id={slug(d.term)}>
+              <dt>
+                {d.href ? <a class="q" href={d.href}>{d.term}</a> : <span class="q">{d.term}</span>} <i>({d.pos})</i>
+              </dt>
+              <dd>
+                — {d.def}
+                {d.see && <> See: {href ? <a class="q" href={href}>{d.see}</a> : <span class="q">{d.see}</span>}.</>}
+                <span class="prov">[{'prov' in d && d.prov ? d.prov : `VER. ${site.version}`}]</span>
+              </dd>
+            </div>
+          );
+        })
+      }
+    </dl>
+  </section>
+
+  <!-- the bio, in Inter Tight -->
+  <section class="region" aria-labelledby="h-bio" data-region="BIO">
+    <div class="region-head">
+      <h2 class="label" id="h-bio"><span class="q">BIO</span></h2>
+    </div>
+    <div class="prose">
+      {paragraphs.map((p) => <p>{p}</p>)}
+    </div>
+  </section>
+
+  <!-- the resume as a receipt -->
+  <section class="region" aria-labelledby="h-resume" data-region="RESUME">
+    <div class="region-head">
+      <span class="mono">D.</span>
+      <h2 class="label" id="h-resume"><span class="q">RESUME</span></h2>
+    </div>
+    <ol class="receipt" role="list">
+      <li><span>ITEM</span><span>RESUME</span></li>
+      <li><span>FORMAT</span><span>PDF</span></li>
+      <li><span>FILE</span><span>{site.resume.slice(1)}</span></li>
+      <li><span>SIZE</span><span>{resumeKb}</span></li>
+      <li><span>CONTACT</span><span>EMAIL · LINKEDIN · GITHUB</span></li>
+      <li class="total"><span>DOWNLOAD</span><span><a href={site.resume}>{site.resume.slice(1)} ↗</a></span></li>
+    </ol>
+  </section>
+</Base>
+
+<style>
+  .about { border-top: 0; }
+  .az-head { margin-bottom: var(--s-3); }
+  /* the term itself is a label that links: ink, like the nav labels. The See: links inside the entry are text links: blue, underlined. */
+  .az dt a { color: var(--ink); text-decoration: none; }
+  .az dt a:hover { text-decoration: underline; }
+</style>

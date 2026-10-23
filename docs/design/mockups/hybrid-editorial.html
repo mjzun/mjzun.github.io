@@ -1,0 +1,521 @@
+<!-- Home-page mockup for mjzun.github.io in the "Hybrid Editorial" direction: paper-white typographic grid, images carry the color, glass panels hold captions and filter chips. Self-contained; Google Fonts only; ~20 lines of vanilla JS for the chip preview filter. -->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>“ZUN” — Matthew Jay Zuniga</title>
+  <meta name="description" content="Designer and analyst working where education, AI, and visual communication meet.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=Bodoni+Moda:ital,opsz,wght@1,6..96,400&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    /* ---------- Tokens ---------- */
+    :root {
+      --paper: #F5F4F0;      /* page ground */
+      --paper-2: #EAE8E2;    /* quiet surfaces, hover ground */
+      --rule: #D6D3CB;       /* hairlines */
+      --ink: #111111;        /* text, borders */
+      --ink-2: #4A4844;      /* secondary text (7.9:1 on paper) */
+      --signal: #A83907;     /* one signal colour: links, active chip, index numbers (5.6:1 on paper) */
+      --signal-soft: rgba(168, 57, 7, 0.10);
+
+      --glass-bg: rgba(245, 244, 240, 0.82);
+      --glass-border: rgba(17, 17, 17, 0.14);
+      --glass-highlight: rgba(255, 255, 255, 0.55);
+      --glass-blur: 14px;
+
+      --font-sans: "Instrument Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+      --font-serif: "Bodoni Moda", "Didot", "Bodoni 72", Georgia, serif;
+      --font-mono: "Courier Prime", "Courier New", Courier, ui-monospace, monospace;
+
+      --s-1: 4px;  --s-2: 8px;  --s-3: 12px; --s-4: 16px; --s-5: 24px;
+      --s-6: 32px; --s-7: 48px; --s-8: 64px; --s-9: 96px; --s-10: 128px;
+      --section: clamp(var(--s-7), 8vw, var(--s-10));
+      --gutter: clamp(16px, 3vw, 32px);
+      --measure: 62ch;
+      --radius: 4px;
+    }
+
+    /* ---------- Reset-ish ---------- */
+    *, *::before, *::after { box-sizing: border-box; }
+    html { overflow-y: scroll; -webkit-text-size-adjust: 100%; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--font-sans);
+      font-size: 1rem;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    ::selection { background: var(--ink); color: var(--paper); }
+    img, svg { max-width: 100%; display: block; }
+    a { color: inherit; text-decoration: none; }
+    a:hover { text-decoration: underline; text-underline-offset: 0.18em; }
+    a:focus-visible, button:focus-visible {
+      outline: 2px solid var(--signal); outline-offset: 3px; border-radius: 2px;
+    }
+    ul, ol { margin: 0; padding: 0; list-style: none; }
+    figure { margin: 0; }
+    h1, h2, h3, p { margin: 0; }
+    .visually-hidden {
+      position: absolute; width: 1px; height: 1px; overflow: hidden;
+      clip: rect(0 0 0 0); white-space: nowrap;
+    }
+
+    /* ---------- Type voices ---------- */
+    .label {            /* bold grotesque caps: the "label" voice */
+      font-family: var(--font-sans);
+      font-weight: 600;
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .spec {             /* monospaced spec sheet: the "document" voice */
+      overflow-wrap: anywhere;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      line-height: 1.6;
+      color: var(--ink-2);
+    }
+    .spec b { font-weight: 700; color: var(--ink); }
+    .spec .sep { padding: 0 0.6em; color: var(--rule); }
+    .flourish {         /* one italic Didone accent per screen */
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-weight: 400;
+      font-variation-settings: "opsz" 96;
+      letter-spacing: 0;
+    }
+
+    /* ---------- Page frame ---------- */
+    .wrap { width: min(100% - 2 * var(--gutter), 1280px); margin-inline: auto; }
+
+    header.site {
+      display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between;
+      gap: var(--s-3) var(--s-5);
+      padding-block: var(--s-5);
+      border-bottom: 1px solid var(--ink);
+    }
+    .wordmark { display: inline-flex; align-items: baseline; gap: var(--s-3); }
+    .wordmark .name { font-weight: 600; letter-spacing: -0.01em; }
+    nav.primary ul { display: flex; flex-wrap: wrap; gap: var(--s-4) var(--s-5); }
+    nav.primary a.resume { color: var(--signal); }
+    nav.primary a.resume::after { content: " ↓"; }
+
+    /* ---------- Hero ---------- */
+    .hero { padding-block: var(--section) var(--s-7); }
+    .hero h1 {
+      font-weight: 500;
+      font-size: clamp(2.125rem, 1rem + 4.6vw, 5rem);
+      line-height: 1.02;
+      letter-spacing: -0.03em;
+      max-width: 20ch;
+    }
+    .hero h1 .flourish { font-size: 1.04em; }
+    .hero .stamp { margin-top: var(--s-6); display: flex; flex-wrap: wrap; gap: var(--s-2) 0; }
+
+    /* Hero image with floating glass caption and chip bar */
+    .hero-figure { position: relative; margin-top: var(--s-7); }
+    .hero-figure .ph { aspect-ratio: 4 / 5; }
+    .hero-figure .caption { bottom: calc(var(--s-6) + var(--s-3)); } /* clears the chip bar that straddles the image edge */
+    @media (min-width: 760px) { .hero-figure .ph { aspect-ratio: 16 / 7; } }
+
+    /* ---------- Placeholder images ---------- */
+    .ph {
+      position: relative; width: 100%; overflow: hidden;
+      border: 1px solid var(--ink);
+      background: var(--paper-2);
+    }
+    .ph .ph-note {
+      position: absolute; inset: var(--s-3) var(--s-3) auto auto;
+      font-family: var(--font-mono); font-size: 0.6875rem; line-height: 1.4;
+      color: var(--paper); background: rgba(17,17,17,0.72);
+      padding: var(--s-1) var(--s-2); border-radius: 2px; max-width: 60%;
+      text-align: right;
+    }
+    .ph--raider   { background: linear-gradient(135deg, #C13D0F 0%, #F0A16B 55%, #F5E7D8 100%); }
+    .ph--stemplug { background: linear-gradient(160deg, #0D2B6B 0%, #2F6BD8 55%, #B9D6FF 100%); }
+    .ph--heatmap  { background: linear-gradient(90deg, #12403A 0%, #2E8B6E 40%, #E3C049 75%, #B9410C 100%); }
+    .ph--aei      { background: linear-gradient(180deg, #1A1A1A 0%, #4A4844 60%, #B9B5AC 100%); }
+    .ph--lovable  { background: linear-gradient(120deg, #6B2EA1 0%, #D45AA0 55%, #FFD1E6 100%); }
+    .ph--gpsg     { background: linear-gradient(135deg, #5A8ACB 0%, #A9C4E6 45%, #EFE6D6 100%); }
+    .ph--hero     { background: linear-gradient(110deg, #111 0%, #3A3A3A 30%, #B9410C 75%, #F0A16B 100%); }
+
+    /* ---------- Glass ---------- */
+    .glass {
+      background: var(--glass-bg);
+      -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(140%);
+      backdrop-filter: blur(var(--glass-blur)) saturate(140%);
+      border: 1px solid var(--glass-border);
+      box-shadow: inset 0 1px 0 var(--glass-highlight);
+      border-radius: var(--radius);
+    }
+    .caption {
+      position: absolute; left: var(--s-3); right: var(--s-3); bottom: var(--s-3);
+      padding: var(--s-4);
+      display: grid; grid-template-columns: auto 1fr; column-gap: var(--s-4); row-gap: var(--s-1);
+      align-items: baseline;
+    }
+    .caption .num { font-family: var(--font-mono); font-weight: 700; font-size: 0.875rem; color: var(--ink); } /* ink, not signal: signal would fail AA on glass over dark images */
+    .caption h3 {
+      font-weight: 600; letter-spacing: -0.02em; line-height: 1.15;
+      font-size: clamp(1.125rem, 0.95rem + 0.9vw, 1.625rem);
+    }
+    .caption p { grid-column: 2; font-size: 0.9375rem; color: var(--ink-2); max-width: 48ch; }
+    @media (max-width: 480px) {
+      .caption { left: var(--s-2); right: var(--s-2); bottom: var(--s-2); padding: var(--s-3); }
+      .caption p { grid-column: 1 / -1; }
+    }
+
+    /* Chip bar straddles the bottom edge of the hero image */
+    .chipbar {
+      position: relative; z-index: 2;
+      margin: calc(-1 * var(--s-5)) var(--s-3) 0;
+      padding: var(--s-2);
+      display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-2);
+    }
+    .chipbar .label { padding-inline: var(--s-2); color: var(--ink-2); }
+    .chip {
+      font: inherit; font-size: 0.875rem; font-weight: 500;
+      padding: var(--s-2) var(--s-4);
+      border: 1px solid var(--ink); border-radius: 999px;
+      background: transparent; color: var(--ink); cursor: pointer;
+      line-height: 1.2;
+    }
+    .chip[aria-current="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+    .chip:hover { text-decoration: none; background: var(--paper-2); }
+    .chip[aria-current="true"]:hover { background: var(--ink); }
+    .chip .count { font-family: var(--font-mono); font-size: 0.75rem; margin-left: 0.5em; opacity: 0.85; }
+
+    /* ---------- Section heads ---------- */
+    .section-head {
+      display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between;
+      gap: var(--s-2) var(--s-5);
+      padding-top: var(--section);
+      padding-bottom: var(--s-5);
+      border-bottom: 1px solid var(--ink);
+      margin-bottom: var(--s-6);
+    }
+    .section-head h2 { font-weight: 600; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; }
+    .section-head .spec { text-align: right; }
+
+    /* ---------- Featured grid ---------- */
+    .grid {
+      display: grid; grid-template-columns: 1fr; gap: var(--s-7) var(--s-6);
+    }
+    @media (min-width: 760px) {
+      .grid { grid-template-columns: repeat(12, 1fr); }
+      .card.w7 { grid-column: span 7; }
+      .card.w5 { grid-column: span 5; }
+      .card.w4 { grid-column: span 4; }
+      .card.w12 { grid-column: span 12; }
+    }
+    .card { display: block; }
+    .card[hidden] { display: none; }
+    .card .ph { aspect-ratio: 4 / 5; }
+    .card.w7 .ph { aspect-ratio: 3 / 2; }
+    .card.w4 .ph { aspect-ratio: 4 / 5; }
+    .card.w12 .ph { aspect-ratio: 4 / 5; }
+    @media (min-width: 760px) { .card.w12 .ph { aspect-ratio: 21 / 9; } }
+    .card .spec { margin-top: var(--s-3); display: flex; flex-wrap: wrap; }
+    .card .spec span { overflow-wrap: anywhere; }
+    .card:hover h3 { text-decoration: underline; text-underline-offset: 0.18em; text-decoration-thickness: 1px; }
+    .card:hover { text-decoration: none; }
+    .card:hover .ph { border-color: var(--signal); }
+    .empty { padding: var(--s-6) 0; color: var(--ink-2); }
+
+    .more { margin-top: var(--s-7); display: flex; flex-wrap: wrap; gap: var(--s-4) var(--s-6); align-items: baseline; }
+    .more a.signal { color: var(--signal); font-weight: 500; }
+
+    /* ---------- Index (all 12) ---------- */
+    .index ol { counter-reset: none; columns: 1; column-gap: var(--s-6); }
+    @media (min-width: 760px) { .index ol { columns: 2; } }
+    .index li {
+      break-inside: avoid;
+      display: grid; grid-template-columns: 2.5em 1fr auto; column-gap: var(--s-3);
+      align-items: baseline;
+      padding: var(--s-3) 0; border-bottom: 1px solid var(--rule);
+    }
+    .index li .n { font-family: var(--font-mono); font-weight: 700; color: var(--signal); font-size: 0.875rem; }
+    .index li .t { font-weight: 500; }
+    .index li .tr { font-family: var(--font-mono); font-size: 0.75rem; color: var(--ink-2); text-align: right; }
+    .index li.pending .t { color: var(--ink-2); }
+
+    /* ---------- Contact + footer ---------- */
+    .contact { padding-top: var(--section); }
+    .contact h2 {
+      font-weight: 500; letter-spacing: -0.03em; line-height: 1.05;
+      font-size: clamp(1.75rem, 1rem + 3vw, 3.5rem); max-width: 18ch;
+    }
+    .contact .links {
+      margin-top: var(--s-6);
+      display: grid; grid-template-columns: 1fr; gap: 0;
+      border-top: 1px solid var(--ink);
+    }
+    @media (min-width: 760px) { .contact .links { grid-template-columns: repeat(4, 1fr); } }
+    .contact .links a {
+      display: grid; gap: var(--s-1);
+      padding: var(--s-4) 0; border-bottom: 1px solid var(--rule);
+      font-weight: 500;
+    }
+    @media (min-width: 760px) {
+      .contact .links a { padding: var(--s-5) var(--s-4) var(--s-5) 0; border-bottom: 0; border-right: 1px solid var(--rule); }
+      .contact .links a:last-child { border-right: 0; }
+      .contact .links a + a { padding-left: var(--s-4); }
+    }
+    .contact .links a .spec { color: var(--ink-2); }
+    .contact .links a.signal { color: var(--signal); }
+
+    footer.site {
+      margin-top: var(--section);
+      padding-block: var(--s-5) var(--s-7);
+      border-top: 1px solid var(--ink);
+      display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--s-2) var(--s-5);
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .chip, .card .ph { transition: background-color 120ms linear, border-color 120ms linear; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header class="site">
+    <a class="wordmark" href="/" aria-label="Home">
+      <span class="name">Matthew Jay Zuniga</span>
+      <span class="spec">“ZUN”</span>
+    </a>
+    <nav class="primary" aria-label="Primary">
+      <ul>
+        <li><a href="/work/">Work</a></li>
+        <li><a href="/about/">About</a></li>
+        <li><a href="/contact/">Contact</a></li>
+        <li><a class="resume" href="/Zuniga_Matthew_Resume.pdf" download>Resume (PDF)</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main">
+
+    <!-- Positioning line + place/date stamp -->
+    <section class="hero" aria-labelledby="positioning">
+      <h1 id="positioning">Designer and analyst working where <span class="flourish">education, AI, and visual communication</span> meet.</h1>
+      <p class="stamp spec">
+        <span><b>PORTFOLIO</b> Matthew Jay Zuniga</span><span class="sep">/</span>
+        <span><b>BASED</b> Chapel Hill, NC</span><span class="sep">/</span>
+        <span><b>EDITION</b> 2026</span><span class="sep">/</span>
+        <span><b>PIECES</b> 12 across 5 tracks</span>
+      </p>
+
+      <figure class="hero-figure">
+        <div class="ph ph--hero" role="img" aria-label="Placeholder for hero image: the Raider Education poster and flyer set photographed flat on a table.">
+          <span class="ph-note">IMAGE: Raider Education poster + flyer set, flat-lay photo (Matt's own), 2400px WebP</span>
+          <figcaption class="glass caption">
+            <span class="num">01</span>
+            <h3>“Raider Education”</h3>
+            <p>A dormant program revived with no prior material: identity, every deck, flyers, posters, videos.</p>
+          </figcaption>
+        </div>
+
+        <!-- Track filter chips float over the image edge. On the real site each chip links to /work/?track=… ; here they also preview-filter the grid. -->
+        <div class="glass chipbar" role="group" aria-label="Filter featured work by track">
+          <span class="label">Track</span>
+          <a class="chip" href="/work/" data-track="all" aria-current="true">All<span class="count">06</span></a>
+          <a class="chip" href="/work/?track=design" data-track="design" aria-current="false">Design<span class="count">02</span></a>
+          <a class="chip" href="/work/?track=presentation" data-track="presentation" aria-current="false">Presentation<span class="count">02</span></a>
+          <a class="chip" href="/work/?track=data" data-track="data" aria-current="false">Data<span class="count">02</span></a>
+          <a class="chip" href="/work/?track=ai" data-track="ai" aria-current="false">AI<span class="count">02</span></a>
+          <a class="chip" href="/work/?track=leadership" data-track="leadership" aria-current="false">Leadership<span class="count">01</span></a>
+        </div>
+      </figure>
+    </section>
+
+    <!-- Featured grid: 6 of 12, numbered by their position in the Work index -->
+    <section aria-labelledby="featured-h">
+      <div class="section-head">
+        <h2 id="featured-h">Selected work</h2>
+        <p class="spec" id="grid-status" aria-live="polite">SHOWING <b>06</b> OF 12</p>
+      </div>
+
+      <div class="grid" id="grid">
+
+        <a class="card w7" href="/work/raider-education/" data-tracks="design presentation">
+          <div class="ph ph--raider">
+            <span class="ph-note">IMAGE: Raider Education flagship deck, title slide (Keynote export, 2x PNG)</span>
+            <div class="glass caption">
+              <span class="num">01</span>
+              <h3>“Raider Education”</h3>
+              <p>Brand identity and a full deck system built from scratch for a program that had ended years earlier.</p>
+            </div>
+          </div>
+          <p class="spec">
+            <span><b>ROLE</b> Visual Identity &amp; Brand Coordinator</span><span class="sep">/</span>
+            <span><b>TIMELINE</b> Jan 2024 – Jul 2025</span><span class="sep">/</span>
+            <span><b>TRACKS</b> design, presentation</span>
+          </p>
+        </a>
+
+        <a class="card w5" href="/work/aei-replication/" data-tracks="data ai">
+          <div class="ph ph--aei">
+            <span class="ph-note">IMAGE: Job Zone over/under-representation chart, exported from the notebook (SVG or 2x PNG)</span>
+            <div class="glass caption">
+              <span class="num">07</span>
+              <h3>“AEI replication”</h3>
+              <p>3,514 task shares mapped onto 923 occupations; a roughly tenfold spread between graduate-level and high-school-level jobs.</p>
+            </div>
+          </div>
+          <p class="spec">
+            <span><b>ROLE</b> Independent researcher</span><span class="sep">/</span>
+            <span><b>TIMELINE</b> Apr 2026</span><span class="sep">/</span>
+            <span><b>TRACKS</b> data, ai</span>
+          </p>
+        </a>
+
+        <a class="card w4" href="/work/edmotion-competitor-heatmap/" data-tracks="data">
+          <div class="ph ph--heatmap">
+            <span class="ph-note">IMAGE: 10-competitor comparison heatmap (names anonymized pending EdMotion approval)</span>
+            <div class="glass caption">
+              <span class="num">06</span>
+              <h3>“Competitor heatmap”</h3>
+              <p>Ten competitors scored on price, installs, distribution, novelty, and research backing.</p>
+            </div>
+          </div>
+          <p class="spec">
+            <span><b>ROLE</b> Intern, EdMotion</span><span class="sep">/</span>
+            <span><b>TIMELINE</b> Aug 2025 – May 2026</span><span class="sep">/</span>
+            <span><b>TRACKS</b> data</span>
+          </p>
+        </a>
+
+        <a class="card w4" href="/work/stemplug-social-relaunch/" data-tracks="design presentation">
+          <div class="ph ph--stemplug">
+            <span class="ph-note">IMAGE: strongest TikTok post, phone-frame screenshot with view count (vertical 9:16 crop)</span>
+            <div class="glass caption">
+              <span class="num">03</span>
+              <h3>“STEMPLUG relaunch”</h3>
+              <p>TikTok brought back after roughly three dormant years; 6,000+ views to date.</p>
+            </div>
+          </div>
+          <p class="spec">
+            <span><b>ROLE</b> Marketing &amp; Growth Intern</span><span class="sep">/</span>
+            <span><b>TIMELINE</b> May 2026 – present</span><span class="sep">/</span>
+            <span><b>TRACKS</b> design, presentation</span>
+          </p>
+        </a>
+
+        <a class="card w4" href="/work/lovable-apps/" data-tracks="ai">
+          <div class="ph ph--lovable">
+            <span class="ph-note">IMAGE: five app screenshots tiled in a browser-window grid (2x PNG)</span>
+            <div class="glass caption">
+              <span class="num">09</span>
+              <h3>“Five apps”</h3>
+              <p>Five AI-built web apps shipped as a Lovable Ambassador; 110+ organic visitors.</p>
+            </div>
+          </div>
+          <p class="spec">
+            <span><b>ROLE</b> Lovable Ambassador</span><span class="sep">/</span>
+            <span><b>TIMELINE</b> Mar – May 2026</span><span class="sep">/</span>
+            <span><b>TRACKS</b> ai</span>
+          </p>
+        </a>
+
+        <a class="card w12" href="/work/gpsg-vice-president/" data-tracks="leadership">
+          <div class="ph ph--gpsg">
+            <span class="ph-note">IMAGE: wide photo from a GPSG Senate or Joint Governance Council session (Matt's own or UNC-cleared), 2400px WebP</span>
+            <div class="glass caption">
+              <span class="num">11</span>
+              <h3>“Vice President, GPSG”</h3>
+              <p>Represented 11,553 graduate and professional students; graduate voice on the Provost’s Generative AI Committee.</p>
+            </div>
+          </div>
+          <p class="spec">
+            <span><b>ROLE</b> Vice President, UNC Graduate &amp; Professional Student Government</span><span class="sep">/</span>
+            <span><b>TIMELINE</b> 2025 – 2026</span><span class="sep">/</span>
+            <span><b>TRACKS</b> leadership</span>
+          </p>
+        </a>
+
+      </div>
+      <p class="empty" id="grid-empty" hidden>Nothing featured in this track yet — see the full list on the Work page.</p>
+
+      <div class="more">
+        <a class="signal" href="/work/">All 12 pieces on the Work page →</a>
+        <span class="spec">Filtered views are shareable: /work/?track=design</span>
+      </div>
+    </section>
+
+    <!-- Index: the numbering system that the cards refer to -->
+    <section class="index" aria-labelledby="index-h">
+      <div class="section-head">
+        <h2 id="index-h">Index</h2>
+        <p class="spec">01 – 12 <span class="sep">/</span> NUMBERED BY TRACK ORDER</p>
+      </div>
+      <ol>
+        <li><span class="n">01</span><span class="t">Raider Education</span><span class="tr">design, presentation</span></li>
+        <li><span class="n">02</span><span class="t">Texas Tech event collateral system</span><span class="tr">design</span></li>
+        <li><span class="n">03</span><span class="t">STEMPLUG social relaunch</span><span class="tr">design, presentation</span></li>
+        <li><span class="n">04</span><span class="t">Raider Education deck system</span><span class="tr">presentation</span></li>
+        <li><span class="n">05</span><span class="t">Faculty AI training materials</span><span class="tr">presentation, ai</span></li>
+        <li><span class="n">06</span><span class="t">EdMotion competitor heatmap</span><span class="tr">data</span></li>
+        <li><span class="n">07</span><span class="t">Anthropic Economic Index replication</span><span class="tr">data, ai</span></li>
+        <li class="pending"><span class="n">08</span><span class="t">AI &amp; Communication Lab (if shareable)</span><span class="tr">data, ai</span></li>
+        <li><span class="n">09</span><span class="t">Five Lovable apps</span><span class="tr">ai</span></li>
+        <li class="pending"><span class="n">10</span><span class="t">Agent-based registration concept (if shareable)</span><span class="tr">ai</span></li>
+        <li><span class="n">11</span><span class="t">Vice President, GPSG</span><span class="tr">leadership</span></li>
+        <li><span class="n">12</span><span class="t">BSA, Big XII delegate, ASU+GSV scholarship</span><span class="tr">leadership</span></li>
+      </ol>
+    </section>
+
+    <!-- Contact -->
+    <section class="contact" aria-labelledby="contact-h">
+      <h2 id="contact-h">Open to design, research, and AI-adoption work. <span class="flourish">Say hello.</span></h2>
+      <div class="links">
+        <a class="signal" href="mailto:zun@ad.unc.edu"><span>Email</span><span class="spec">zun@ad.unc.edu</span></a>
+        <a href="https://linkedin.com/in/mjzun"><span>LinkedIn</span><span class="spec">linkedin.com/in/mjzun</span></a>
+        <a href="https://github.com/mjzun"><span>GitHub</span><span class="spec">github.com/mjzun</span></a>
+        <a href="/Zuniga_Matthew_Resume.pdf" download><span>Resume</span><span class="spec">PDF, 1 page ↓</span></a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site">
+    <p class="spec"><b>MADE IN</b> Chapel Hill, NC <span class="sep">/</span> <b>BUILT WITH</b> Astro, GitHub Pages <span class="sep">/</span> <b>TYPE</b> Instrument Sans, Bodoni Moda, Courier Prime</p>
+    <p class="spec">© 2026 Matthew Jay Zuniga</p>
+  </footer>
+
+</div>
+
+<script>
+  // Chip preview filter: shows the featured cards whose data-tracks include the chosen track.
+  // On the real site the chips are plain links to /work/?track=… ; this only previews the behaviour on the home grid.
+  (function () {
+    var chips = document.querySelectorAll('.chip');
+    var cards = document.querySelectorAll('#grid .card');
+    var status = document.getElementById('grid-status');
+    var empty = document.getElementById('grid-empty');
+    chips.forEach(function (chip) {
+      chip.addEventListener('click', function (e) {
+        e.preventDefault();
+        var track = chip.dataset.track;
+        var shown = 0;
+        chips.forEach(function (c) { c.setAttribute('aria-current', String(c === chip)); });
+        cards.forEach(function (card) {
+          var hit = track === 'all' || card.dataset.tracks.split(' ').indexOf(track) !== -1;
+          card.hidden = !hit;
+          if (hit) shown++;
+        });
+        status.innerHTML = 'SHOWING <b>' + String(shown).padStart(2, '0') + '</b> OF 12';
+        empty.hidden = shown !== 0;
+      });
+    });
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,52 @@
+{
+  "_comment": "Site-wide copy for mjzun.github.io: positioning line, About bio, contact blurb (meta description only) and links, resume path, the five track definitions (with their See: cross-reference), and the A–Z definitions used on the About page (an optional prov is the YYYY-MM the fact dates from; entries without one are tagged with the site version). Facts here come from PORTFOLIO_BRIEF.md 'Verified facts'.",
+  "name": "Matthew Jay Zuniga",
+  "shortName": "Matt",
+  "positioning": "Designer and analyst working where education, AI, and visual communication meet.",
+  "bio": "I'm Matt Zuniga, a designer and analyst working where education, AI, and visual communication meet. I hold an M.A. in Educational Innovation, Technology, and Entrepreneurship from UNC Chapel Hill (Edupreneur concentration, High Pass in every course) and a B.A. in Digital Media and Professional Communications from Texas Tech, with a Certification in Sports Media.\n\nMy work runs across five tracks: design (brand identity, collateral, social graphics), presentation (decks, training materials, video), data (research, dashboards, analysis), AI (tools, apps, adoption work), and leadership (governance, committees, advocacy). Most of what I know I taught myself by practicing with new tools in my free time, and I like pairing art with technical work rather than treating them as separate.\n\nEverything I make ties back to ZUN, a personal brand built from my last name, as a way to build a kind of family among the people who interact with it. I try to apply myself to everything that fascinates me; greatness is the product of pursuing your passions. The influence behind that method is credited in the receipt at the foot of every page.",
+  "contactBlurb": "Open to design, research, and AI-in-education work. The fastest way to reach me is email.",
+  "email": "zun@ad.unc.edu",
+  "links": {
+    "email": "mailto:zun@ad.unc.edu",
+    "linkedin": "https://linkedin.com/in/mjzun",
+    "github": "https://github.com/mjzun",
+    "repo": "https://github.com/mjzun/mjzun.github.io"
+  },
+  "resume": "/Zuniga_Matthew_Resume.pdf",
+  "place": "Chapel Hill, NC",
+  "version": "002",
+  "year": 2026,
+  "tracks": [
+    { "key": "design", "label": "Design", "blurb": "brand identity, collateral, social graphics", "see": "presentation" },
+    { "key": "presentation", "label": "Presentation", "blurb": "decks, training materials, video", "see": "design" },
+    { "key": "data", "label": "Data", "blurb": "research, dashboards, analysis", "see": "ai" },
+    { "key": "ai", "label": "AI", "blurb": "AI tools, apps, adoption work", "see": "data" },
+    { "key": "leadership", "label": "Leadership", "blurb": "governance, committees, advocacy", "see": "design" }
+  ],
+  "definitions": [
+    { "term": "AI", "pos": "n.", "def": "one of five tracks: AI tools, apps, adoption work.", "see": "DATA", "href": "/work/?track=ai" },
+    { "term": "ANALYST", "pos": "n.", "def": "the half of the job that checks the number before it goes on the page. Every figure on this site traces to a verified fact.", "see": "DESIGNER" },
+    { "term": "CASE STUDY", "pos": "n.", "def": "one Markdown file per piece of work, with the same fields every time: role, timeline, audience, constraint, outcome, tools, tracks.", "see": "WORK", "href": "/work/" },
+    { "term": "CHAPEL HILL, NC", "pos": "pr. n.", "def": "where this site is made. M.A., UNC Chapel Hill, July 2026.", "see": "UNC", "prov": "2026-07" },
+    { "term": "c/o", "pos": "abbr.", "def": "care of. Every piece here names who it was made for: c/o TEXAS TECH, c/o STEMPLUG, c/o UNC, or c/o SELF.", "see": "CASE STUDY" },
+    { "term": "DATA", "pos": "n.", "def": "one of five tracks: research, dashboards, analysis.", "see": "AI", "href": "/work/?track=data" },
+    { "term": "DESIGN", "pos": "n.", "def": "one of five tracks: brand identity, collateral, social graphics.", "see": "PRESENTATION", "href": "/work/?track=design" },
+    { "term": "DESIGNER", "pos": "n.", "def": "the half of the job that makes the thing. This site is itself a work sample for the design track.", "see": "ANALYST" },
+    { "term": "EDUPRENEUR", "pos": "n.", "def": "the concentration of the M.A. in Educational Innovation, Technology, and Entrepreneurship at UNC Chapel Hill.", "see": "UNC", "prov": "2026-07" },
+    { "term": "HIGH PASS", "pos": "n.", "def": "the top grade on the UNC Graduate School's H/P/L/F scale, earned in every course of the M.A.", "see": "UNC", "prov": "2026-07" },
+    { "term": "IMAGE", "pos": "n.", "def": "a grey well until the real export lands. Every real image carries its alt text and file facts as a caption.", "see": "WORK IN PROGRESS" },
+    { "term": "LEADERSHIP", "pos": "n.", "def": "one of five tracks: governance, committees, advocacy.", "see": "DESIGN", "href": "/work/?track=leadership" },
+    { "term": "NOTE TO SELF", "pos": "n.", "def": "a question Matt still has to answer, printed where the answer will go instead of hidden.", "see": "WORK IN PROGRESS" },
+    { "term": "PORTFOLIO", "pos": "n.", "def": "a list, not a pitch. Every case study, dated and tagged, in one inventory.", "see": "WORK", "href": "/" },
+    { "term": "PRESENTATION", "pos": "n.", "def": "one of five tracks: decks, training materials, video.", "see": "DESIGN", "href": "/work/?track=presentation" },
+    { "term": "RESUME", "pos": "n.", "def": "the same facts as this site, in the order recruiters expect, as one PDF.", "see": "CASE STUDY", "href": "/Zuniga_Matthew_Resume.pdf" },
+    { "term": "TEXAS TECH", "pos": "pr. n.", "def": "B.A., Digital Media and Professional Communications, December 2024, with a Certification in Sports Media. Visual Identity and Brand Coordinator, January 2024 to July 2025.", "see": "UNC", "prov": "2025-07" },
+    { "term": "TRACK", "pos": "n.", "def": "one of five tags on every case study, so a filtered link can be sent for a specific role.", "see": "WORK", "href": "/work/" },
+    { "term": "UNC", "pos": "pr. n.", "def": "M.A., Educational Innovation, Technology, and Entrepreneurship, UNC Chapel Hill, July 2026. Vice President, Graduate and Professional Student Government, 2025 to 2026.", "see": "TEXAS TECH", "prov": "2026-07" },
+    { "term": "VER. 002", "pos": "n.", "def": "the second version of this site: the same facts and case studies, rebuilt as one dated list with every part labelled.", "see": "HOW TO", "href": "/how-to/" },
+    { "term": "HOW TO", "pos": "n.", "def": "how this site is built, step by step, so anyone can build their own. Source linked.", "see": "VER. 002", "href": "/how-to/" },
+    { "term": "WORK", "pos": "n.", "def": "the full inventory, filterable by track. The filter lives in the URL so a view can be shared.", "see": "TRACK", "href": "/work/" },
+    { "term": "WORK IN PROGRESS", "pos": "n.", "def": "the hazard band on any page that still carries a note to self. Published unfinished, honestly.", "see": "NOTE TO SELF" },
+    { "term": "ZUN", "pos": "pr. n.", "def": "a personal brand built from the last name Zuniga, as a way to build a kind of family among the people who interact with it.", "see": "PORTFOLIO" }
+  ]
+}

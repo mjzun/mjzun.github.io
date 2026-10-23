@@ -1,0 +1,481 @@
+/* global.css — the site-wide styles for Direction v2: reset, base type, the .q straight-quote utility, labels, the c/o mark, hazard band, glass window, receipt, definition, note-to-self, tag, inventory rows (with their caption and "NOTES" block), region rules, the body.show-grid mode, focus rings, tap targets, and reduced motion. Imports tokens.css first. */
+
+@import "./tokens.css";
+
+/* ============================================================
+   1. RESET — browser defaults, edited 3%
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; }
+* { font-variant-ligatures: none; }
+
+html {
+  overflow-y: scroll;
+  scroll-padding-top: var(--s-5);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-grotesk);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  padding-inline: var(--gutter);
+  /* room under the page for the fixed "NAVIGATION" window, plus a phone's home-indicator inset */
+  padding-block: 0 calc(var(--dock-clearance) + env(safe-area-inset-bottom));
+}
+
+h1, h2, h3, h4, p, figure, blockquote, dl, dd { margin: 0; }
+ol, ul { margin: 0; padding: 0; }
+img, svg, video { max-width: 100%; height: auto; display: block; }
+button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; border-radius: 0; }
+b, strong { font-weight: 700; }
+sup { font-size: 0.6em; line-height: 0; vertical-align: super; }
+
+.page { max-width: var(--max); margin-inline: auto; }
+
+/* selection is inverted: ink behind, paper text */
+::selection { background: var(--ink); color: var(--paper); }
+
+/* ============================================================
+   2. THE QUOTE — the whole device. Straight quotes (\0022), never curly.
+      Usage: <span class="q">NAVIGATION</span> renders "NAVIGATION".
+      The "/ ''" alternative text keeps screen readers from reading "quote".
+   ============================================================ */
+.q::before, .q::after { content: "\0022" / ""; }
+
+/* the c/o mark is always lowercase, even inside an uppercase label or receipt */
+.co-mark { text-transform: none; }
+
+/* ============================================================
+   3. TYPE — three voices, sizes are the hierarchy
+   ============================================================ */
+
+/* labels: Inter Tight 700, all caps, 14px (or 12px with .fine) */
+.label {
+  font-family: var(--font-grotesk);
+  font-weight: 700;
+  font-size: var(--fs-label);
+  line-height: var(--lh-label);
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+}
+.fine { font-size: var(--fs-fine); }
+
+/* the document voice: IBM Plex Mono. Add .upper when it is UI. */
+.mono {
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  line-height: var(--lh-mono);
+  letter-spacing: 0;
+}
+.mono.fine { font-size: var(--fs-fine); }
+.upper { text-transform: uppercase; }
+
+/* object names: the thing's literal name, 800, caps, tight */
+.object {
+  font-family: var(--font-grotesk);
+  font-weight: 800;
+  font-size: var(--fs-object);
+  line-height: var(--lh-object);
+  letter-spacing: var(--track-display);
+  text-transform: uppercase;
+  overflow-wrap: anywhere;
+}
+
+/* the one display headline */
+.display {
+  font-family: var(--font-grotesk);
+  font-weight: 800;
+  font-size: var(--fs-display);
+  line-height: var(--lh-display);
+  letter-spacing: var(--track-display);
+  text-transform: uppercase;
+  text-wrap: balance;
+  overflow-wrap: anywhere;
+}
+
+/* the serif counter-voice: one word on the whole site */
+.serif {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  font-optical-sizing: auto;
+  letter-spacing: 0;
+}
+
+/* case-study prose: readable, sentence case, 65ch */
+.prose { max-width: var(--measure); }
+.prose p + p, .prose ul, .prose ol, .prose blockquote { margin-top: 1em; }
+.prose ul, .prose ol { padding-left: 1.2em; }
+.prose li + li { margin-top: 0.4em; }
+.prose h2 {
+  font-size: var(--fs-label);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: var(--track-label);
+  border-top: var(--rule);
+  padding-top: var(--s-3);
+  margin: var(--s-7) 0 var(--s-3);
+}
+.prose h2::before, .prose h2::after { content: "\0022" / ""; }   /* section names are labels too */
+.prose h2:first-child { margin-top: 0; }
+.prose blockquote { border-left: var(--rule); padding-left: var(--s-4); }
+.prose a { overflow-wrap: anywhere; }
+
+/* ============================================================
+   4. LINKS + FOCUS
+   ============================================================ */
+a { color: var(--link); text-decoration: underline; text-underline-offset: 0.14em; text-decoration-thickness: 1px; }
+a:hover { color: var(--ink); text-decoration-thickness: 2px; }   /* flat swap, nothing eases; the thicker rule is the hover in dark mode, where link and ink are one colour */
+
+:focus-visible { outline: var(--focus); outline-offset: var(--focus-offset); }
+
+/* skip link: hidden until focused */
+.skip {
+  position: absolute; left: var(--gutter); top: -100px;
+  padding: var(--s-2) var(--s-3);
+  background: var(--ink); color: var(--paper);
+  font-family: var(--font-mono); font-size: var(--fs-fine); text-transform: uppercase; text-decoration: none;
+  z-index: var(--z-skip);
+}
+.skip:focus-visible { top: var(--s-2); }
+
+.visually-hidden {
+  position: absolute; width: 1px; height: 1px; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap;
+}
+
+/* tap targets: small inline links get a taller hit area without moving the layout */
+.count a, .receipt a, .definition dt a, .definition dd a, .toggle-all {
+  display: inline-block;
+  padding-block: 4px; margin-block: -4px;      /* 24px, the hard floor, on lines that sit close together */
+}
+.count a { padding-block: 14px; margin-block: -14px; }   /* 44px: nothing sits above or below it */
+
+/* ============================================================
+   5. REGIONS — every layout region has a visible 1px rule on top,
+      and a data-region name that the grid mode reveals
+   ============================================================ */
+.region { border-top: var(--rule); padding-block: var(--s-4) var(--section); }
+.region--tight { padding-bottom: var(--s-5); }
+
+/* region head: letter, name in quotes, switch, count pushed right */
+.region-head {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--s-2) var(--s-4);
+  margin-bottom: var(--s-5);
+}
+.region-head .count { margin-left: auto; }
+
+/* the "OPEN ALL" / "CLOSE ALL" switch: a framed label, ink when pressed */
+.toggle-all { border: var(--rule); padding: var(--s-1) var(--s-3); min-height: var(--hit); margin-block: 0; align-self: center; }
+.toggle-all:hover, .toggle-all[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
+
+/* body.show-grid: outline every region in ink and print its name, in quotes, in the corner */
+body.show-grid [data-region] { outline: 1px dashed var(--ink); outline-offset: -1px; }
+body.show-grid [data-region]:not(.dock) { position: relative; }
+body.show-grid [data-region]::before {
+  content: "\0022" attr(data-region) "\0022" / "";
+  position: absolute; top: 0; left: 0; z-index: 2;
+  font-family: var(--font-mono); font-size: var(--fs-fine); line-height: 1.4;
+  background: var(--ink); color: var(--paper); padding: 0 var(--s-1);
+  pointer-events: none;
+}
+
+/* ============================================================
+   6. HAZARD BAND — 24px of 45° black/white stripes.
+      A divider, or a band that carries a label chip: "WORK IN PROGRESS".
+      The yellow variant is for one warning state only.
+   ============================================================ */
+.hazard {
+  height: var(--hazard-h);
+  background: var(--hazard);
+  display: flex; align-items: center;
+  padding-inline: var(--s-3);
+}
+.hazard--warn { --hazard-b: var(--caution); }
+/* the label chip inside the band: 18px tall so it sits inside the 24px stripe; not a button, so no hover */
+.hazard__chip {
+  background: var(--paper); color: var(--ink);
+  border: var(--rule);
+  padding: 0 var(--s-2);
+  font-size: var(--fs-fine);
+  line-height: 18px;
+}
+
+/* ============================================================
+   7. GLASS WINDOW — the XP window, frosted with xrunway's tier-2 glass:
+      58% paper, 18px blur + saturate(1.4) brightness(1.06), a 1px ink frame,
+      square corners, no gradient and no shadow (the brief allows only the
+      hazard stripe and the glass tint), and a title bar naming the window in quotes.
+      Values and evidence: docs/design/xrunway_glass.md.
+      Usage: <section class="glass-window"><div class="glass-window__bar"><span class="q">FILTERS</span></div><div class="glass-window__body">…</div></section>
+   ============================================================ */
+.glass-window {
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: var(--glass-filter);
+  backdrop-filter: var(--glass-filter);
+  border: var(--glass-frame);
+  border-radius: 0;
+  box-shadow: none;
+  color: var(--ink);
+}
+/* no blur available, or the visitor asked for less transparency: solid paper, same frame */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .glass-window { background: var(--glass-solid); box-shadow: none; }
+}
+@media (prefers-reduced-transparency: reduce) {
+  .glass-window {
+    background: var(--glass-solid);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    box-shadow: none;
+  }
+}
+.glass-window__bar {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--s-3);
+  border-bottom: var(--glass-frame);
+  padding: var(--s-1) var(--s-2);
+  font-family: var(--font-grotesk); font-weight: 700; font-size: var(--fs-fine);
+  letter-spacing: var(--track-label); text-transform: uppercase; line-height: 1.4;
+}
+.glass-window__body { padding: var(--s-2); }
+
+/* ============================================================
+   8. RECEIPT — mono, one line per fact, dotted rules
+      Usage: <ol class="receipt"><li><span>LAST BUILD</span><span>2026-09-14</span></li>…</ol>
+   ============================================================ */
+.receipt {
+  list-style: none;
+  font-family: var(--font-mono); font-size: var(--fs-fine); line-height: 1.4;
+  text-transform: uppercase;
+  max-width: 52ch;
+}
+.receipt li {
+  display: flex; justify-content: space-between; gap: var(--s-4);
+  padding: var(--s-1) 0;
+  border-bottom: var(--rule-dot);
+}
+.receipt li > :last-child { text-align: right; overflow-wrap: anywhere; }
+.receipt li.total { border-bottom: var(--rule); border-top: var(--rule); font-weight: 700; }
+/* receipt links are text links: link blue, underlined, like everywhere else */
+
+/* ============================================================
+   9. DEFINITION — dictionary style, mono, with a "See:" cross-reference
+      and a [VER. 002] or [YYYY-MM] provenance tag
+   ============================================================ */
+.definition { font-family: var(--font-mono); font-size: var(--fs-label); line-height: var(--lh-mono); }
+.definition > div { padding: var(--s-2) 0; border-top: var(--rule-soft); }
+.definition > div:last-child { border-bottom: var(--rule-soft); }
+.definition dt { display: inline; font-weight: 700; text-transform: uppercase; margin-right: 0.5ch; }
+.definition dt i { font-weight: 400; font-style: normal; text-transform: none; }   /* upright: no mono italic is loaded, and the dictionary sets (n.) upright */
+.definition dd { display: inline; }
+.definition .prov { color: var(--ink); font-weight: 400; }   /* ink, not grey: 14px text has to pass 4.5:1 */
+
+/* ============================================================
+   10. NOTE TO SELF — a TODO(Matt) rendered honestly, in mono
+   ============================================================ */
+.note-to-self {
+  font-family: var(--font-mono); font-size: var(--fs-label); line-height: var(--lh-mono);
+  border-left: var(--rule);
+  padding: var(--s-1) 0 var(--s-1) var(--s-3);
+  max-width: var(--measure);
+}
+.note-to-self::before {
+  content: "\0022NOTE TO SELF\0022 \00B7 " / "Note to self: ";
+  font-weight: 700;
+}
+.prose .note-to-self, details.notes .note-to-self { margin-top: 1em; }
+details.notes .note-to-self:last-child { margin-bottom: var(--s-3); }
+
+/* ============================================================
+   11. TAG — the orange tag: "NEW" · 2026-09, or "FEATURED". Text stays black on orange.
+       A rectangle with a 1px black edge (a zip-tie end), never a pill.
+   ============================================================ */
+.tag {
+  display: inline-block;
+  font-family: var(--font-mono); font-size: var(--fs-fine); line-height: 18px;
+  text-transform: uppercase;
+  background: var(--tab); color: var(--black);
+  border: 1px solid var(--black);
+  padding: 0 var(--s-2);
+  border-radius: 0;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+/* ============================================================
+   12. SPEC LINE — "ROLE" … "TIMELINE" … "TRACKS"
+   ============================================================ */
+.spec {
+  font-family: var(--font-mono); font-size: var(--fs-label); line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+.spec .k { font-weight: 700; text-transform: uppercase; }
+.spec .sep::before { content: "/" / ""; padding: 0 0.6em; color: var(--grey); }
+
+/* track labels: "DESIGN" in caps; the active filter goes orange. A 44px hit area on a 15px line. */
+.track {
+  display: inline-block;
+  padding-block: 15px; margin-block: -15px;
+  font-family: var(--font-grotesk); font-weight: 700; font-size: var(--fs-fine);
+  letter-spacing: var(--track-label); text-transform: uppercase;
+  color: var(--ink); text-decoration: none;
+  white-space: nowrap;
+}
+.track::before, .track::after { content: "\0022" / ""; }
+.track:hover { text-decoration: underline; }
+.track + .track { margin-left: var(--s-2); }
+
+/* filter chips inside the "FILTERS" window */
+.chips { display: flex; flex-wrap: wrap; gap: var(--s-1) var(--s-3); align-items: center; }
+.chip {
+  display: inline-flex; align-items: center; gap: var(--s-1);
+  min-height: var(--hit); padding: 0 var(--s-3);
+  border: var(--rule);
+  font-family: var(--font-grotesk); font-weight: 700; font-size: var(--fs-fine);
+  letter-spacing: var(--track-label); text-transform: uppercase;
+  color: var(--ink); text-decoration: none;
+}
+.chip .n { font-family: var(--font-mono); font-weight: 400; }
+.chip:hover { background: var(--ink); color: var(--paper); }
+.chip[aria-current="true"] { background: var(--tab); border-color: var(--tab); color: var(--black); }
+
+/* ============================================================
+   13. INDEX — A–F table of contents
+   ============================================================ */
+.index { list-style: none; }
+.index li {
+  display: grid; grid-template-columns: 3ch 1fr auto; gap: var(--s-3); align-items: baseline;
+  padding: var(--s-2) 0; border-top: var(--rule-soft);
+}
+.index li:last-child { border-bottom: var(--rule-soft); }
+.index .letter { font-family: var(--font-mono); font-size: var(--fs-label); }
+.index a { color: var(--ink); text-decoration: none; display: inline-flex; align-items: center; min-height: var(--hit); }
+.index a:hover { text-decoration: underline; }
+.index .note { font-family: var(--font-mono); font-size: var(--fs-fine); text-transform: uppercase; }
+
+/* ============================================================
+   14. INVENTORY ROW — one case study per row (CaseRow.astro)
+       number | "IMAGE" well | name, c/o | date, tracks, tag
+       then the "OUTCOME" caption and the "NOTES" block across the row
+   ============================================================ */
+.row {
+  display: grid;
+  grid-template-columns: 3ch 72px 1fr;
+  grid-template-areas: "n img name" "n img meta" "n more more";
+  gap: var(--s-1) var(--s-3);
+  align-items: start;
+  padding: var(--s-3) 0;
+  border-top: var(--rule);
+  position: relative;
+}
+.row:last-child { border-bottom: var(--rule); }
+.row[hidden] { display: none; }
+.row .n { grid-area: n; font-family: var(--font-mono); font-size: var(--fs-label); line-height: 1.7; }
+.row .img { grid-area: img; }
+.row .name { grid-area: name; }
+.row .meta { grid-area: meta; display: flex; flex-wrap: wrap; gap: var(--s-1) var(--s-3); align-items: center; }
+.row .more { grid-area: more; margin-top: var(--s-2); }
+.row .name a { color: var(--ink); text-decoration: none; }
+.row .name a::after { content: ""; position: absolute; inset: 0; }   /* the whole row is one link */
+.row:hover .name a { text-decoration: underline; text-decoration-thickness: 2px; }
+.row .co { font-family: var(--font-mono); font-size: var(--fs-fine); text-transform: uppercase; margin-top: var(--s-1); }
+.row .date { font-family: var(--font-mono); font-size: var(--fs-fine); text-transform: uppercase; }
+.row .img-cap { display: block; margin-top: var(--s-1); }
+.row .track, .row .tag, .row .more { position: relative; z-index: 1; }   /* stay clickable above the row link */
+.row .caption { font-size: var(--fs-label); }
+.row .caption .label { margin-right: 0.5ch; }
+.row .notes--row { margin-top: var(--s-2); border-top: var(--rule-soft); border-bottom: 0; }
+.row .notes--row summary { padding: var(--s-2) 0; }
+/* an unfinished piece: dashed well and the "IN PROGRESS" mark (idea 3.9d) */
+.row--wip .well { border-style: dashed; }
+@media (min-width: 720px) {
+  .row {
+    grid-template-columns: 3ch 120px 1fr auto;
+    grid-template-areas: "n img name meta" "n img more more";
+    gap: var(--s-3) var(--s-4);
+  }
+  .row .meta { flex-direction: column; align-items: flex-end; text-align: right; }
+  .row .more { margin-top: 0; }
+}
+
+/* the image well: grey, framed, labeled "IMAGE" until a real image lands */
+.well {
+  aspect-ratio: 4 / 3;
+  background: var(--grey-2);
+  border: var(--rule);
+  display: grid; place-items: center;
+  overflow: hidden;
+  font-family: var(--font-grotesk); font-weight: 700; font-size: var(--fs-fine);
+  letter-spacing: var(--track-label); text-transform: uppercase;
+}
+.well img { width: 100%; height: 100%; object-fit: cover; }
+.well--wide { aspect-ratio: 16 / 9; }
+
+/* a real image with its provenance caption under it; the alt text joins the caption on hover or focus */
+.figure img { border: var(--rule); width: 100%; }
+.figure figcaption { font-family: var(--font-mono); font-size: var(--fs-fine); text-transform: uppercase; margin-top: var(--s-1); }
+.figure .alt { display: none; text-transform: none; }
+.figure:hover .alt, .figure:focus-within .alt { display: inline; }
+
+/* ============================================================
+   15. LABELLED ROWS — contact and resume rows: "EMAIL" then the value
+   ============================================================ */
+.rows { list-style: none; }
+.rows li {
+  display: grid; grid-template-columns: 1fr; gap: var(--s-1) var(--s-4);
+  padding: var(--s-3) 0; border-top: var(--rule);
+}
+.rows li:last-child { border-bottom: var(--rule); }
+.rows .v { font-family: var(--font-grotesk); font-weight: 800; font-size: var(--fs-object); line-height: var(--lh-object); letter-spacing: var(--track-display); text-transform: uppercase; overflow-wrap: anywhere; }
+.rows .v a { color: var(--ink); text-decoration: none; }
+.rows .v a[href^="mailto:"] { text-transform: none; }   /* an email address keeps its own case */
+.rows .v a:hover { text-decoration: underline; }
+@media (min-width: 720px) { .rows li { grid-template-columns: 12ch 1fr; align-items: baseline; } }
+
+/* ============================================================
+   16. DETAILS — the "NOTES" block for the purist
+   ============================================================ */
+details.notes { border-top: var(--rule); border-bottom: var(--rule); }
+details.notes summary { cursor: pointer; padding: var(--s-3) 0; list-style: none; display: flex; gap: var(--s-3); align-items: baseline; min-height: var(--hit); }
+details.notes summary::-webkit-details-marker { display: none; }
+details.notes summary::after { content: "+"; font-family: var(--font-mono); margin-left: auto; }
+details.notes[open] summary::after { content: "\2212"; }
+details.notes .definition { padding-bottom: var(--s-3); }
+
+/* ============================================================
+   17. MOTION + PRINT
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
+}
+@media print {
+  .dock, .skip, .grid-toggle, .toggle-all { display: none; }
+  body { padding-bottom: 0; }
+  a { color: var(--ink); }
+}
+
+/* ============================================================
+   CODE IN CASE STUDIES — real source excerpts, shown as documents: mono, a 1px ink frame, scrolls sideways inside its own box so the page never does.
+   ============================================================ */
+.prose pre {
+  font-family: var(--font-mono);
+  font-size: var(--fs-fine);
+  line-height: 1.55;
+  border: 1px solid var(--ink);
+  padding: var(--s-3);
+  margin: var(--s-1) 0 var(--s-4);
+  overflow-x: auto;
+  max-width: 100%;
+  white-space: pre;
+  tab-size: 2;
+}
+.prose pre code { font-family: inherit; font-size: inherit; background: none; padding: 0; }
+.prose .source-label { margin-top: var(--s-4); margin-bottom: 0; }
+/* The Markdown highlighter paints code dark with colored tokens; the site is black on white, so the excerpts are too. */
+.prose pre, .prose pre.astro-code { background: var(--paper) !important; color: var(--ink) !important; }
+.prose pre span, .prose pre.astro-code span { color: inherit !important; background: none !important; }

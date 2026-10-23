@@ -1,0 +1,5 @@
+<!-- favicon.svg — a plain black square with a white straight double-quote mark: the site's whole device in 64px. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <rect x="0" y="0" width="64" height="64" fill="#000000"/>
+  <path d="M18 14h9l-2 22h-5zM37 14h9l-2 22h-5z" fill="#FFFFFF"/>
+</svg>

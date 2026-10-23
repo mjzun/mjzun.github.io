@@ -1,0 +1,115 @@
+---
+// index.astro — the home page: the one display headline, the A–F index, the full inventory (every case study, one row each, with an "OPEN ALL" / "CLOSE ALL" switch for the "NOTES" blocks), the five tracks as dictionary entries, then the resume and contact rows. No featured grid, no slogans.
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import CaseRow from '../components/CaseRow.astro';
+import Lead from '../components/Lead.astro';
+import site from '../content/site.json';
+import { pad, sortWork } from '../lib/case';
+import { openAllJs } from '../lib/scripts';
+
+const all = sortWork(await getCollection('work'));
+// The one piece marked lead: true gets the large block under the headline.
+const lead = all.find((e) => e.data.lead);
+const total = pad(all.length);
+// The month of this build, "YYYY-MM": a piece dated this month wears the "NEW" tag.
+const buildMonth = new Date().toISOString().slice(0, 7);
+
+const counts: Record<string, number> = {};
+for (const t of site.tracks) counts[t.key] = all.filter((e) => e.data.tracks.includes(t.key as any)).length;
+
+// The A–F index: the navigation is a table of contents.
+const index = [
+  { letter: 'A', label: 'WORK', href: '#a', note: `${total}` },
+  { letter: 'B', label: 'TRACKS', href: '#b', note: '05' },
+  { letter: 'C', label: 'ABOUT', href: '/about/', note: '' },
+  { letter: 'D', label: 'RESUME', href: site.resume, note: 'PDF' },
+  { letter: 'E', label: 'CONTACT', href: '#e', note: '' },
+  { letter: 'F', label: 'HOW TO', href: '/how-to/', note: '' },
+];
+---
+
+<Base title="PORTFOLIO" scripts={[openAllJs]}>
+  <!-- the one display headline: the positioning line, quotes only around the object name -->
+  <section class="hero region" data-region="HEADLINE">
+    <p class="mono fine upper corner"><span class="q">PORTFOLIO</span> · VER. {site.version} · <span class="co-mark">c.</span> {site.year}</p>
+    <h1 class="display">
+      <span class="q">DESIGNER AND ANALYST</span> WORKING WHERE EDUCATION, AI, AND VISUAL COMMUNICATION <span class="serif">MEET.</span>
+    </h1>
+  </section>
+
+  <!-- 00. the lead project, shown large -->
+  {lead && <Lead entry={lead} />}
+
+  <!-- the A–F index -->
+  <nav class="region region--tight" aria-label="Index" data-region="INDEX">
+    <ol class="index" role="list">
+      {
+        index.map((i) => (
+          <li>
+            <span class="letter">{i.letter}.</span>
+            <a class="label" href={i.href}><span class="q">{i.label}</span></a>
+            <span class="note">{i.note}</span>
+          </li>
+        ))
+      }
+    </ol>
+  </nav>
+
+  <!-- A. the full inventory -->
+  <section class="region" id="a" aria-labelledby="h-a" data-region="A. WORK">
+    <div class="region-head">
+      <span class="mono">A.</span>
+      <h2 class="label" id="h-a"><span class="q">WORK</span></h2>
+      <button class="label fine toggle-all" type="button" data-open-all="a" aria-pressed="false" hidden><span class="q">OPEN ALL</span></button>
+      <span class="count mono fine upper">{total} ITEMS · <a href="/work/">FILTER BY TRACK →</a></span>
+    </div>
+    <ol class="inventory" role="list">
+      {all.map((entry, i) => <CaseRow entry={entry} number={pad(i + 1)} eager={i === 0} level="h3" buildMonth={buildMonth} />)}
+    </ol>
+  </section>
+
+  <!-- B. tracks: each one is a shareable filtered link -->
+  <section class="region" id="b" aria-labelledby="h-b" data-region="B. TRACKS">
+    <div class="region-head">
+      <span class="mono">B.</span>
+      <h2 class="label" id="h-b"><span class="q">TRACKS</span></h2>
+      <span class="count mono fine upper">05 TRACKS</span>
+    </div>
+    <dl class="definition">
+      {
+        site.tracks.map((t) => (
+          <div>
+            <dt><a class="q" href={`/work/?track=${t.key}`}>{t.label}</a> <i>(n.)</i></dt>
+            <dd>
+              — {t.blurb}. {pad(counts[t.key])} ITEMS. <span class="mono fine">/work/?track={t.key}</span> <span class="prov">[VER. {site.version}]</span>
+            </dd>
+          </div>
+        ))
+      }
+    </dl>
+  </section>
+
+  <!-- D + E. resume and contact rows -->
+  <section class="region" id="e" aria-labelledby="h-e" data-region="D. RESUME + E. CONTACT">
+    <div class="region-head">
+      <span class="mono">D–E.</span>
+      <h2 class="label" id="h-e"><span class="q">RESUME</span> + <span class="q">CONTACT</span></h2>
+    </div>
+    <ul class="rows" role="list">
+      <li><span class="label"><span class="q">RESUME</span></span><span class="v"><a href={site.resume}>PDF ↗</a></span></li>
+      <li><span class="label"><span class="q">EMAIL</span></span><span class="v"><a href={site.links.email}>{site.email}</a></span></li>
+      <li><span class="label"><span class="q">LINKEDIN</span></span><span class="v"><a href={site.links.linkedin}>linkedin.com/in/mjzun ↗</a></span></li>
+      <li><span class="label"><span class="q">GITHUB</span></span><span class="v"><a href={site.links.github}>github.com/mjzun ↗</a></span></li>
+    </ul>
+  </section>
+</Base>
+
+<style>
+  .hero { border-top: 0; padding-top: var(--s-5); }
+  .corner { margin-bottom: var(--s-5); }
+  .inventory { list-style: none; }
+  /* the term of each track entry is a label that links; it stays ink like the other nav labels */
+  .definition dt a { color: var(--ink); text-decoration: none; }
+  .definition dt a:hover { text-decoration: underline; }
+</style>

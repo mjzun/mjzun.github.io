@@ -1,0 +1,333 @@
+---
+// work/[slug].astro — the case-study template: "CASE STUDY" nn OF 13, the object name, its labelled "SUBTITLE", the c/o line, a Definition for its first track, the spec line, a "WORK IN PROGRESS" band when a TODO(Matt) remains, the labelled "OUTCOME" caption for the tourist, labelled link rows, a notebook or a gallery of WebP images with measured provenance captions (or an "IMAGE" well), the body, a "NOTES" block for the purist (including every frontmatter question as a "NOTE TO SELF"), the "EXIT" link, and prev/next.
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Definition from '../../components/Definition.astro';
+import SpecLine from '../../components/SpecLine.astro';
+import { answered, clean, frontmatterTodos, hasTodo, isTodo, orgOf, pad, sortWork } from '../../lib/case';
+import Notebook from '../../components/Notebook.astro';
+import { Image, getImage } from 'astro:assets';
+import Glass from '../../components/Glass.astro';
+import VideoHero from '../../components/VideoHero.astro';
+import { GALLERY_QUALITY, GALLERY_WIDTHS, LIGHTBOX_WIDTHS, webpFacts, widthsFor } from '../../lib/image';
+
+export async function getStaticPaths() {
+  const all = sortWork(await getCollection('work'));
+  return all.map((entry, i) => ({
+    params: { slug: entry.id },
+    props: {
+      entry,
+      number: pad(i + 1),
+      total: pad(all.length),
+      prev: i > 0 ? all[i - 1] : null,
+      next: i < all.length - 1 ? all[i + 1] : null,
+    },
+  }));
+}
+
+const { entry, number, total, prev, next } = Astro.props;
+const { title, tracks, role, timeline, audience, constraint, outcome, tools, images, links = [], notebook, hero } = entry.data;
+const { Content } = await render(entry);
+
+const name = title.split(' — ')[0];
+const detail = title.split(' — ')[1];
+const org = orgOf(entry);
+const wip = hasTodo(entry);
+const todos = frontmatterTodos(entry);
+const toolsLine = tools.length && !tools.some(isTodo) ? tools.join(', ') : '—';
+const caption = answered(outcome);
+
+// Each image: its measured WebP facts, the larger WebP its "IMAGE" lightbox opens (and that file's facts), its quoted object type split off the caption ("FLYER"), and whether it is a tall piece (flyer, poster) that sits 2–3 across on desktop.
+const figures = await Promise.all(
+  images.map(async (img) => {
+    const big = widthsFor(img.src, LIGHTBOX_WIDTHS)[0];
+    const full = await getImage({ src: img.src, format: 'webp', width: big, quality: GALLERY_QUALITY });
+    const text = img.caption && !isTodo(img.caption) ? img.caption : '';
+    const m = text.match(/^"([^"]+)"\s*(.*)$/);
+    return {
+      ...img,
+      facts: await webpFacts(img.src, GALLERY_WIDTHS, GALLERY_QUALITY),
+      full: { src: full.src, facts: await webpFacts(img.src, LIGHTBOX_WIDTHS, GALLERY_QUALITY) },
+      type: m ? m[1] : '',
+      text: m ? m[2] : text,
+      tall: img.src.height > img.src.width,
+    };
+  }),
+);
+// The contact-sheet head: "IMAGES" 22 · "FLYER" 17 · "SOCIAL POST" 3 …, counted from the captions' quoted types, most common first.
+const typeCounts = [...figures.reduce((m, f) => (f.type ? m.set(f.type, (m.get(f.type) ?? 0) + 1) : m), new Map<string, number>())].sort((a, b) => b[1] - a[1]);
+const SIZES_WIDE = '(min-width: 1440px) 1200px, 100vw';
+const SIZES_TALL = '(min-width: 960px) 33vw, (min-width: 640px) 50vw, 100vw';
+---
+
+<Base title={name.toUpperCase()} co={org} description={caption === '—' ? title : caption}>
+  {hero && <VideoHero hero={hero} name={name} detail={detail} org={org} number={number} total={total} live={links.find((l) => l.kind === 'LIVE APP')} />}
+  <article class="study region" data-region={`CASE STUDY ${number}`}>
+    <header class="study-head">
+      {!hero && (
+        <>
+          <p class="label fine"><span class="q">CASE STUDY</span> {number} OF {total}</p>
+          <h1 class="object study-title"><span class="q">{name}</span></h1>
+          {detail && <p class="mono study-sub"><span class="q">SUBTITLE</span> {detail}</p>}
+          <p class="mono upper co"><span class="co-mark">c/o</span> {org}</p>
+        </>
+      )}
+
+      <Definition track={tracks[0]} class="study-def" />
+
+      <SpecLine
+        class="study-spec"
+        items={[
+          { key: 'ROLE', value: answered(role) },
+          { key: 'TIMELINE', value: clean(timeline) },
+          { key: 'TRACKS', tracks },
+        ]}
+      />
+
+      {
+        wip && (
+          <div class="hazard study-wip">
+            <span class="label hazard__chip"><span class="q">WORK IN PROGRESS</span></span>
+          </div>
+        )
+      }
+
+      <!-- one line for the tourist -->
+      <p class="caption prose"><span class="label fine"><span class="q">OUTCOME</span></span> {caption}</p>
+    </header>
+
+    {
+      links.length > 0 && (
+        <section class="study-links" aria-label="Links">
+          <p class="label fine"><span class="q">LINKS</span></p>
+          <ul class="link-rows">
+            {links.map((l) => (
+              <li>
+                <span class="label"><span class="q">{l.kind}</span></span>
+                <span class="sep" aria-hidden="true">·</span>
+                <a href={l.url} rel="noopener">{l.label} ↗</a>
+                {l.note && (
+                  <>
+                    <span class="sep" aria-hidden="true">·</span>
+                    <span class="mono fine upper">{l.note}</span>
+                  </>
+                )}
+              </li>
+            ))}
+          </ul>
+        </section>
+      )
+    }
+
+    <!-- the notebook when there is one; otherwise the images, each with its measured provenance and its alt text on hover, or one "IMAGE" well until the exports land -->
+    {
+      notebook ? (
+        <section class="study-images study-notebook" aria-label="Notebook">
+          <Notebook path={notebook.path} repo={notebook.repo} alts={notebook.alts} />
+        </section>
+      ) : (
+        <section class="study-images" aria-label="Images" data-region="IMAGES">
+          {figures.length ? (
+            <>
+              <p class="label fine sheet-head">
+                <span><span class="q">IMAGES</span> {pad(figures.length)}</span>
+                {typeCounts.map(([t, n]) => <span><span class="sep" aria-hidden="true">·</span> <span class="q">{t}</span> {pad(n)}</span>)}
+              </p>
+              <ol class="gallery" role="list">
+                {figures.map((img, i) => (
+                  <li class:list={['figure', img.tall ? 'figure--tall' : 'figure--wide']}>
+                    <p class="mono fine sheet-n" aria-hidden="true">{pad(i + 1)}/{pad(figures.length)}</p>
+                    <figure>
+                      <a
+                        class="figure__open"
+                        href={img.full.src}
+                        data-lightbox
+                        data-n={`${pad(i + 1)} OF ${pad(figures.length)}`}
+                        data-type={img.type}
+                        data-text={img.text}
+                        data-facts={img.full.facts.line}
+                        data-w={img.full.facts.width}
+                        data-h={img.full.facts.height}
+                        aria-label={`Open image ${i + 1} of ${figures.length} full size: ${img.alt}`}
+                      >
+                        <Image
+                          src={img.src}
+                          alt={img.alt}
+                          title={img.alt}
+                          format="webp"
+                          quality={GALLERY_QUALITY}
+                          widths={widthsFor(img.src, GALLERY_WIDTHS)}
+                          sizes={img.tall ? SIZES_TALL : SIZES_WIDE}
+                          loading={i === 0 ? 'eager' : 'lazy'}
+                          fetchpriority={i === 0 ? 'high' : undefined}
+                          decoding="async"
+                        />
+                      </a>
+                      <figcaption>
+                        {img.type && <><span class="q">{img.type}</span> </>}{img.text && `${img.text} · `}{img.facts.line}
+                        <span class="alt"> · <span class="q">ALT</span> {img.alt}</span>
+                      </figcaption>
+                    </figure>
+                  </li>
+                ))}
+              </ol>
+
+              <!-- the "IMAGE" lightbox: one glass window, filled by the script below from the link that was clicked; without JavaScript each link simply opens the full-size WebP -->
+              <Glass as="dialog" title="IMAGE" note={`01 OF ${pad(figures.length)}`} class="lightbox" data-lightbox-dialog aria-label="Image, full size">
+                <figure class="lightbox__figure">
+                  <img data-lightbox-img alt="" decoding="async" />
+                  <figcaption class="mono fine upper" data-lightbox-cap></figcaption>
+                </figure>
+                <form method="dialog" class="lightbox__close">
+                  <button type="submit" class="label fine"><span class="q">CLOSE</span> ✕</button>
+                </form>
+              </Glass>
+            </>
+          ) : (
+            <div class="well well--wide" role="img" aria-label={`${name}, image to come`}>
+              <span class="q">IMAGE</span>
+            </div>
+          )}
+        </section>
+      )
+    }
+
+    <div class="study-body prose">
+      <Content />
+    </div>
+
+    <!-- for the purist: the fixed fields, then every frontmatter question still open -->
+    <details class="notes">
+      <summary>
+        <span class="label"><span class="q">NOTES</span></span>
+        <span class="mono fine upper">FOR THE PURIST</span>
+      </summary>
+      <dl class="definition">
+        <div><dt><span class="q">AUDIENCE</span></dt><dd> — {answered(audience)}</dd></div>
+        <div><dt><span class="q">CONSTRAINT</span></dt><dd> — {answered(constraint)}</dd></div>
+        <div><dt><span class="q">TOOLS</span></dt><dd> — {toolsLine}</dd></div>
+        <div><dt><span class="q">TRACKS</span></dt><dd> — {tracks.map((t) => <a class="track" href={`/work/?track=${t}`}>{t}</a>)}</dd></div>
+      </dl>
+      {todos.map((t) => <p class="note-to-self"><span class="q">{t.key}</span> · {t.text}</p>)}
+    </details>
+
+    <p class="label exit"><a href="/work/"><span class="q">EXIT</span> ↩</a></p>
+  </article>
+
+  <nav class="prevnext region" aria-label="Previous and next case study" data-region="PREV / NEXT">
+    <div>
+      {prev && (
+        <>
+          <span class="label fine"><span class="q">PREV</span> ←</span>
+          <a class="object" href={`/work/${prev.id}/`}><span class="q">{prev.data.title.split(' — ')[0]}</span></a>
+        </>
+      )}
+    </div>
+    <div class="next">
+      {next && (
+        <>
+          <span class="label fine"><span class="q">NEXT</span> →</span>
+          <a class="object" href={`/work/${next.id}/`}><span class="q">{next.data.title.split(' — ')[0]}</span></a>
+        </>
+      )}
+    </div>
+  </nav>
+</Base>
+
+<script>
+  // Lightbox: clicking a gallery image opens the "IMAGE" glass window with its full-size WebP and provenance; Esc or "CLOSE" shuts it.
+  const dialog = document.querySelector<HTMLDialogElement>('[data-lightbox-dialog]');
+  if (dialog && typeof dialog.showModal === 'function') {
+    const img = dialog.querySelector<HTMLImageElement>('[data-lightbox-img]')!;
+    const cap = dialog.querySelector<HTMLElement>('[data-lightbox-cap]')!;
+    const note = dialog.querySelector<HTMLElement>('.glass-window__bar > .mono');
+    document.querySelectorAll<HTMLAnchorElement>('[data-lightbox]').forEach((a) => {
+      a.addEventListener('click', (e) => {
+        if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
+        e.preventDefault();
+        const d = a.dataset;
+        const thumb = a.querySelector('img');
+        img.src = a.href;
+        img.alt = thumb?.alt ?? '';
+        img.width = Number(d.w);
+        img.height = Number(d.h);
+        if (note) note.textContent = d.n ?? '';
+        cap.replaceChildren();
+        if (d.type) {
+          const q = document.createElement('span');
+          q.className = 'q';
+          q.textContent = d.type;
+          cap.append(q, ' ');
+        }
+        cap.append(`${d.text ? `${d.text} · ` : ''}${d.facts ?? ''}`);
+        dialog.showModal();
+      });
+    });
+    dialog.addEventListener('click', (e) => { if (e.target === dialog) dialog.close(); });
+    dialog.addEventListener('close', () => img.removeAttribute('src'));
+  }
+</script>
+
+<style>
+  .study { border-top: 0; }
+  .study-head > * + * { margin-top: var(--s-3); }
+  .study-title { max-width: 20ch; margin-top: var(--s-4); }
+  .study-def, .study-spec { margin-top: var(--s-5); }
+  /* the "WORK IN PROGRESS" band paints edge to edge like the footer band: border-image outset is ink overflow, so it never makes the page scroll sideways */
+  .study-wip { margin-top: var(--s-5); border-image: var(--hazard) fill 0 / 0 / 0 100vw; background: none; }
+  .caption { margin-top: var(--s-5); font-size: var(--fs-body); }
+  .caption .label { display: block; margin-bottom: var(--s-1); }
+
+  .study-images { display: grid; gap: var(--s-5); margin: var(--s-7) 0; }
+  .study-notebook { display: block; }
+
+  /* the gallery is a numbered contact sheet: a counted "IMAGES" head, a mono 01/22 over each frame, and a 1px rule over every row.
+     One column on phones; on wider screens landscape images take the full row, tall pieces sit 2 (then 3) across. */
+  .sheet-head { display: flex; flex-wrap: wrap; gap: 0 1ch; border-top: var(--rule); padding-top: var(--s-2); }
+  .sheet-head .sep { color: var(--grey); }
+  .gallery { list-style: none; padding: 0; display: grid; grid-template-columns: minmax(0, 1fr); column-gap: 0; row-gap: var(--s-5); align-items: start; }
+  .gallery > .figure { border-top: var(--rule); padding: var(--s-2) var(--s-4) 0 0; min-width: 0; }
+  .sheet-n { margin-bottom: var(--s-2); }
+  .figure__open { display: block; cursor: zoom-in; }
+  .figure__open:hover img { opacity: 0.85; }
+  @media (min-width: 640px) {
+    .gallery { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+    .figure--wide { grid-column: 1 / -1; }
+    .figure--tall { grid-column: span 3; }
+  }
+  @media (min-width: 960px) {
+    .figure--tall { grid-column: span 2; }
+  }
+
+  /* the "IMAGE" lightbox: a glass window over the page, the full-size WebP fitted to the screen, its provenance under it */
+  :global(dialog.lightbox) { padding: 0; margin: auto; width: min(100% - 2 * var(--gutter), 1200px); max-height: calc(100dvh - 2 * var(--gutter)); overflow: auto; }
+  :global(dialog.lightbox::backdrop) { background: rgba(0, 0, 0, 0.4); }
+  .lightbox__figure img { width: auto; max-width: 100%; max-height: calc(100dvh - 12rem); margin-inline: auto; border: var(--rule); }
+  .lightbox__figure figcaption { margin-top: var(--s-2); overflow-wrap: anywhere; }
+  .lightbox__close { margin-top: var(--s-2); }
+  .lightbox__close button { min-height: var(--hit); padding: 0 var(--s-3); border: var(--rule); background: var(--paper); color: var(--ink); cursor: pointer; }
+  .lightbox__close button:hover { background: var(--ink); color: var(--paper); }
+
+  /* link rows: "LIVE APP" · title ↗ · note, one per line on a soft rule */
+  .study-links { margin-top: var(--s-6); }
+  .link-rows { list-style: none; padding: 0; margin: var(--s-2) 0 0; }
+  .link-rows li { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--s-1) var(--s-2); padding-block: var(--s-2); border-top: var(--rule-soft); }
+  .link-rows li:last-child { border-bottom: var(--rule-soft); }
+  .link-rows a { overflow-wrap: anywhere; }
+  .link-rows .sep { color: var(--grey); }
+  .study-body { margin-bottom: var(--s-7); }
+
+  .exit { margin-top: var(--s-6); }
+  .exit a { color: var(--ink); text-decoration: none; display: inline-block; padding-block: 14px; margin-block: -14px; }
+  .exit a:hover { text-decoration: underline; }
+
+  /* prev / next: object names at the object size, nothing smaller, nothing in between */
+  .prevnext { display: grid; grid-template-columns: 1fr; gap: var(--s-4) var(--gutter); }
+  .prevnext .label { display: block; margin-bottom: var(--s-1); }
+  .prevnext a { color: var(--ink); text-decoration: none; }
+  .prevnext a:hover { text-decoration: underline; }
+  @media (min-width: 640px) {
+    .prevnext { grid-template-columns: 1fr 1fr; }
+    .prevnext .next { text-align: right; }
+  }
+</style>

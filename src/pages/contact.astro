@@ -1,0 +1,25 @@
+---
+// contact.astro — three labelled rows: "EMAIL", "LINKEDIN", "GITHUB". Nothing else on the page. Never a phone number.
+import Base from '../layouts/Base.astro';
+import site from '../content/site.json';
+---
+
+<Base title="CONTACT" description={site.contactBlurb}>
+  <section class="region contact" aria-labelledby="h-contact" data-region="CONTACT">
+    <div class="region-head">
+      <span class="mono">E.</span>
+      <h1 class="label" id="h-contact"><span class="q">CONTACT</span></h1>
+      <span class="count mono fine upper">03 ROWS</span>
+    </div>
+
+    <ul class="rows" role="list">
+      <li><span class="label"><span class="q">EMAIL</span></span><span class="v"><a href={site.links.email}>{site.email}</a></span></li>
+      <li><span class="label"><span class="q">LINKEDIN</span></span><span class="v"><a href={site.links.linkedin}>linkedin.com/in/mjzun ↗</a></span></li>
+      <li><span class="label"><span class="q">GITHUB</span></span><span class="v"><a href={site.links.github}>github.com/mjzun ↗</a></span></li>
+    </ul>
+  </section>
+</Base>
+
+<style>
+  .contact { border-top: 0; }
+</style>

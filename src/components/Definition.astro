@@ -1,0 +1,26 @@
+---
+// Definition.astro — a dictionary entry for one track: "DESIGN" (n.) — brand identity, collateral, social graphics. See: "PRESENTATION". [VER. 002]. Text comes from site.json so each track is defined once; the bracket says which version of the site coined the entry.
+import site from '../content/site.json';
+
+interface Props {
+  /** A track key from site.json, e.g. "design". */
+  track: string;
+  class?: string;
+  [key: string]: unknown;
+}
+
+const { track, class: className = '', ...rest } = Astro.props;
+const t = site.tracks.find((x) => x.key === track) ?? site.tracks[0];
+const see = site.tracks.find((x) => x.key === t.see);
+---
+
+<dl class={['definition', className].filter(Boolean).join(' ')} {...rest}>
+  <div>
+    <dt><span class="q">{t.label}</span> <i>(n.)</i></dt>
+    <dd>
+      — {t.blurb}.
+      {see && <> See: <a class="q" href={`/work/?track=${see.key}`}>{see.label.toUpperCase()}</a>.</>}
+      {' '}<span class="prov">[VER. {site.version}]</span>
+    </dd>
+  </div>
+</dl>

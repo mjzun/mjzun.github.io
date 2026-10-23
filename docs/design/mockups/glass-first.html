@@ -1,0 +1,480 @@
+<!doctype html>
+<!-- Home-page mockup for mjzun.github.io, "glass-first" direction: frosted-glass surfaces on a near-black ground, Virgil-style spec-sheet typography. Self-contained; open in any browser. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>"ZUNIGA" — glass-first mockup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700&family=Courier+Prime:wght@400;700&family=Bodoni+Moda:ital,opsz,wght@1,6..96,400&display=swap" rel="stylesheet">
+<style>
+  /* ---------- tokens ---------- */
+  :root {
+    --ground: #141519;          /* page ground, from the old Figma prototype */
+    --ground-deep: #0E0F12;     /* footer / image wells */
+    --ink: #F3F3F1;             /* primary text, 16.4:1 on ground */
+    --ink-2: #B7B9C1;           /* secondary text, 9.3:1 on ground, 5.2:1 on the brightest glass */
+    --ink-3: #B0B3BD;           /* spec labels, 8.7:1 on ground, 4.9:1 on the brightest glass */
+    --signal: #A8C8FF;          /* one signal colour: TOC, links, active chip, frames */
+    --alert: #FF9A7C;           /* one alert colour: the single resume CTA, 8.8:1 on ground */
+
+    --glass-bg: rgba(255,255,255,0.06);
+    --glass-bg-hover: rgba(255,255,255,0.09);
+    --glass-border: rgba(255,255,255,0.12);
+    --glass-border-strong: rgba(255,255,255,0.22);
+    --glass-highlight: rgba(255,255,255,0.10);   /* 1px inner top highlight */
+    --glass-blur: 20px;
+    --glass-radius: 20px;
+    --glass-radius-sm: 999px;
+
+    --font-label: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    --font-body: "Courier Prime", "Courier New", Courier, ui-monospace, monospace;
+    --font-accent: "Bodoni Moda", "Didot", "Times New Roman", serif;
+
+    /* spacing scale, 4px base */
+    --s-1: 4px; --s-2: 8px; --s-3: 12px; --s-4: 16px; --s-5: 24px;
+    --s-6: 32px; --s-7: 48px; --s-8: 64px; --s-9: 96px; --s-10: 144px;
+
+    --gutter: clamp(16px, 4vw, 48px);
+    --max: 1280px;
+  }
+
+  /* ---------- reset-ish ---------- */
+  *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-behavior: auto; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+  body {
+    margin: 0;
+    background: var(--ground);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 15px;
+    line-height: 1.55;
+    min-height: 100vh;
+  }
+  ::selection { background: var(--ink); color: var(--ground); }
+  a { color: var(--signal); text-decoration: none; }
+  a:hover, a:focus-visible { text-decoration: underline; text-underline-offset: 3px; }
+  :focus-visible { outline: 2px solid var(--signal); outline-offset: 3px; }
+  img { max-width: 100%; display: block; }
+
+  /* ---------- background bloom (what the glass blurs) ---------- */
+  .bloom {
+    position: fixed; inset: 0; z-index: -1; pointer-events: none;
+    background:
+      radial-gradient(60vw 40vw at 85% -10%, rgba(168,200,255,0.14), transparent 60%),
+      radial-gradient(50vw 35vw at -10% 45%, rgba(255,154,124,0.10), transparent 60%),
+      radial-gradient(45vw 30vw at 60% 110%, rgba(127,227,198,0.08), transparent 60%),
+      var(--ground);
+  }
+
+  /* ---------- glass recipe ---------- */
+  .glass {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    box-shadow: inset 0 1px 0 var(--glass-highlight);
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(140%);
+    backdrop-filter: blur(var(--glass-blur)) saturate(140%);
+    border-radius: var(--glass-radius);
+  }
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .glass { background: rgba(34,35,39,0.94); }
+  }
+
+  /* ---------- type utilities (Virgil voice: labels, spec, quotes) ---------- */
+  .label {
+    font-family: var(--font-label);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0;               /* natural tracking, like the source */
+    font-size: 12px;
+    line-height: 1.2;
+  }
+  .spec {                             /* spec-sheet key/value in monospace */
+    font-family: var(--font-body);
+    font-size: 12px;
+    line-height: 1.5;
+    color: var(--ink-3);
+    text-transform: uppercase;
+  }
+  .spec b { color: var(--ink-2); font-weight: 400; }
+  .section-title {                    /* quotation-marked, all-caps section title */
+    font-family: var(--font-label);
+    font-weight: 700;
+    font-size: clamp(28px, 5vw, 56px);
+    line-height: 1;
+    margin: 0;
+    text-transform: uppercase;
+  }
+  .section-title::before { content: "\201C"; }
+  .section-title::after  { content: "\201D"; }
+  .section-num { color: var(--signal); margin-right: 0.35em; }
+
+  /* ---------- layout ---------- */
+  .wrap { max-width: var(--max); margin: 0 auto; padding-inline: var(--gutter); }
+  section { padding-block: var(--s-9); }
+  .section-head {
+    display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between;
+    gap: var(--s-4); margin-bottom: var(--s-7);
+  }
+
+  /* ---------- header: spec sheet + TOC ---------- */
+  header.top {
+    position: sticky; top: 0; z-index: 10;
+    margin: var(--s-3) var(--gutter) 0;
+  }
+  .topbar {
+    display: grid; grid-template-columns: 1fr auto; gap: var(--s-4) var(--s-6);
+    align-items: center; padding: var(--s-3) var(--s-5);
+    max-width: var(--max); margin: 0 auto;
+  }
+  .brand { display: flex; flex-direction: column; gap: 2px; }
+  .brand .name { font-family: var(--font-label); font-weight: 700; font-size: 14px; text-transform: uppercase; color: var(--ink); }
+  .toc { display: flex; gap: var(--s-5); margin: 0; padding: 0; list-style: none; }
+  .toc a {
+    font-family: var(--font-label); font-weight: 700; font-size: 12px; text-transform: uppercase;
+    color: var(--signal); display: inline-flex; gap: 0.5em; padding: var(--s-1) 0;
+  }
+  .toc a span { color: var(--ink-3); font-family: var(--font-body); font-weight: 400; }
+
+  /* ---------- hero ---------- */
+  .hero { padding-block: var(--s-9) var(--s-8); }
+  .hero .kicker { color: var(--ink-3); margin-bottom: var(--s-5); }
+  .hero .kicker::before { content: "\201C"; } .hero .kicker::after { content: "\201D"; }
+  .positioning {
+    font-family: var(--font-label); font-weight: 600;
+    font-size: clamp(30px, 4.6vw, 62px); line-height: 1.06; letter-spacing: -0.015em;
+    margin: 0; max-width: 20ch; color: var(--ink);
+  }
+  .positioning em { font-family: var(--font-accent); font-style: italic; font-weight: 400; letter-spacing: 0; }
+  .hero-spec {
+    margin-top: var(--s-7);
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1px;
+    overflow: hidden;
+  }
+  .hero-spec > div { padding: var(--s-4) var(--s-5); background: rgba(255,255,255,0.03); }
+  .hero-spec .k { display: block; color: var(--ink-3); font-size: 11px; text-transform: uppercase; margin-bottom: var(--s-1); }
+  .hero-spec .v { font-family: var(--font-label); font-weight: 600; font-size: 15px; color: var(--ink); }
+
+  /* ---------- filter chips ---------- */
+  .chips { display: flex; flex-wrap: wrap; gap: var(--s-2); margin: 0; padding: 0; list-style: none; }
+  .chip {
+    font-family: var(--font-label); font-weight: 700; font-size: 12px; text-transform: uppercase;
+    color: var(--ink-2); background: var(--glass-bg); border: 1px solid var(--glass-border);
+    box-shadow: inset 0 1px 0 var(--glass-highlight);
+    -webkit-backdrop-filter: blur(var(--glass-blur)); backdrop-filter: blur(var(--glass-blur));
+    border-radius: var(--glass-radius-sm); padding: 9px 14px; cursor: pointer;
+    transition: border-color 150ms ease, background-color 150ms ease, color 150ms ease;
+  }
+  .chip:hover { border-color: var(--glass-border-strong); color: var(--ink); }
+  .chip[aria-pressed="true"] { background: var(--signal); color: var(--ground); border-color: var(--signal); }
+  .chip .n { font-family: var(--font-body); font-weight: 400; margin-left: 0.5em; opacity: 0.8; }
+
+  /* ---------- work grid ---------- */
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s-5); list-style: none; margin: 0; padding: 0; }
+  .card {
+    display: flex; flex-direction: column; overflow: hidden; height: 100%;
+    transition: border-color 150ms ease, background-color 150ms ease;
+  }
+  .card:hover { border-color: var(--glass-border-strong); background: var(--glass-bg-hover); }
+  .card[hidden] { display: none; }
+  .card .well {                       /* image placeholder */
+    aspect-ratio: 4 / 3; position: relative; overflow: hidden;
+    border-bottom: 1px solid var(--glass-border);
+    display: flex; align-items: flex-end; padding: var(--s-4);
+  }
+  .card .well .img-note {
+    font-family: var(--font-body); font-size: 11px; line-height: 1.4; text-transform: uppercase;
+    color: var(--ink); background: rgba(14,15,18,0.72); border: 1px solid var(--glass-border);
+    padding: 6px 8px; border-radius: 6px; max-width: 100%;
+  }
+  .card .well .num {
+    position: absolute; top: var(--s-4); left: var(--s-4);
+    font-family: var(--font-label); font-weight: 700; font-size: 12px; color: var(--ink);
+    background: rgba(14,15,18,0.72); border: 1px solid var(--glass-border); border-radius: 999px; padding: 4px 9px;
+  }
+  /* per-card gradient placeholders; real WebP images replace these */
+  .well-1 { background: linear-gradient(135deg, #2B2F4A 0%, #5A4E9A 60%, #A8C8FF 140%); }
+  .well-2 { background: linear-gradient(160deg, #2A2C33 0%, #4A4F5C 50%, #C9CDD6 150%); }
+  .well-3 { background: linear-gradient(135deg, #1F3B3A 0%, #2E6B63 55%, #7FE3C6 140%); }
+  .well-4 { background: linear-gradient(150deg, #3A2820 0%, #8A4A33 55%, #FF9A7C 140%); }
+  .well-5 { background: linear-gradient(135deg, #2C2A3E 0%, #6B4F8A 55%, #D9B8FF 140%); }
+  .well-6 { background: linear-gradient(160deg, #1E2A3F 0%, #2F4F7F 55%, #A8C8FF 150%); }
+
+  .card .body { padding: var(--s-5); display: flex; flex-direction: column; gap: var(--s-3); flex: 1; }
+  .tracks { display: flex; flex-wrap: wrap; gap: var(--s-1); margin: 0; padding: 0; list-style: none; }
+  .tracks li {
+    font-family: var(--font-label); font-weight: 700; font-size: 10px; text-transform: uppercase;
+    color: var(--signal); border: 1px solid var(--signal); border-radius: 999px; padding: 3px 8px;
+  }
+  .card h3 { font-family: var(--font-label); font-weight: 600; font-size: 20px; line-height: 1.2; margin: 0; letter-spacing: -0.01em; }
+  .card h3 a { color: var(--ink); }
+  .card h3 a::after { content: ""; position: absolute; inset: 0; }   /* whole card clickable */
+  .card { position: relative; }
+  .card .outcome { margin: 0; color: var(--ink-2); font-size: 14px; }
+  .card .meta {
+    margin-top: auto; padding-top: var(--s-3); border-top: 1px solid var(--glass-border);
+    display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-2);
+  }
+
+  /* ---------- about / resume ---------- */
+  .about { display: grid; grid-template-columns: 1.2fr 1fr; gap: var(--s-6); }
+  .about .panel { padding: var(--s-6); }
+  .about p { margin: 0 0 var(--s-4); color: var(--ink-2); max-width: 60ch; }
+  .about p:last-child { margin-bottom: 0; }
+  .cta {
+    display: inline-flex; align-items: center; gap: var(--s-3);
+    font-family: var(--font-label); font-weight: 700; font-size: 13px; text-transform: uppercase;
+    color: var(--alert); border: 1px solid var(--alert); border-radius: 999px; padding: 12px 18px;
+    transition: background-color 150ms ease, color 150ms ease;
+  }
+  .cta:hover, .cta:focus-visible { background: var(--alert); color: var(--ground); text-decoration: none; }
+  .cta .size { font-family: var(--font-body); font-weight: 400; text-transform: none; opacity: 0.85; }
+  .facts { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s-3); }
+  .facts li { display: grid; grid-template-columns: 96px 1fr; gap: var(--s-3); padding-bottom: var(--s-3); border-bottom: 1px solid var(--glass-border); }
+  .facts li:last-child { border-bottom: 0; padding-bottom: 0; }
+  .facts .k { color: var(--ink-3); font-size: 12px; text-transform: uppercase; padding-top: 3px; }
+  .facts .v { font-family: var(--font-label); font-weight: 600; font-size: 14px; color: var(--ink); }
+  .facts .v small { display: block; font-family: var(--font-body); font-weight: 400; color: var(--ink-2); font-size: 13px; margin-top: 2px; }
+
+  /* ---------- contact ---------- */
+  .contact-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s-5); list-style: none; margin: 0; padding: 0; }
+  .contact-grid a { display: block; padding: var(--s-5); color: var(--ink); transition: border-color 150ms ease, background-color 150ms ease; }
+  .contact-grid a:hover { border-color: var(--glass-border-strong); background: var(--glass-bg-hover); text-decoration: none; }
+  .contact-grid .k { display: block; color: var(--ink-3); margin-bottom: var(--s-2); }
+  .contact-grid .v { font-family: var(--font-label); font-weight: 600; font-size: 18px; color: var(--signal); word-break: break-word; }
+
+  /* ---------- footer / colophon ---------- */
+  footer { padding: var(--s-8) 0 var(--s-9); border-top: 1px solid var(--glass-border); background: var(--ground-deep); }
+  .colophon { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--s-5); }
+  .colophon .k { display: block; color: var(--ink-3); margin-bottom: var(--s-1); }
+  .colophon .v { color: var(--ink-2); font-size: 13px; }
+
+  /* ---------- responsive ---------- */
+  @media (max-width: 960px) {
+    .grid { grid-template-columns: repeat(2, 1fr); }
+    .about { grid-template-columns: 1fr; }
+    .contact-grid { grid-template-columns: 1fr; }
+    .colophon { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 640px) {
+    body { font-size: 14px; }
+    section { padding-block: var(--s-8); }
+    header.top { position: static; margin: var(--s-3) var(--gutter) 0; }
+    .topbar { grid-template-columns: 1fr; padding: var(--s-4); }
+    .toc { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-2) var(--s-4); }
+    .grid { grid-template-columns: 1fr; }
+    .card .meta { grid-template-columns: 1fr; }
+    .facts li { grid-template-columns: 1fr; gap: var(--s-1); }
+    .colophon { grid-template-columns: 1fr; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; }
+  }
+</style>
+</head>
+<body>
+<div class="bloom" aria-hidden="true"></div>
+
+<!-- 00 · header: spec sheet on the left, numbered table of contents on the right -->
+<header class="top">
+  <div class="topbar glass">
+    <div class="brand">
+      <span class="name">Matthew Jay Zuniga</span>
+      <span class="spec">Portfolio &middot; c/o Matt &middot; Edition 2026</span>
+    </div>
+    <nav aria-label="Table of contents">
+      <ol class="toc">
+        <li><a href="#work"><span>01</span>Work</a></li>
+        <li><a href="#about"><span>02</span>About</a></li>
+        <li><a href="#resume"><span>03</span>Resume</a></li>
+        <li><a href="#contact"><span>04</span>Contact</a></li>
+      </ol>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <!-- hero: the positioning line, then a spec block of verified facts -->
+  <section class="hero wrap" aria-labelledby="intro">
+    <p class="label kicker" id="intro">Introduction</p>
+    <h1 class="positioning">Designer and analyst working where education, AI, and visual communication <em>meet.</em></h1>
+    <dl class="hero-spec glass">
+      <div><dt class="spec k">Education</dt><dd class="v" style="margin:0">M.A., UNC Chapel Hill, 2026</dd></div>
+      <div><dt class="spec k">Undergrad</dt><dd class="v" style="margin:0">B.A., Texas Tech, 2024</dd></div>
+      <div><dt class="spec k">Tracks</dt><dd class="v" style="margin:0">Design &middot; Presentation &middot; Data &middot; AI &middot; Leadership</dd></div>
+      <div><dt class="spec k">Featured</dt><dd class="v" style="margin:0">6 case studies below &middot; all of them on the Work page</dd></div>
+    </dl>
+  </section>
+
+  <!-- 01 · selected work: track filter chips + six featured case studies -->
+  <section class="wrap" id="work" aria-labelledby="work-title">
+    <div class="section-head">
+      <h2 class="section-title" id="work-title"><span class="section-num">01</span>Selected work</h2>
+      <a class="label" href="/work/">All case studies &rarr;</a>
+    </div>
+
+    <ul class="chips" aria-label="Filter by track" style="margin-bottom: var(--s-6)">
+      <li><button class="chip" type="button" data-track="all" aria-pressed="true">All<span class="n">6</span></button></li>
+      <li><button class="chip" type="button" data-track="design" aria-pressed="false">Design<span class="n">2</span></button></li>
+      <li><button class="chip" type="button" data-track="presentation" aria-pressed="false">Presentation<span class="n">1</span></button></li>
+      <li><button class="chip" type="button" data-track="data" aria-pressed="false">Data<span class="n">2</span></button></li>
+      <li><button class="chip" type="button" data-track="ai" aria-pressed="false">AI<span class="n">2</span></button></li>
+      <li><button class="chip" type="button" data-track="leadership" aria-pressed="false">Leadership<span class="n">1</span></button></li>
+    </ul>
+
+    <ul class="grid" id="grid">
+      <li class="card glass" data-tracks="design presentation">
+        <div class="well well-1" role="img" aria-label="Placeholder for the Raider Education deck cover">
+          <span class="num">No. 01</span>
+          <span class="img-note">Image: Raider Education flagship deck cover + brochure (2x PNG, WebP)</span>
+        </div>
+        <div class="body">
+          <ul class="tracks"><li>Design</li><li>Presentation</li></ul>
+          <h3><a href="/work/raider-education/">Raider Education</a></h3>
+          <p class="outcome">A student leadership and peer-mediation program that had ended years earlier, revived with no prior material: brand identity, every presentation deck, flyers, posters, and videos built from scratch.</p>
+          <div class="meta spec"><span><b>Role</b><br>Brand Coordinator</span><span><b>Timeline</b><br>Jan 2024 &ndash; Jul 2025</span></div>
+        </div>
+      </li>
+
+      <li class="card glass" data-tracks="design">
+        <div class="well well-2" role="img" aria-label="Placeholder for a grid of Texas Tech event flyers">
+          <span class="num">No. 02</span>
+          <span class="img-note">Image: 3&times;3 tile of event flyers (Trivia Bowl, MLK Week 2025, Hooray for the Holidays)</span>
+        </div>
+        <div class="body">
+          <ul class="tracks"><li>Design</li></ul>
+          <h3><a href="/work/texas-tech-event-collateral/">Texas Tech event collateral system</a></h3>
+          <p class="outcome">60+ print and digital pieces for 25&ndash;30 events across three units, built on a template system; the full 2025&ndash;26 flyer set was finished before leaving the role.</p>
+          <div class="meta spec"><span><b>Role</b><br>Brand Coordinator</span><span><b>Timeline</b><br>Jan 2024 &ndash; Jul 2025</span></div>
+        </div>
+      </li>
+
+      <li class="card glass" data-tracks="data">
+        <div class="well well-3" role="img" aria-label="Placeholder for the EdMotion competitor heatmap">
+          <span class="num">No. 03</span>
+          <span class="img-note">Image: heatmap screenshot, competitor names anonymized pending EdMotion approval</span>
+        </div>
+        <div class="body">
+          <ul class="tracks"><li>Data</li></ul>
+          <h3><a href="/work/edmotion-competitor-heatmap/">EdMotion competitor heatmap</a></h3>
+          <p class="outcome">10 competitors scored on price, installs, distribution model, technological novelty, and research backing. Changed how the company understood distribution relative to price and novelty.</p>
+          <div class="meta spec"><span><b>Role</b><br>Intern</span><span><b>Timeline</b><br>Aug 2025 &ndash; May 2026</span></div>
+        </div>
+      </li>
+
+      <li class="card glass" data-tracks="data ai">
+        <div class="well well-4" role="img" aria-label="Placeholder for the AEI replication chart">
+          <span class="num">No. 04</span>
+          <span class="img-note">Image: Job Zone usage-share bar chart exported from the notebook</span>
+        </div>
+        <div class="body">
+          <ul class="tracks"><li>Data</li><li>AI</li></ul>
+          <h3><a href="/work/aei-replication/">Anthropic Economic Index replication</a></h3>
+          <p class="outcome">3,514 task-level usage shares mapped onto 923 O*NET occupations. Graduate-level occupations ~3&times; over-represented, high-school-level ~4&times; under-represented: a roughly tenfold spread.</p>
+          <div class="meta spec"><span><b>Role</b><br>Independent research</span><span><b>Timeline</b><br>Apr 2026</span></div>
+        </div>
+      </li>
+
+      <li class="card glass" data-tracks="ai">
+        <div class="well well-5" role="img" aria-label="Placeholder for screenshots of the five Lovable apps">
+          <span class="num">No. 05</span>
+          <span class="img-note">Image: five app screenshots, fanned; live links on the case-study page</span>
+        </div>
+        <div class="body">
+          <ul class="tracks"><li>AI</li></ul>
+          <h3><a href="/work/lovable-apps/">Five Lovable apps</a></h3>
+          <p class="outcome">Beta-tested new platform features as a Lovable Ambassador (March 2026 cohort) and shipped five AI-built web apps that drew 110+ organic visitors.</p>
+          <div class="meta spec"><span><b>Role</b><br>Ambassador</span><span><b>Timeline</b><br>Mar &ndash; May 2026</span></div>
+        </div>
+      </li>
+
+      <li class="card glass" data-tracks="leadership">
+        <div class="well well-6" role="img" aria-label="Placeholder for a GPSG photo">
+          <span class="num">No. 06</span>
+          <span class="img-note">Image: GPSG cabinet or Senate photo (own photo, not stock)</span>
+        </div>
+        <div class="body">
+          <ul class="tracks"><li>Leadership</li></ul>
+          <h3><a href="/work/gpsg-vice-president/">GPSG Vice President</a></h3>
+          <p class="outcome">Represented 11,553 graduate and professional students at UNC; graduate voice on the Provost&rsquo;s Generative AI Committee and the fee advisory bodies.</p>
+          <div class="meta spec"><span><b>Role</b><br>Vice President</span><span><b>Timeline</b><br>2025 &ndash; 2026</span></div>
+        </div>
+      </li>
+    </ul>
+    <p class="spec" id="empty" hidden style="margin-top: var(--s-5)">No featured piece on this track yet. <a href="/work/">See all work &rarr;</a></p>
+  </section>
+
+  <!-- 02 · about + 03 · resume -->
+  <section class="wrap" id="about" aria-labelledby="about-title">
+    <div class="section-head">
+      <h2 class="section-title" id="about-title"><span class="section-num">02</span>About</h2>
+    </div>
+    <div class="about">
+      <div class="panel glass">
+        <p>Matt Zuniga holds an M.A. in Educational Innovation, Technology, and Entrepreneurship from UNC Chapel Hill (High Pass in every course) and a B.A. in Digital Media and Professional Communications from Texas Tech.</p>
+        <p>At Texas Tech he rebuilt a defunct program&rsquo;s visual identity and produced 60+ pieces for 25&ndash;30 events. At EdMotion he built the 10-competitor dashboard and heatmap that changed how the company read its market. Independently, he replicated a published AI-adoption study in Python.</p>
+        <p>As GPSG Vice President he represented 11,553 graduate and professional students and sat on the Provost&rsquo;s Generative AI Committee.</p>
+        <p id="resume" style="margin-top: var(--s-6)">
+          <a class="cta" href="/Zuniga_Matthew_Resume.pdf" download>
+            <span class="spec" style="color:inherit">03</span> Download resume <span class="size">PDF</span>
+          </a>
+        </p>
+      </div>
+      <div class="panel glass">
+        <ul class="facts">
+          <li><span class="spec k">Now</span><span class="v">Marketing and Growth Intern, STEMPLUG<small>Remote &middot; May 2026 &ndash; present</small></span></li>
+          <li><span class="spec k">Recent</span><span class="v">Graduate Research Assistant, UNC EdIT<small>~10 faculty trainings on generative-AI tools and AV</small></span></li>
+          <li><span class="spec k">Tools</span><span class="v">Premiere &middot; Illustrator &middot; Figma &middot; Canva &middot; Blender<small>Python (pandas, matplotlib) &middot; Claude Code &middot; Lovable</small></span></li>
+          <li><span class="spec k">Honors</span><span class="v">ASU+GSV Summit Scholarship, 2026<small>Big XII Black Student Government Delegate, 2023&ndash;2025</small></span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 · contact -->
+  <section class="wrap" id="contact" aria-labelledby="contact-title">
+    <div class="section-head">
+      <h2 class="section-title" id="contact-title"><span class="section-num">04</span>Contact</h2>
+    </div>
+    <ul class="contact-grid">
+      <li><a class="glass" href="mailto:zun@ad.unc.edu"><span class="spec k">Email</span><span class="v">zun@ad.unc.edu</span></a></li>
+      <li><a class="glass" href="https://linkedin.com/in/mjzun"><span class="spec k">LinkedIn</span><span class="v">linkedin.com/in/mjzun</span></a></li>
+      <li><a class="glass" href="https://github.com/mjzun"><span class="spec k">GitHub</span><span class="v">github.com/mjzun</span></a></li>
+    </ul>
+  </section>
+</main>
+
+<!-- colophon: the site names its own parts, spec-sheet style -->
+<footer>
+  <div class="wrap colophon">
+    <div><span class="spec k">Portfolio</span><span class="v">c/o Matthew Jay Zuniga &middot; 2026</span></div>
+    <div><span class="spec k">Type</span><span class="v">Inter &middot; Courier Prime &middot; Bodoni Moda</span></div>
+    <div><span class="spec k">Ground</span><span class="v">#141519, frosted glass at 6% white</span></div>
+    <div><span class="spec k">Built with</span><span class="v">Astro on GitHub Pages</span></div>
+  </div>
+</footer>
+
+<script>
+  // Track filter: one active chip at a time; cards show when their data-tracks contains the chip's track.
+  (function () {
+    var chips = document.querySelectorAll('.chip');
+    var cards = document.querySelectorAll('#grid .card');
+    var empty = document.getElementById('empty');
+    function apply(track) {
+      var shown = 0;
+      cards.forEach(function (card) {
+        var match = track === 'all' || card.dataset.tracks.split(' ').indexOf(track) !== -1;
+        card.hidden = !match;
+        if (match) shown++;
+      });
+      empty.hidden = shown > 0;
+      chips.forEach(function (c) { c.setAttribute('aria-pressed', String(c.dataset.track === track)); });
+    }
+    chips.forEach(function (chip) {
+      chip.addEventListener('click', function () { apply(chip.dataset.track); });
+    });
+  })();
+</script>
+</body>
+</html>

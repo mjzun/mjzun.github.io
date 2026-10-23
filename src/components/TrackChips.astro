@@ -1,0 +1,34 @@
+---
+// TrackChips.astro — the "FILTERS" glass window: one chip per track, written "DESIGN" 05. Each chip is a plain link to /work/?track=x so a filtered view is a shareable URL and works without JavaScript; only the Work page's script marks the active one (the server never guesses, so a shared filtered link is never mislabelled).
+import site from '../content/site.json';
+import Glass from './Glass.astro';
+
+interface Props {
+  /** Count per track key (and "all"), shown after each label. */
+  counts: Record<string, number>;
+}
+
+const { counts } = Astro.props;
+
+const chips = [
+  { key: 'all', label: 'ALL' },
+  ...site.tracks.map((t) => ({ key: t.key, label: t.label.toUpperCase() })),
+];
+---
+
+<Glass title="FILTERS" as="nav" aria-label="Filter by track" note={`${chips.length - 1} TRACKS`}>
+  <div class="chips">
+    {
+      chips.map((c) => (
+        <a
+          class="chip"
+          href={c.key === 'all' ? '/work/' : `/work/?track=${c.key}`}
+          data-track={c.key}
+        >
+          <span class="q">{c.label}</span>
+          <span class="n">{String(counts[c.key] ?? 0).padStart(2, '0')}</span>
+        </a>
+      ))
+    }
+  </div>
+</Glass>

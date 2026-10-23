@@ -1,0 +1,102 @@
+---
+// Lead.astro — the "LEAD PROJECT" block at the top of the home page: one case study shown large, with its first image framed in ink, its name at poster size, the one-line outcome, and two labelled actions ("LIVE APP" and "CASE STUDY"). Which piece leads is set by `lead: true` in its Markdown frontmatter.
+import { Image } from 'astro:assets';
+import { answered, dateOf, orgOf, type Work } from '../lib/case';
+
+interface Props {
+  entry: Work;
+}
+
+const { entry } = Astro.props;
+const { title, images, outcome, links = [], tracks } = entry.data;
+const cover = images[0];
+const href = `/work/${entry.id}/`;
+// "(X)RUNWAY — a first-person AR runway trainer" -> name "(X)RUNWAY", subtitle "a first-person AR runway trainer"
+const [name, ...rest] = title.split(' — ');
+const subtitle = rest.join(' — ');
+const live = links.find((l) => l.kind === 'LIVE APP');
+const date = dateOf(entry);
+---
+
+<section class="lead region" aria-labelledby="h-lead" data-region="LEAD PROJECT">
+  <div class="region-head">
+    <span class="mono">00.</span>
+    <h2 class="label" id="h-lead"><span class="q">LEAD PROJECT</span></h2>
+    <span class="count mono fine upper"><span class="co-mark">c/o</span> {orgOf(entry)} · {date}</span>
+  </div>
+
+  <div class="lead-grid">
+    {cover && (
+      <figure class="lead-figure">
+        <a href={href} aria-label={`${name} case study`}>
+          <Image
+            src={cover.src}
+            alt={cover.alt}
+            format="webp"
+            quality={70}
+            widths={[640, 960, 1280, 1440]}
+            sizes="(min-width: 900px) 64vw, 100vw"
+            loading="eager"
+            decoding="async"
+          />
+        </a>
+        {cover.caption && <figcaption class="mono fine upper">{cover.caption}</figcaption>}
+      </figure>
+    )}
+
+    <div class="lead-body">
+      <h3 class="lead-name"><a href={href}><span class="q">{name}</span></a></h3>
+      {subtitle && <p class="lead-sub mono upper">{subtitle}</p>}
+      <p class="caption prose"><span class="label fine"><span class="q">OUTCOME</span></span> {answered(outcome)}</p>
+      <p class="lead-tracks">{tracks.map((t) => <a class="track" href={`/work/?track=${t}`}>{t}</a>)}</p>
+      <ul class="lead-actions" role="list">
+        {live && (
+          <li>
+            <a class="action action--primary" href={live.url}><span class="q">LIVE APP</span> ↗</a>
+          </li>
+        )}
+        <li>
+          <a class="action" href={href}><span class="q">CASE STUDY</span> →</a>
+        </li>
+      </ul>
+      {live?.note && <p class="mono fine upper lead-note">{live.note}</p>}
+    </div>
+  </div>
+</section>
+
+<style>
+  .lead-grid { display: grid; gap: var(--s-5); margin-top: var(--s-4); }
+  @media (min-width: 900px) {
+    .lead-grid { grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); align-items: end; }
+  }
+  .lead-figure { margin: 0; }
+  .lead-figure a { display: block; border: 1px solid var(--ink); line-height: 0; }
+  .lead-figure img { width: 100%; height: auto; display: block; }
+  .lead-figure figcaption { margin-top: var(--s-1); }
+  .lead-name {
+    font-family: var(--font-grotesk);
+    font-weight: 800;
+    font-size: clamp(34px, 4.2vw, 64px);
+    line-height: 0.9;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    margin: 0;
+    white-space: nowrap; /* keep the quotes on the same line as the name */
+  }
+  .lead-name a { color: var(--ink); text-decoration: none; }
+  .lead-name a:hover { text-decoration: underline; text-decoration-thickness: 3px; }
+  .lead-sub { font-size: var(--fs-label); margin-top: var(--s-2); }
+  .lead-body .caption { margin-top: var(--s-4); }
+  .lead-tracks { margin-top: var(--s-2); display: flex; flex-wrap: wrap; gap: var(--s-1) var(--s-3); }
+  .lead-actions { list-style: none; padding: 0; margin: var(--s-4) 0 0; display: flex; flex-wrap: wrap; gap: var(--s-2); }
+  .action {
+    display: inline-flex; align-items: center; gap: var(--s-1);
+    min-height: var(--hit); padding: 0 var(--s-4);
+    border: 1px solid var(--ink); color: var(--ink); text-decoration: none;
+    font-family: var(--font-grotesk); font-weight: 700; font-size: var(--fs-label); text-transform: uppercase;
+  }
+  .action:hover, .action:focus-visible { background: var(--ink); color: var(--paper); }
+  .action--primary { background: var(--ink); color: var(--paper); }
+  .action--primary:hover, .action--primary:focus-visible { background: var(--paper); color: var(--ink); }
+  .lead-note { margin-top: var(--s-2); }
+</style>

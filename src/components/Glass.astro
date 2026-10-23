@@ -1,0 +1,24 @@
+---
+// Glass.astro — a frosted glass window (the old XP window, reworked): 1px ink frame, a title bar that names the window in straight quotes with an optional note on the right, and a body slot. Three uses only: the "NAVIGATION" dock, the "FILTERS" bar, image lightboxes. No fake window buttons: nothing is drawn that does not work.
+interface Props {
+  /** The window's literal name, shown in quotes in the title bar, e.g. "NAVIGATION". */
+  title: string;
+  /** Optional right-hand text in the title bar, e.g. a count. */
+  note?: string;
+  /** Which HTML element wraps the window, e.g. "nav" or "section". */
+  as?: string;
+  class?: string;
+  [key: string]: unknown;
+}
+
+const { title, note, as: Tag = 'section', class: className = '', ...rest } = Astro.props;
+const classes = ['glass-window', className].filter(Boolean).join(' ');
+---
+
+<Tag class={classes} {...rest}>
+  <div class="glass-window__bar">
+    <span><span class="q">{title}</span></span>
+    {note && <span class="mono fine upper">{note}</span>}
+  </div>
+  <div class="glass-window__body"><slot /></div>
+</Tag>

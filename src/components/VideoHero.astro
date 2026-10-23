@@ -1,0 +1,135 @@
+---
+// VideoHero.astro — a full-width looping demo video behind the top of a case study, with the case-study title in a glass window over it. The video is silent, starts on its own (unless the visitor has asked for reduced motion), and has a labelled "PAUSE" / "PLAY" button. Without JavaScript the still poster shows instead. Its provenance line ("VIDEO" 1280×720 · MP4 · KB) is measured from the real file at build time.
+import fs from 'node:fs';
+import path from 'node:path';
+import Glass from './Glass.astro';
+
+interface Props {
+  hero: { mp4: string; webm?: string; poster: string; caption?: string; width?: number; height?: number };
+  name: string;
+  detail?: string;
+  org: string;
+  number: string;
+  total: string;
+  live?: { url: string } | undefined;
+}
+
+const { hero, name, detail, org, number, total, live } = Astro.props;
+// Measure the MP4 in public/ so the caption states its real size.
+const kb = (() => {
+  try {
+    return Math.round(fs.statSync(path.join(process.cwd(), 'public', hero.mp4)).size / 1024);
+  } catch {
+    return null;
+  }
+})();
+const dims = hero.width && hero.height ? `${hero.width}×${hero.height}` : '';
+const facts = ['MP4', dims, kb ? `${kb} KB` : '', 'SILENT', 'LOOP'].filter(Boolean).join(' · ');
+---
+
+<section class="vhero" data-region="VIDEO" aria-label={`${name} demo video`}>
+  <video class="vhero__video" muted loop playsinline preload="none" poster={hero.poster} data-vhero aria-hidden="true">
+    {hero.webm && <source src={hero.webm} type="video/webm" />}
+    <source src={hero.mp4} type="video/mp4" />
+  </video>
+
+  <div class="vhero__inner">
+    <Glass title="CASE STUDY" note={`${number} OF ${total}`} class="vhero__window">
+      <h1 class="vhero__name"><span class="q">{name}</span></h1>
+      {detail && <p class="mono vhero__sub"><span class="q">SUBTITLE</span> {detail}</p>}
+      <p class="mono upper vhero__co"><span class="co-mark">c/o</span> {org}</p>
+      {live && <a class="vhero__action" href={live.url}><span class="q">LIVE APP</span> ↗</a>}
+    </Glass>
+
+    <div class="vhero__meta">
+      <button class="vhero__toggle" type="button" data-vhero-toggle aria-pressed="false" hidden><span class="q">PAUSE</span></button>
+      <span class="mono fine upper vhero__facts"><span class="q">VIDEO</span> {facts}{hero.caption ? ` · ${hero.caption}` : ''}</span>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Start the hero video unless the visitor prefers reduced motion; the button pauses and resumes it.
+  const video = document.querySelector<HTMLVideoElement>('[data-vhero]');
+  const toggle = document.querySelector<HTMLButtonElement>('[data-vhero-toggle]');
+  if (video && toggle) {
+    const label = toggle.querySelector('.q');
+    const set = (playing: boolean) => {
+      toggle.setAttribute('aria-pressed', String(!playing));
+      if (label) label.textContent = playing ? 'PAUSE' : 'PLAY';
+    };
+    const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+    toggle.hidden = false;
+    video.preload = 'auto';
+    if (reduce) {
+      set(false);
+    } else {
+      video.play().then(() => set(true)).catch(() => set(false));
+    }
+    toggle.addEventListener('click', () => {
+      if (video.paused) video.play().then(() => set(true)).catch(() => set(false));
+      else { video.pause(); set(false); }
+    });
+  }
+</script>
+
+<style>
+  .vhero {
+    position: relative;
+    margin-inline: calc(-1 * var(--gutter));
+    min-height: min(82vh, 760px);
+    display: flex;
+    align-items: flex-end;
+    overflow: hidden;
+    background: #000;
+    border-bottom: 1px solid var(--ink);
+  }
+  .vhero__video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .vhero__inner {
+    position: relative;
+    width: 100%;
+    padding: var(--s-5) var(--gutter);
+    display: grid;
+    gap: var(--s-3);
+    align-items: end;
+  }
+  @media (min-width: 900px) {
+    .vhero__inner { grid-template-columns: minmax(0, 560px) 1fr; }
+    .vhero__meta { justify-self: end; text-align: right; }
+  }
+  .vhero__name {
+    font-family: var(--font-grotesk);
+    font-weight: 800;
+    font-size: clamp(36px, 6vw, 84px);
+    line-height: 0.9;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    margin: 0;
+  }
+  .vhero__sub { margin-top: var(--s-2); font-size: var(--fs-label); }
+  .vhero__co { margin-top: var(--s-1); font-size: var(--fs-fine); }
+  .vhero__action {
+    display: inline-flex; align-items: center; gap: var(--s-1);
+    margin-top: var(--s-3);
+    min-height: var(--hit); padding: 0 var(--s-4);
+    background: var(--ink); color: var(--paper); border: 1px solid var(--ink);
+    text-decoration: none; font-family: var(--font-grotesk); font-weight: 700; font-size: var(--fs-label); text-transform: uppercase;
+  }
+  .vhero__action:hover, .vhero__action:focus-visible { background: var(--paper); color: var(--ink); }
+  .vhero__meta { display: flex; flex-wrap: wrap; gap: var(--s-2); align-items: center; }
+  /* the facts line and the button sit on the dark video, so they get their own solid label behind the text */
+  .vhero__facts { background: var(--paper); color: var(--ink); padding: 2px var(--s-1); }
+  .vhero__toggle {
+    min-height: var(--hit); padding: 0 var(--s-3);
+    background: var(--paper); color: var(--ink); border: 1px solid var(--ink);
+    font-family: var(--font-grotesk); font-weight: 700; font-size: var(--fs-fine); text-transform: uppercase; cursor: pointer;
+  }
+  .vhero__toggle:hover, .vhero__toggle:focus-visible { background: var(--ink); color: var(--paper); }
+</style>

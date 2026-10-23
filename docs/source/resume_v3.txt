@@ -1,0 +1,79 @@
+MATTHEW JAY ZUNIGA 
+Zun@Ad.UNC.edu  •  linkedin.com/in/mjzun  •  github.com/mjzun  •  Portfolio: mjzun.github.io 
+SUMMARY 
+Designer and analyst with an M.A. in Educational Innovation, Technology, and Entrepreneurship (UNC Chapel Hill; High Pass in every 
+course) and a B.A. in Digital Media. Rebuilt a defunct campus program’s visual identity from scratch and produced 60+ pieces for 25–
+30 events at Texas Tech; built the 10-competitor dashboard and heatmap that reshaped an EdTech startup’s read on its market; 
+replicated a published AI-adoption study in Python. Represented 11,553 graduate and professional students as Student Government 
+Vice President and served as a graduate voice on UNC’s Provost’s Generative AI Committee. 
+EDUCATION 
+M.A., Educational Innovation, Technology, and Entrepreneurship — University of North Carolina at Chapel Hill Jul 2026 
+Edupreneur concentration  •  High Pass (highest grade on the Graduate School’s H/P/L/F scale; no GPA is issued) in every course 
+B.A., Digital Media and Professional Communications — Texas Tech University Dec 2024 
+Certification in Sports Media 
+PROFESSIONAL EXPERIENCE 
+Marketing and Growth Intern May 2026 – Present 
+STEMPLUG  |  Remote 
+• Relaunched STEMPLUG’s TikTok after three dormant years and produce an ongoing Instagram and TikTok content series 
+promoting its books, robotics kits, and hands-on STEM programs for underrepresented youth — 6,000+ views to date. 
+• Coordinate logistics and promotion for STEM workshops and community events. 
+Graduate Research Assistant Aug 2025 – Jul 2026 
+UNC School of Education, Educational Innovation & Technology (EdIT)  |  Chapel Hill, NC  |  Supervisor: Brian Nussbaum 
+• Delivered ~10 one-on-one and small-group trainings for faculty and staff on generative-AI tools, Apple hardware, projectors, 
+and networking; became the go-to for follow-up consults, including ideating agent-based automation for a registration 
+workflow. 
+• Resolved 2–3 hardware, AV, and network issues per week across classrooms and offices with minimal downtime. 
+Lovable Ambassador (March 2026 Cohort) Mar 2026 – May 2026 
+UNC School of Education & Kenan-Flagler Business School  |  Chapel Hill, NC 
+• Selected for the ambassador cohort; beta-tested new platform features and shipped five AI-built web apps that drew 110+ 
+organic visitors. 
+Intern Aug 2025 – May 2026 
+EdMotion  |  Cary, NC 
+• Built a 10-competitor dashboard and comparison heatmap scoring price, installs, distribution model, technological novelty, and 
+research backing — reshaping how the CEO understood the embodied-learning market’s distribution and pricing. 
+• Compiled a contact database of 21st Century Community Learning Centers (21st CCLC) program leads in every state, and helped 
+open the company’s first institutional conversations in North Carolina. 
+Visual Identity and Brand Coordinator Jan 2024 – Jul 2025 
+Texas Tech University, Intercultural Education & Engagement  |  Lubbock, TX 
+• Designed 60+ print and digital pieces — flyers, posters, brochures, social graphics, event signage, presentations, videos, and 
+merchandise — for 25–30 events across three units: Campus Access & Engagement, the Student Enrichment Center, and Raider 
+Education. 
+• Revived Raider Education, a dormant student-led leadership and peer-mediation workshop program, with no prior material: 
+built its brand identity and every presentation deck from the assistant director’s rough content, plus its flyers, posters, and 
+videos. 
+• Kept branding consistent across departments, student organizations, and external partners, and pre-built the full 2025–26 
+academic-year event flyer set before leaving the role. 
+RESEARCH & PROJECTS 
+Independent Research: Anthropic Economic Index Replication Apr 2026 
+Public analysis using the open-source Economic Index dataset and O*NET Job Zones 
+• Replicated the Index’s finding that the top 10 tasks account for ~21% of Claude.ai conversations, then mapped 3,514 task-level 
+usage shares onto 923 O*NET occupations and their Job Zones using Python (pandas, matplotlib, Jupyter). 
+• Found graduate-level occupations roughly 3× over-represented in usage relative to their share of occupations and high-school-
+level occupations roughly 4× under-represented — a tenfold spread consistent with the Index’s skill-biased adoption findings. 
+Notebook, writeup, and code: github.com/mjzun/aei-education-analysis 
+Research Assistant, AI & Communication Lab Jan 2025 – Jul 2025 
+Texas Tech University  |  Principal Investigator: Dr. Austin Lee 
+• Worked hands-on with prompt engineering and AI architectures; assisted lectures for a senior-level course on AI and behavior 
+trees in video games; studied patterns of disinformation in generative-AI content on social media. 
+SKILLS 
+Design & Video: Presentation design, brand identity systems and templates, infographics, print and digital collateral, social graphics, 
+video; Adobe Premiere, Illustrator (basic), Express, and Acrobat; Canva; Figma; Blender; OBS 
+Data & Analysis: Python (pandas, matplotlib, Jupyter), Excel, Qualtrics; exploratory data analysis, descriptive statistics, market and 
+competitive research, dashboards and heatmaps, literature review, qualitative field observation 
+AI & Development: Prompt engineering, Claude Code, Lovable, GitHub, HTML, C 
+Domain: AI adoption in education, AI policy and governance, EdTech market and institutional buyers (K–12 districts, universities, 
+21st CCLC programs), generative AI and disinformation 
+LEADERSHIP, GOVERNANCE & HONORS 
+• Vice President (2025–2026), UNC Graduate and Professional Student Government — represented 11,553 graduate and 
+professional students; member of the Joint Governance Council and GPSG Cabinet; ex officio member of the Senate Rules & 
+Judiciary and State of Graduate and Professional Students committees. 
+• Student Fee Advisory Subcommittee and Tuition and Fee Advisory Taskforce — reviewed the annual mandatory-fee requests 
+that fund athletics, student health, campus recreation, the Carolina Union, educational technology, transit and SafeRide, 
+campus security, and student organizations. 
+• Graduate student representative on the Provost’s Generative AI Committee and the University Libraries’ AI committee; on the 
+AI Advisory Committee, worked with School of Education faculty to establish generative-AI guidelines for course syllabi. 
+• UNC System Association of Student Governments — Academic Affairs, External Affairs, and Strategic and Social Innovation 
+committees; Future of the GPSG committee. 
+• Vice President (2023–2024) and Graduate Advisor (2025), Texas Tech University Black Student Association; Big XII Black Student 
+Government Delegate (2023–2025). 
+• ASU+GSV Summit Scholarship recipient (2026). 

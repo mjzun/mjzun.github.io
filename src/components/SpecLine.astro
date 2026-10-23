@@ -1,0 +1,30 @@
+---
+// SpecLine.astro — one mono spec line: "ROLE" value / "TIMELINE" value / "TRACKS" "DESIGN" "PRESENTATION". Keys sit in straight quotes; the slash between pairs is drawn by CSS so screen readers skip it.
+interface Item {
+  key: string;
+  value?: string;
+  /** When set, the item renders as track labels linking to the filtered Work page. */
+  tracks?: string[];
+}
+
+interface Props {
+  items: Item[];
+  class?: string;
+}
+
+const { items, class: className = '' } = Astro.props;
+---
+
+<p class={['spec', className].filter(Boolean).join(' ')}>
+  {
+    items.map((item, i) => (
+      <>
+        {i > 0 && <span class="sep" aria-hidden="true"></span>}
+        <span class="k q">{item.key}</span>{' '}
+        {item.tracks
+          ? item.tracks.map((t) => <a class="track" href={`/work/?track=${t}`}>{t}</a>)
+          : item.value}
+      </>
+    ))
+  }
+</p>

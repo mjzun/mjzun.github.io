@@ -1,0 +1,3 @@
+# robots.txt — lets every search engine crawl the whole site.
+User-agent: *
+Allow: /

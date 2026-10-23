@@ -1,0 +1,136 @@
+/* tokens.css — every design value for Direction v2 (colour, type, spacing, hazard stripe, glass window, motion) as a CSS custom property; change a number here and the whole site follows. */
+
+/* ============================================================
+   1. LIGHT — pure white paper, black ink. Defined on bare :root so
+      every token always has a value even when no media query matches.
+   ============================================================ */
+:root {
+  color-scheme: light;
+
+  /* ---- colour: the whole palette (docs/design/DIRECTION_v2.md "Tokens") ----
+     No other colours anywhere. Hover = flat colour swap or opacity .4.
+     Contrast on white: ink 21:1, link 9.1:1, black-on-tab 5.9:1.
+     --grey is 2.5:1 on white, so it is for rules, disabled states and
+     decorative separators only — never for text someone has to read. */
+  --paper:   #FFFFFF;   /* page background; text on ink */
+  --ink:     #000000;   /* all text, frames, rules */
+  --grey:    #A5A5A5;   /* separators, disabled */
+  --grey-2:  color-mix(in srgb, var(--paper) 90%, var(--ink));   /* #E6E6E6 on white; derived from paper + ink so dark mode needs no fourth grey */
+  --caution: #FFFF00;   /* ONLY inside the yellow hazard variant (one warning state); nowhere else */
+  --tab:     #FE3E0D;   /* orange: the "NEW" / "FEATURED" tag and the active filter only */
+  --link:    #0019E9;   /* every text link, underlined */
+
+  /* fixed black/white pair that never inverts: hazard stripes and text on the orange tab */
+  --black:   #000000;
+  --white:   #FFFFFF;
+
+  /* ---- type: three voices ---- */
+  --font-grotesk: "Inter Tight", Helvetica, Arial, sans-serif;               /* 800 object names / headlines, 700 labels, 400 prose */
+  --font-mono:    "IBM Plex Mono", "Courier New", Courier, monospace;         /* receipts, spec lines, definitions, notes to self, the visitor line; upright only */
+  --font-serif:   "Bodoni Moda", "Didot", "Bodoni 72", "Times New Roman", serif; /* italic; exactly one word on the whole site */
+
+  /* sizes are the hierarchy: two label sizes, body, one object-name size, one display size. No fourth size anywhere. */
+  --fs-fine:    12px;                              /* fine print, receipts, provenance */
+  --fs-label:   14px;                              /* labels, spec lines, definitions, notes, step titles */
+  --fs-body:    clamp(16px, 1.05vw, 17px);         /* case-study prose only */
+  --fs-object:  clamp(24px, 3.4vw, 48px);          /* object names: inventory rows, case-study titles, prev/next */
+  --fs-display: clamp(40px, 9vw, 120px);           /* the one display headline on the home page */
+
+  --lh-display: 0.88;
+  --lh-object:  0.95;
+  --lh-label:   1.2;
+  --lh-mono:    1.5;
+  --lh-body:    1.5;
+
+  --track-display: -0.03em;   /* display and object names tighten */
+  --track-label:    0.02em;   /* small uppercase labels open slightly */
+
+  --measure: 65ch;            /* longest line of prose */
+
+  /* ---- spacing: 8px base ---- */
+  --s-1: 4px;
+  --s-2: 8px;
+  --s-3: 12px;
+  --s-4: 16px;
+  --s-5: 24px;
+  --s-6: 32px;
+  --s-7: 48px;
+  --s-8: 64px;
+  --s-9: 96px;
+  --gutter: clamp(16px, 2vw, 32px);   /* side padding; never under 16px */
+  --section: clamp(32px, 5vw, 80px);  /* space under every region */
+  --dock-clearance: 120px;            /* room at the page bottom so the "NAVIGATION" window never covers content (the dock wraps to two rows on phones: see below) */
+  --max: 1440px;
+
+  /* ---- tap targets: 44px where layout allows; 24px is the hard floor ---- */
+  --hit: 44px;
+
+  /* ---- rules: everything is a 1px line ---- */
+  --rule:      1px solid var(--ink);     /* structural: region edges, frames, window bars */
+  --rule-soft: 1px solid var(--grey-2);  /* non-structural: rows inside a list */
+  --rule-dot:  1px dotted var(--grey);   /* receipt lines */
+
+  /* ---- hazard stripe: 45°, 12px black / 12px white, in a 24px band ----
+     Used as a band only (dividers, "WORK IN PROGRESS", the frame around a focused dock link).
+     Never as a bounded rectangle logo block. */
+  --hazard-a: var(--black);
+  --hazard-b: var(--white);
+  --hazard-w: 12px;
+  --hazard-h: 24px;
+  --hazard: repeating-linear-gradient(45deg, var(--hazard-a) 0 var(--hazard-w), var(--hazard-b) var(--hazard-w) calc(var(--hazard-w) * 2));
+
+  /* ---- glass window: the old XP window, frosted ----
+     Three uses only: the "NAVIGATION" dock, the "FILTERS" bar on /work/, image lightboxes.
+     Reconciled with xrunway's tier-2 glass (docs/design/xrunway_glass.md): its tint alpha and
+     blur, saturate/brightness. Kept Off-White: square corners, no shadow (inner or outer), no
+     sheen gradient, no colour wash, a 1px ink frame.
+     Contrast (worst case, no blur averaging): black text on this glass over a black image 7.35:1;
+     white text on the dark glass over a white image 4.83:1. */
+  --glass-bg:     rgba(255, 255, 255, 0.58);  /* paper at 58%: xrunway tier-2 alpha; 0.42 fails 4.5:1 over busy images */
+  --glass-solid:  var(--paper);               /* fallback when backdrop-filter is unsupported or transparency is reduced */
+  --glass-blur:   18px;                       /* xrunway tier 2 */
+  --glass-filter: blur(var(--glass-blur)) saturate(1.4) brightness(1.06);  /* xrunway tier 2 */
+  --glass-frame:  1px solid var(--ink);       /* xrunway is 1px too; ink at 100% because a 14% hairline vanishes on white */
+
+  /* ---- focus ring ---- */
+  --focus: 2px solid var(--ink);
+  --focus-offset: 2px;
+
+  /* ---- motion: none. The only movement is the visitor clock changing minutes. ---- */
+  --dur-none: 0s;
+
+  /* ---- layers ---- */
+  --z-dock: 50;
+  --z-skip: 60;
+}
+
+/* on phones the dock wraps to two rows of links, so the page needs more room under it */
+@media (max-width: 639px) {
+  :root { --dock-clearance: 160px; }
+}
+
+/* ============================================================
+   2. DARK — invert paper and ink only. Stripes and the tab stay as they are;
+      the image well is derived from paper, so it follows on its own.
+      One documented exception (DIRECTION_v2 "Tokens"): the link blue is
+      2.4:1 on black, so text links become ink and keep their underline.
+      Applies when the system prefers dark and no explicit light choice is set.
+   ============================================================ */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --paper: #000000;
+    --ink:   #FFFFFF;
+    --link:  var(--ink);
+    --glass-bg: rgba(0, 0, 0, 0.58);   /* same xrunway alpha, black paper */
+  }
+}
+
+/* an explicit choice always wins over the system setting */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --paper: #000000;
+  --ink:   #FFFFFF;
+  --link:  var(--ink);
+  --glass-bg: rgba(0, 0, 0, 0.58);   /* same xrunway alpha, black paper */
+}
