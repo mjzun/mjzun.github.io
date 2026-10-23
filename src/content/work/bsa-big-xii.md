@@ -1,21 +1,21 @@
 ---
-# Case study: Texas Tech Black Student Association leadership, Big XII Black Student Government delegate role, and the ASU+GSV Summit Scholarship (track: leadership). Roles and years come from PORTFOLIO_BRIEF.md "Verified facts" and resume_v3.txt; details come from Matt's answers 45–53 in docs/source/matt-answers-2026-10-22.md; the opening line is Matt's own words from docs/source/figma_prototype_text.md.
-title: "Texas Tech BSA, Big XII delegate, ASU+GSV Summit scholar"
-slug: bsa-big-xii-asu-gsv
+# Case study: Texas Tech Black Student Association leadership and the Big XII Black Student Government delegate role (track: leadership). The ASU+GSV Summit Scholarship has its own page (asu-gsv-summit.md) — Matt: it is not affiliated with BSA. Roles and years come from PORTFOLIO_BRIEF.md "Verified facts" and resume_v3.txt; details come from Matt's answers 45–53 in docs/source/matt-answers-2026-10-22.md; the opening line is Matt's own words from docs/source/figma_prototype_text.md.
+title: "Texas Tech BSA and Big XII delegate"
+slug: bsa-big-xii
 tracks: ["leadership"]
 featured: false
 order: 12
-# Display text only; sorting uses "order". Only the year of the ASU+GSV Summit is known (the scholarship was a sponsored ticket, not a term with an end month).
-date: "2026"
-timeline: "2023 – 2026"
-role: "Vice President (2023–2024) and Graduate Advisor (2025), Texas Tech Black Student Association; Big XII Black Student Government Delegate (2023–2025); ASU+GSV Summit Scholarship recipient (2026)"
+# Display text only; sorting uses "order". The last role here is Graduate Advisor (2025).
+date: "2025"
+timeline: "2023 – 2025"
+role: "Vice President (2023–2024) and Graduate Advisor (2025), Texas Tech Black Student Association; Big XII Black Student Government Delegate (2023–2025)"
 audience: "Texas Tech BSA members, the wider student body, and other Big XII delegates"
 constraint: "Texas DEI laws were changing in 2022–2023, so I led meetings with other Big XII schools, such as UT and Houston, on how Texas Tech was navigating the changes"
 outcome: "We always raised enough, through fundraising and the president's office, to cover transportation to Big XII conferences at Kansas State, Iowa State, and Oklahoma State"
 # tools is empty on purpose: no source lists software for the BSA work; it was mostly meetings, logistics, and fundraising.
 tools: []
 # images: exported from the old Figma prototype (Design - Project 3, BSA tab). The Guns Up photo subject gave verbal consent when it was taken (answer 52).
-# Big XII photos: sent by Matt 2026-10-23 from the 2024 conference at Iowa State (the 47th Annual Big-12 Conference on Black Student Government, per his badge). ASU+GSV photos may still come.
+# Big XII photos: sent by Matt 2026-10-23 from the 2024 conference at Iowa State (the 47th Annual Big-12 Conference on Black Student Government, per his badge).
 images:
   - src: "../../assets/work/bsa-big-xii-asu-gsv/big-xii-2024-iowa-state-delegation.jpg"
     alt: "A group of Texas Tech students in business dress smiling and throwing up the Guns Up hand sign in a wood-paneled conference room at the 2024 Big-12 Conference on Black Student Government."
@@ -62,8 +62,6 @@ As Vice President, my day to day was keeping the other executive board members o
 
 The work served BSA members, the wider student body, and other Big XII delegates. Texas DEI laws were changing in 2022–2023. I led meetings with other Big XII schools, such as UT and Houston, on how Texas Tech was navigating the changes.
 
-In 2026 I received an ASU+GSV Summit Scholarship: a sponsored ticket to the Summit, valued at about $5,000.
-
 ## Outcome
 
 - We always raised enough to cover transportation to the Big XII conferences at Kansas State, Iowa State, and Oklahoma State.
@@ -71,15 +69,12 @@ In 2026 I received an ASU+GSV Summit Scholarship: a sponsored ticket to the Summ
 - Vice President (2023–2024), Texas Tech Black Student Association.
 - Graduate Advisor (2025), Texas Tech Black Student Association.
 - Big XII Black Student Government Delegate (2023–2025).
-- ASU+GSV Summit Scholarship recipient (2026).
 
 ## Process
 
 As a Big XII delegate, I attended the conferences and voted on bills.
 
 As Graduate Advisor in 2025, I supervised the whole trip. I coordinated everyone and kept them safe as we traveled across state lines.
-
-At the 2026 ASU+GSV Summit, I attended workshops and events. I networked with attendees and with speakers from Anthropic and Meta.
 
 ## Tools
 
