@@ -47,6 +47,10 @@ const work = defineCollection({
         }),
       )
       .optional(),
+    // cover: the thumbnail on the home page and Work list, when it should differ from the first gallery image (e.g. a logo).
+    cover: z.object({ src: image(), alt: z.string().min(1) }).optional(),
+    // reels: short vertical videos (files in public/) shown as posted, in phone-shaped frames that play when on screen.
+    reels: z.array(z.object({ src: z.string(), poster: z.string(), title: z.string(), caption: z.string().optional(), width: z.number(), height: z.number() })).optional(),
     // A Jupyter notebook printed in place of the image gallery.
     notebook: z
       .object({

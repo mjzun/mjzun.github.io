@@ -18,7 +18,14 @@ tools: ["Slack", "Microsoft Teams", "Zoom", "SharePoint"]
 #   2. One slide or one-pager from the fee review or the generative-AI syllabus guidelines, only if public or cleared for sharing (PDF is fine)
 #   3. A photo from a UNC System Association of Student Governments meeting
 #   4. Optional: the GPSG logo or a screenshot of the GPSG site listing the 2025–2026 officers
-images: []
+# Photos from Matt (2026-10-23): a visit to Appalachian State, a UNC System campus. Group photo first, as Matt asked.
+images:
+  - src: "../../assets/work/gpsg-vice-president/app-state-group-photo.jpg"
+    alt: "Matt with five other student leaders in suits in front of an Appalachian State Mountaineers step-and-repeat backdrop."
+    caption: '"PHOTO" APPALACHIAN STATE · UNC SYSTEM'
+  - src: "../../assets/work/gpsg-vice-president/app-state-banner.jpg"
+    alt: "A black and gold App State banner hanging along a hallway wall."
+    caption: '"PHOTO" APP STATE BANNER'
 ---
 
 ## What I made

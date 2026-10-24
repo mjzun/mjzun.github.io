@@ -7,6 +7,7 @@ import SpecLine from '../../components/SpecLine.astro';
 import { answered, clean, frontmatterTodos, hasTodo, isTodo, orgOf, pad, sortWork } from '../../lib/case';
 import Notebook from '../../components/Notebook.astro';
 import Embed from '../../components/Embed.astro';
+import Reels from '../../components/Reels.astro';
 import { Image, getImage } from 'astro:assets';
 import Glass from '../../components/Glass.astro';
 import VideoHero from '../../components/VideoHero.astro';
@@ -27,7 +28,7 @@ export async function getStaticPaths() {
 }
 
 const { entry, number, total, prev, next } = Astro.props;
-const { title, tracks, role, timeline, audience, constraint, outcome, tools, images, links = [], notebook, hero, embed } = entry.data;
+const { title, tracks, role, timeline, audience, constraint, outcome, tools, images, links = [], notebook, hero, embed, reels } = entry.data;
 const { Content } = await render(entry);
 
 const name = title.split(' — ')[0];
@@ -122,6 +123,9 @@ const SIZES_TALL = '(min-width: 960px) 33vw, (min-width: 640px) 50vw, 100vw';
 
     <!-- a live interactive piece, when there is one -->
     {embed && <Embed src={embed.src} title={embed.title} note={embed.note} height={embed.height} />}
+
+    <!-- short vertical videos, shown as posted -->
+    {reels && reels.length > 0 && <Reels reels={reels} />}
 
     <!-- the notebook when there is one; otherwise the images, each with its measured provenance and its alt text on hover, or one "IMAGE" well until the exports land -->
     {

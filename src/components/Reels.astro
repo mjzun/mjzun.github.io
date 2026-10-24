@@ -1,0 +1,82 @@
+---
+// Reels.astro — a row of short vertical videos shown the way they were posted, each in a phone-shaped frame with its own label bar. Each plays silently when it scrolls into view and pauses when it leaves; a "SOUND ON" / "SOUND OFF" button turns on that clip's audio. Nothing downloads until a clip is near the screen, and visitors who prefer reduced motion get the poster plus a "PLAY" button instead.
+interface Reel {
+  src: string;
+  poster: string;
+  title: string;
+  caption?: string;
+  width: number;
+  height: number;
+}
+interface Props {
+  reels: Reel[];
+}
+const { reels } = Astro.props;
+const pad = (n: number) => String(n).padStart(2, '0');
+---
+
+<section class="reels" aria-label="Posts" data-region="REELS">
+  <p class="label fine reels__head"><span class="q">REELS</span> {pad(reels.length)} <span class="mono">· AS POSTED</span></p>
+  <ul class="reels__row" role="list">
+    {
+      reels.map((r, i) => (
+        <li class="reel" style={`--ar:${r.width}/${r.height}`}>
+          <div class="reel__bar">
+            <span class="label fine"><span class="q">REEL</span> {pad(i + 1)}</span>
+            <button class="reel__btn" type="button" data-reel-sound aria-pressed="false" hidden><span class="q">SOUND ON</span></button>
+          </div>
+          <video class="reel__video" data-reel muted loop playsinline preload="none" poster={r.poster} aria-label={r.title}>
+            <source src={r.src} type="video/mp4" />
+          </video>
+          <p class="mono fine upper reel__cap"><span class="q">{r.title}</span>{r.caption ? ` · ${r.caption}` : ''}</p>
+        </li>
+      ))
+    }
+  </ul>
+</section>
+
+<script>
+  // Play each reel silently while it is on screen; pause it when it scrolls away. The sound button unmutes one clip and mutes the rest.
+  const vids = [...document.querySelectorAll<HTMLVideoElement>('[data-reel]')];
+  const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+  vids.forEach((v) => {
+    const btn = v.closest('.reel')?.querySelector<HTMLButtonElement>('[data-reel-sound]');
+    if (!btn) return;
+    btn.hidden = false;
+    const label = btn.querySelector('.q');
+    const setLabel = () => { btn.setAttribute('aria-pressed', String(!v.muted)); if (label) label.textContent = v.muted ? 'SOUND ON' : 'SOUND OFF'; };
+    btn.addEventListener('click', () => {
+      const turningOn = v.muted;
+      vids.forEach((o) => { o.muted = true; o.closest('.reel')?.querySelector('[data-reel-sound] .q')?.replaceChildren('SOUND ON'); });
+      v.muted = !turningOn;
+      if (turningOn) { v.preload = 'auto'; v.play().catch(() => {}); }
+      setLabel();
+    });
+    if (reduce) v.controls = true;
+  });
+  if (!reduce && 'IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        const v = e.target as HTMLVideoElement;
+        if (e.isIntersecting) { v.preload = 'auto'; v.play().catch(() => {}); } else { v.pause(); }
+      });
+    }, { threshold: 0.35 });
+    vids.forEach((v) => io.observe(v));
+  }
+</script>
+
+<style>
+  .reels { margin: var(--s-6) 0; }
+  .reels__head { margin-bottom: var(--s-3); }
+  .reels__row { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: var(--s-4); align-items: flex-start; }
+  .reel { width: min(100%, 300px); border: 1px solid var(--ink); background: var(--paper); }
+  .reel__bar { display: flex; justify-content: space-between; align-items: center; gap: var(--s-2); padding: var(--s-1) var(--s-2); border-bottom: 1px solid var(--ink); }
+  .reel__video { display: block; width: 100%; aspect-ratio: var(--ar); object-fit: cover; background: #000; }
+  .reel__cap { padding: var(--s-1) var(--s-2); border-top: 1px solid var(--ink); }
+  .reel__btn {
+    min-height: 32px; padding: 0 var(--s-2); background: var(--paper); color: var(--ink); border: 1px solid var(--ink);
+    font-family: var(--font-grotesk); font-weight: 700; font-size: var(--fs-fine); text-transform: uppercase; cursor: pointer;
+  }
+  .reel__btn:hover, .reel__btn:focus-visible, .reel__btn[aria-pressed='true'] { background: var(--ink); color: var(--paper); }
+  @media (max-width: 640px) { .reel { width: 100%; } }
+</style>

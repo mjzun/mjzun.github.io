@@ -19,7 +19,7 @@ interface Props {
 const { entry, number, eager = false, level = 'h3', buildMonth = '' } = Astro.props;
 const Tag = level;
 const { title, tracks, featured, images, audience, constraint, outcome, tools } = entry.data;
-const cover = images[0];
+const cover = entry.data.cover ?? images[0];
 const facts = cover ? await webpFacts(cover.src, THUMB_WIDTHS) : null;
 const href = `/work/${entry.id}/`;
 // The object name is the part before an em dash; the rest is detail for the page itself.

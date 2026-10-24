@@ -13,7 +13,34 @@ audience: "STEMPLUG's Instagram and TikTok audience — the community around its
 constraint: "The TikTok account had been dormant for roughly three years"
 outcome: "Relaunched the TikTok account after roughly three dormant years; the ongoing Instagram/TikTok series has 6,000+ views to date"
 tools: ["Canva", "CapCut", "HubSpot"]
-images: []
+# Media from Matt (2026-10-23): his three posted videos (Desktop/stemplug videos) and stills; Matt approved them for the site.
+hero:
+  mp4: "/video/stemplug-studio.mp4"
+  webm: "/video/stemplug-studio.webm"
+  poster: "/video/stemplug-studio-poster.jpg"
+  width: 1280
+  height: 720
+  caption: "STEMPLUG STUDIO SET"
+reels:
+  - src: "/video/stemplug-post-event.mp4"
+    poster: "/video/stemplug-post-event-poster.jpg"
+    title: "ROBOT ARM EVENT"
+    caption: "22 S · VERTICAL"
+    width: 540
+    height: 960
+  - src: "/video/stemplug-post-ymca.mp4"
+    poster: "/video/stemplug-post-ymca-poster.jpg"
+    title: "ROBOTIC ADVENTURES CAMP · A.E. FINLEY YMCA"
+    caption: "11 S"
+    width: 540
+    height: 630
+cover:
+  src: "../../assets/work/stemplug-social-relaunch/stemplug-logo.png"
+  alt: "The STEMPLUG logo: an electrical outlet face striped in teal, yellow, red, and blue."
+images:
+  - src: "../../assets/work/stemplug-social-relaunch/stemplug-hydrabot-film-strip.jpg"
+    alt: "A vertical film-strip post: a student building a yellow HydraBot hydraulic robot arm, a close-up of the arm's tubing, and the kit box beside the finished arm."
+    caption: '"POST" HYDRABOT ROBOT ARM · FILM-STRIP EDIT'
 # Assets Matt should export for this page (phase 2):
 #   - Screenshots of the 3–5 strongest TikTok and Instagram posts, each showing the view count (PNG at 2x)
 #   - The relaunch video (MP4) plus a poster frame (PNG/WebP)

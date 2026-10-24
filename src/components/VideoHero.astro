@@ -106,11 +106,13 @@ const facts = ['MP4', dims, kb ? `${kb} KB` : '', 'SILENT', 'LOOP'].filter(Boole
   .vhero__name {
     font-family: var(--font-grotesk);
     font-weight: 800;
-    font-size: clamp(36px, 6vw, 84px);
+    font-size: clamp(32px, 5vw, 72px);
     line-height: 0.9;
     letter-spacing: -0.03em;
     text-transform: uppercase;
-    white-space: nowrap;
+    /* short names stay on one line; long ones wrap evenly inside the window */
+    text-wrap: balance;
+    overflow-wrap: break-word;
     margin: 0;
   }
   .vhero__sub { margin-top: var(--s-2); font-size: var(--fs-label); }

@@ -26,6 +26,12 @@ images:
   - src: "../../assets/work/bsa-big-xii-asu-gsv/big-xii-2024-airport-departure.jpg"
     alt: "The Texas Tech delegation with backpacks and luggage at an airport security checkpoint, heading to the 2024 Big-12 conference."
     caption: '"PHOTO" DEPARTING FOR THE BIG-12 CONFERENCE · 2024'
+  - src: "../../assets/work/bsa-big-xii-asu-gsv/big-xii-delegation-formal-group.jpg"
+    alt: "About twenty students in black and white formal wear posed around a blue sofa and armchair in a glass-walled lounge."
+    caption: '"PHOTO" BIG XII DELEGATION · FORMAL'
+  - src: "../../assets/work/bsa-big-xii-asu-gsv/big-xii-delegation-selfie.jpg"
+    alt: "Matt's selfie in a black suit, flashing a peace sign, with the delegation posing behind him on the blue sofa."
+    caption: '"PHOTO" BIG XII DELEGATION · SELFIE'
   - src: "../../assets/work/bsa-big-xii-asu-gsv/bsa-officers-group-portrait.jpg"
     alt: "Twelve students in matching red polos with raised-fist logos posed in two rows for an officer group portrait"
     caption: '"GROUP PORTRAIT" OFFICERS · MATCHING RED POLOS · RAISED-FIST LOGO'
