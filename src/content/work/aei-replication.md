@@ -21,6 +21,11 @@ notebook:
     "13": "Bar chart: Claude conversation coverage by O*NET Job Zone, the summed conversation share (%) for each zone, Economic Index February 2025 release"
     "16": "Bar chart: Claude usage share next to O*NET occupation share (baseline) for each Job Zone; over-representation ratios Zone 2 0.27, Zone 3 0.45, Zone 4 1.24, Zone 5 2.98"
 images: []
+# Main photo (Matt, 2026-10-24): the notebook's grouped bar chart, from the public repo's claude_vs_baseline_by_zone.png.
+cover:
+  src: "../../assets/work/aei-replication/claude-usage-vs-baseline-by-zone.png"
+  alt: "Grouped bar chart, Claude usage vs. occupational baseline by Job Zone: Claude's usage share is far below the occupation share in Zones 2 and 3 and far above it in Zones 4 and 5, reaching about 50 percent in Zone 5."
+  caption: '"CHART" CLAUDE USAGE VS. OCCUPATIONAL BASELINE, BY JOB ZONE · FROM THE NOTEBOOK'
 ---
 
 ## What I made

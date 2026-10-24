@@ -18,6 +18,11 @@ tools: ["GitHub", "GitHub Copilot"]
 #   3. Optional: the scoring table or criteria legend (price, installs, distribution model, technological novelty, research backing)
 #   4. Optional: a screenshot of the 21st CCLC contact database with names and emails blurred
 images: []
+# Main photo (Matt, 2026-10-24): a 2x screenshot of the anonymized dashboard's Research vs Market matrix.
+cover:
+  src: "../../assets/work/edmotion-competitor-heatmap/dashboard-research-vs-market.png"
+  alt: "Scatter matrix from the dashboard: peer-reviewed studies on the x-axis and installations on the y-axis. SMALLab (EdMotion) sits far right with the most research and few installs; Competitors A to H cluster at low research, several above 2,500 installs."
+  caption: '"SCREENSHOT" DASHBOARD · RESEARCH VALIDATION VS MARKET ADOPTION · PUBLIC VERSION'
 # The live dashboard: an anonymized public build of Matt's file (competitors renamed A–H; all notes, sources, and identifying details withheld; scores kept). Built 2026-10-23 into public/embeds/edmotion-dashboard/.
 embed:
   src: "/embeds/edmotion-dashboard/"
