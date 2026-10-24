@@ -13,10 +13,18 @@ constraint: "Caught up at home with a second-year student roommate during a shor
 outcome: "Still retain and experiment with Rhino after leaving architecture; self-taught in Blender since 2024; no 3D work shipped in a Texas Tech piece"
 tools: ["Blender", "Rhino"]
 # Still wanted (optional): the Rhino three-step progression screenshots (Step 1 "Beams and Flooring", Step 2 "Walls and extra structure", Step 3 "Glass"). Only once all three are added, add this sentence to the end of the Rhino paragraph: "The model shown here was built in three steps: beams and flooring, then walls and extra structure, then glass."
+# The red cube-sphere animation (Matt, 2026-10-24: "the video version of the still") loops silently at the top; a frame of it is the home-page thumbnail.
+hero:
+  mp4: "/video/blender-red-sphere.mp4"
+  webm: "/video/blender-red-sphere.webm"
+  poster: "/video/blender-red-sphere-poster.jpg"
+  width: 1280
+  height: 720
+  caption: "BLENDER · SATISFYING ANIMATION · RED CUBE SPHERE"
+cover:
+  src: "../../assets/work/3d-blender-rhino/blender-red-sphere-animation-frame.jpg"
+  alt: "A sphere built from hundreds of small red cubes, mid-animation, on a black background."
 images:
-  - src: "../../assets/work/3d-blender-rhino/blender-red-cube-sphere-render.png"
-    alt: "3D render of a red sphere built from cubes that scatter apart toward the right, on a black background"
-    caption: "\"3D RENDER\" RED CUBE SPHERE · BLACK BACKGROUND"
   - src: "../../assets/work/3d-blender-rhino/blender-cube-sphere-material-nodes.png"
     alt: "Blender Shading screenshot: sphere of red cubes above a node graph with Voronoi, Color Ramp and Principled BSDF"
     caption: "\"BLENDER\" SATISFYING ANIMATION · CUBE.001 MATERIAL NODES"

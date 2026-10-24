@@ -144,7 +144,7 @@ const SIZES_TALL = '(min-width: 960px) 33vw, (min-width: 640px) 50vw, 100vw';
         <section class="study-images study-notebook" aria-label="Notebook">
           <Notebook path={notebook.path} repo={notebook.repo} alts={notebook.alts} />
         </section>
-      ) : embed && !figures.length ? null : (
+      ) : (embed || (reels && reels.length)) && !figures.length ? null : (
         <section class="study-images" aria-label="Images" data-region="IMAGES">
           {figures.length ? (
             <>

@@ -45,6 +45,9 @@ images:
   - src: "../../assets/work/xrunway/welcome-tour.png"
     alt: "The (X)RUNWAY welcome card on a blurred stage: Train like you're already on the runway, a short description, an optional name field, and Skip and Next buttons."
     caption: "\"SCREENSHOT\" WELCOME TOUR · FIRST RUN · 1440 × 900 · 2026-10-22"
+  - src: "../../assets/work/xrunway/xrunway-cam-app-icon.jpg"
+    alt: "The (X)RUNWAY Cam app icon on an iPhone home screen: a green (X) mark on a dark rounded square."
+    caption: "\"APP ICON\" (X)RUNWAY CAM · IPHONE CAMERA COMPANION"
   - src: "../../assets/work/xrunway/landing-desktop.png"
     alt: "The (X)RUNWAY landing in dark frosted glass: a Map your floor panel with a 7 by 1.4 meter runway and Preview Walk button, a settings panel with music, beat pulse, duration and pace style, and a user-flow panel listing four steps."
     caption: "\"SCREENSHOT\" LANDING · SETTINGS + USER FLOW · 1440 × 900 · 2026-10-22"
@@ -68,6 +71,8 @@ The scoring stays honest about the hardware. The headset only knows where your h
 The app's methodology panel pairs each metric with how the industry describes it, quoting Naomi Campbell, CM Models, and Backstage. A FIT step measures your standing head height, head bob, pace, and cadence, so scores adjust to your body. You re-run it when you change footwear, since heels change your height and stride.
 
 You can map the runway to your room with sliders, or by walking it in the headset. Preview Walk runs the whole thing hands-free in a desktop browser, so anyone can try it without a headset. Walk history saves on the device and exports as CSV, JSON, or an Excel sheet.
+
+There's also an iPhone camera companion, (X)RUNWAY Cam. Set on a tripod, it streams your full-body pose to the trainer, so the engine can see more than your head.
 
 ## Why I built it
 
